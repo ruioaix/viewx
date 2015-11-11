@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Proxy;
+
 class ProxyController extends Controller
 {
     /**
@@ -16,7 +18,11 @@ class ProxyController extends Controller
      */
     public function index()
     {
-        return view('proxy.main');
+        $proxies = Proxy::where('message', 'success')
+            ->orderBy('start_time', 'desc')
+            ->take(10)
+            ->get();
+        return view('proxy.main', compact('proxies'));
     }
 
     /**

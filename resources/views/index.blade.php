@@ -33,25 +33,12 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="%level%pic/porigin.jpg" style="padding:0px 16px 0px 5px" data-lightbox="p"><img src="%level%pic/p.png" height="50px"></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="%level%">RuiX</a></li>
+                    <li class="active"><a href="%level%">DATA ANALYSIS</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Table of Contents<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            %tableofcontents%
-                        </ul>
-                    </li>
                     <li><a href="%level%about.html">About</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
