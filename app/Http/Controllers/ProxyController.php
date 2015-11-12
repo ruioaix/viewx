@@ -22,7 +22,33 @@ class ProxyController extends Controller
             ->orderBy('start_time', 'desc')
             ->take(10)
             ->get();
-        return view('proxy.main', compact('proxies'));
+        $data = array(
+            'labels' => array("January", "February", "March", "April", "May", "June", "July"),
+            'datasets' => array(
+                array( 
+                    'label' => "My First dataset",
+                    'fillColor' => "rgba(220,220,220,0.2)",
+                    'strokeColor' => "rgba(220,220,220,1)",
+                    'pointColor' => "rgba(220,220,220,1)",
+                    'pointStrokeColor' => "#fff",
+                    'pointHighlightFill' => "#fff",
+                    'pointHighlightStroke' => "rgba(220,220,220,1)",
+                    'data' => array(65, 59, 80, 81, 56, 55, 40)
+                ),
+                array(
+                    'label'=> "My Second dataset",
+                    'fillColor'=> "rgba(151,187,205,0.2)",
+                    'strokeColor'=> "rgba(151,187,205,1)",
+                    'pointColor'=> "rgba(151,187,205,1)",
+                    'pointStrokeColor'=> "#fff",
+                    'pointHighlightFill'=> "#fff",
+                    'pointHighlightStroke'=> "rgba(151,187,205,1)",
+                    'data'=> array(28, 48, 40, 19, 86, 27, 90)
+                )
+            )
+        );
+        $data = json_encode($data);
+        return view('proxy.main', compact('proxies', 'data'));
     }
 
     /**

@@ -46,6 +46,7 @@
     </nav>
 
     <div class="container">
+        <canvas id="myChart" width="400" height="400"></canvas>
         @yield('content')
     </div> 
 
@@ -56,5 +57,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/languages/tex.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.1/js/lightbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+    @yield('draw')
 </body>
 </html>
