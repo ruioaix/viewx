@@ -2,4 +2,7 @@
 /node_modules
 Homestead.yaml
 Homestead.json
+.env_local
+.env_real
 .env
+
