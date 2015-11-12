@@ -80,15 +80,15 @@ class ProxyController extends Controller
                 $msgcount += 1;
             }
             if ($start == -1) {
-                $i = (int) (($end - $ago) / $step);
+                $i = (int) (($end - $ago - 10) / $step);
                 $pm['datasets'][2]['data'][$i] += 1;
             }
             elseif ($message == 'success') {
-                $i = (int) (($start - $ago) / $step);
+                $i = (int) (($start - $ago - 10) / $step);
                 $pm['datasets'][1]['data'][$i] += 1;
             }
             else {
-                $i = (int) (($start - $ago) / $step);
+                $i = (int) (($start - $ago - 10) / $step);
                 $pm['datasets'][0]['data'][$i] += 1;
             }
         }

@@ -44,7 +44,15 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="%level%">DATA ANALYSIS</a></li>
+                    <li class="active"><a href="{{ action('MainController@index') }}">DATA ANALYSIS</a></li>
+                    <li class="dropdown">
+                      <a href="{{ action('ProxyController@index') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Proxy <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{ action('ProxyController@index') }}">Monitor</a></li>
+                        <li><a href="{{ action('ProxyController@errortype') }}">Error Type</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="{{ action('AdjustController@index') }}">Adjust</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="%level%about.html">About</a></li>

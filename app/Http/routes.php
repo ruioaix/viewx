@@ -11,5 +11,7 @@
 |
 */
 
-Route::get('/', "ProxyController@index");
-Route::get('/proxy-error-type', "ProxyController@errortype");
+Route::get('/', "MainController@index");
+Route::get('/proxy/errortype', "ProxyController@errortype");
+Route::get('/proxy', "ProxyController@index");
+Route::get('/adjust', "AdjustController@index");
