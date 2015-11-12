@@ -52,7 +52,8 @@
                         <li><a href="{{ action('ProxyController@errortype') }}">Error Type</a></li>
                       </ul>
                     </li>
-                    <li><a href="{{ action('AdjustController@index') }}">Adjust</a></li>
+                    <li><a href="{{ action('AccountController@index') }}">XQ Account</a></li>
+                    <li><a href="{{ action('AdjustController@index') }}">XQ Adjust</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="%level%about.html">About</a></li>
