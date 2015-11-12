@@ -12,3 +12,4 @@
 */
 
 Route::get('/', "ProxyController@index");
+Route::get('/proxy-error-type', "ProxyController@errortype");

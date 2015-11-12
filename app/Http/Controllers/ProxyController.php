@@ -11,8 +11,11 @@ use App\Proxy;
 
 class ProxyController extends Controller
 {
-    public function index()
-    {
+    public function errortype() {
+        return view('proxy.errortype');
+    }
+
+    public function index() {
         $step = 30 * 60;
         $stepNum = 100;
         $now = time();
@@ -113,4 +116,5 @@ class ProxyController extends Controller
         $pe = json_encode($pe);
         return view('proxy.main', compact('pm', 'pe'));
     }
+
 }

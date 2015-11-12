@@ -1,6 +1,6 @@
 @extends('index')
 
-@section('title', 'Proxy Analysis')
+@section('title', 'Data Analysis')
 @endsection
 
 @section('content')
