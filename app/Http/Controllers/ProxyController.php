@@ -109,7 +109,6 @@ class ProxyController extends Controller
         arsort($codes);
         $paes = Variables::get('paerror');
         $paes = json_decode($paes->value, True, 3);
-        $paes['0'] = "SUCCESS";
         
         foreach ($codes as $kind => $count) {
             $pe['labels'][] = $paes[$kind] . '(' . number_format($count/$codescount * 100, 1) . '%)';
