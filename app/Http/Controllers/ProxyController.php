@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Proxy;
+use App\Variables;
 
 class ProxyController extends Controller
 {
@@ -106,8 +107,12 @@ class ProxyController extends Controller
         );
         unset($codes['-1']);
         arsort($codes);
+        $paes = Variables::get('paerror');
+        $paes = json_decode($paes->value, True, 3);
+        $paes['0'] = "SUCCESS";
+        
         foreach ($codes as $kind => $count) {
-            $pe['labels'][] = $kind . '(' . number_format($count/$codescount * 100, 1) . '%)';
+            $pe['labels'][] = $paes[$kind] . '(' . number_format($count/$codescount * 100, 1) . '%)';
             $pe['datasets'][0]['data'][] = $count;
         }
         $pe = json_encode($pe);
