@@ -52,7 +52,13 @@
                         <li><a href="{{ action('ProxyController@errortype') }}">Error Type</a></li>
                       </ul>
                     </li>
-                    <li><a href="{{ action('AccountController@index') }}">XQ Account</a></li>
+                    <li class="dropdown">
+                      <a href="{{ action('AccountController@index') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> XQ Account <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{ action('AccountController@index') }}">Monitor</a></li>
+                        <li><a href="{{ action('AccountController@goodorbad') }}">Good or Bad</a></li>
+                      </ul>
+                    </li>
                     <li><a href="{{ action('AdjustController@index') }}">XQ Adjust</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

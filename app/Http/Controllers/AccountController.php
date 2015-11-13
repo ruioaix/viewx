@@ -114,4 +114,48 @@ class AccountController extends Controller
         return view('account.main', compact('pm', 'pe'));
     }
 
+    protected function goodorbad_core($code) {
+        $accounts = Account::part($code);
+        $uns = array();
+        foreach ($accounts as $account) {
+            $username = $account['username'];
+            if (isset($uns[$username])) {
+                $uns[$username] += 1;
+            }
+            else {
+                $uns[$username] = 1;
+            }
+        }
+        $res = array(
+            'labels' => array(),
+            'datasets' => array(
+                array(
+                    'label'=> "error",
+                    'fillColor' => "rgba(151,187,205,0.5)",
+                    'strokeColor' => "rgba(151,187,205,0.8)",
+                    'highlightFill' => "rgba(151,187,205,0.75)",
+                    'highlightStroke' => "rgba(151,187,205,1)",
+                    'data'=> array()
+                ),
+            ),
+        );
+        arsort($uns);
+        $uns = array_slice($uns, 0, 50);
+        foreach ($uns as $name => $count) {
+            #return $count;
+            #return $name;
+            $res['labels'][] = $name;
+            $res['datasets'][0]['data'][] = $count;
+        }
+        $res = json_encode($res);
+        return $res;
+    }
+
+    public function goodorbad() {
+        $sus = AccountController::goodorbad_core(0);
+        $cookies = AccountController::goodorbad_core(9302);
+        $lfalse = AccountController::goodorbad_core(9400);
+        return view('account.part', compact('sus', 'cookies', 'lfalse'));
+    }
+
 }

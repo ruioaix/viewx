@@ -16,3 +16,4 @@ Route::get('/proxy/errortype', "ProxyController@errortype");
 Route::get('/proxy', "ProxyController@index");
 Route::get('/adjust', "AdjustController@index");
 Route::get('/account', "AccountController@index");
+Route::get('/account/goodorbad', "AccountController@goodorbad");
