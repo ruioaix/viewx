@@ -10,8 +10,7 @@ class Account extends Model
     public $timestamps = false;
 
     protected function time($ago) {
-        $accounts = Account::where('start_time', '>=', $ago)
-            ->orWhere('end_time', '>=', $ago)
+        $accounts = Account::where('time', '>=', $ago)
             ->orderBy('id', 'desc')
             ->get();
         return $accounts;
