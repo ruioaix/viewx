@@ -65,31 +65,28 @@ class ProxyController extends Controller
             $pm['datasets'][1]['data'][$i] = 0;
             $pm['datasets'][2]['data'][$i] = 0;
         }
-        $msg = array();
-        $msgcount = 1;
+        $codes = array();
+        $codescount = 1;
         foreach ($proxies as $proxy) {
-            $start = $proxy['start_time'];
-            $end = $proxy['end_time'];
-            $message = $proxy['message'];
-            if (isset($msg[$message])) {
-                $msg[$message] += 1;
-                $msgcount += 1;
+            $time = $proxy['time'];
+            $code = $proxy['code'];
+            if (isset($codes[(string)$code])) {
+                $codes[(string)$code] += 1;
+                $codescount += 1;
             }
             else {
-                $msg[$message] = 1;
-                $msgcount += 1;
+                $codes[(string)$code] = 1;
+                $codescount += 1;
             }
-            if ($start == -1) {
-                $i = (int) (($end - $ago - 10) / $step);
-                $pm['datasets'][2]['data'][$i] += 1;
+            $i = (int) (($time - $ago - 10) / $step);
+            if ($code == -1) {
+                $pm['datasets'][0]['data'][$i] += 1;
             }
-            elseif ($message == 'success') {
-                $i = (int) (($start - $ago - 10) / $step);
+            elseif ($code == 0) {
                 $pm['datasets'][1]['data'][$i] += 1;
             }
             else {
-                $i = (int) (($start - $ago - 10) / $step);
-                $pm['datasets'][0]['data'][$i] += 1;
+                $pm['datasets'][2]['data'][$i] += 1;
             }
         }
         $pm = json_encode($pm);
@@ -107,10 +104,10 @@ class ProxyController extends Controller
                 ),
             ),
         );
-        unset($msg['begin']);
-        arsort($msg);
-        foreach ($msg as $kind => $count) {
-            $pe['labels'][] = $kind . '(' . number_format($count/$msgcount * 100, 1) . '%)';
+        unset($codes['-1']);
+        arsort($codes);
+        foreach ($codes as $kind => $count) {
+            $pe['labels'][] = $kind . '(' . number_format($count/$codescount * 100, 1) . '%)';
             $pe['datasets'][0]['data'][] = $count;
         }
         $pe = json_encode($pe);
