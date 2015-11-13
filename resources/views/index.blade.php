@@ -23,6 +23,7 @@
     <script>hljs.initHighlightingOnLoad();</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.1/js/lightbox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
 
     <!-- Custom styles for this template -->
     <style> 
@@ -57,6 +58,7 @@
                       <ul class="dropdown-menu">
                         <li><a href="{{ action('AccountController@index') }}">Monitor</a></li>
                         <li><a href="{{ action('AccountController@goodorbad') }}">Good or Bad</a></li>
+                        <li><a href="{{ action('AccountController@info') }}"> Info </a></li>
                       </ul>
                     </li>
                     <li><a href="{{ action('AdjustController@index') }}">XQ Adjust</a></li>

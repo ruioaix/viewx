@@ -158,4 +158,47 @@ class AccountController extends Controller
         return view('account.part', compact('sus', 'cookies', 'lfalse'));
     }
 
+    public function info() {
+        $accounts = Account::info();
+        $uns = array();
+        foreach ($accounts as $account) {
+            $username = $account['username'];
+            $code = $account['code'];
+            if (isset($uns[$username][$code])) {
+                $uns[$username][$code] += 1;
+            }
+            else {
+                $uns[$username][$code] = 1;
+            }
+        }
+        $res = array();
+        foreach ($uns as $username => $codes) {
+            $tmp = array();
+            $tmp[0] = $username;
+            $tmp[1] = 0;
+            $tmp[2] = 0;
+            $tmp[3] = 0;
+            $tmp[4] = 0;
+            foreach ($codes as $code => $count) {
+                if ($code == 0) {
+                    $tmp[1] = $count;
+                }
+                elseif ($code == 9302) {
+                    $tmp[2] = $count;
+                }
+                elseif ($code == 9400) {
+                    $tmp[3] = $count;
+                }
+                else {
+                    $tmp[4] += $count;
+                }
+            }
+            $res[] = $tmp;
+        }
+        return view('account.info', compact('res'));
+    }
+
+    public function oneac() {
+        return "hello world";
+    }
 }

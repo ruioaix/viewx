@@ -17,11 +17,18 @@ class Account extends Model
     }
 
     protected function part($code) {
-        $sus = Account::where('code', '=', $code)
+        $part = Account::where('code', '=', $code)
             ->orderBy('id', 'desc')
             ->select('username')
             ->get(1000);
-        return $sus;
+        return $part;
+    }
+
+    protected function info() {
+        $info = Account::orderBy('id', 'desc')
+            ->select('username', 'code')
+            ->get();
+        return $info;
     }
 
 }
