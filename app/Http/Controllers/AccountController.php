@@ -159,7 +159,7 @@ class AccountController extends Controller
     }
 
     public function alist() {
-        $accounts = Account::info();
+        $accounts = Account::alist();
         $uns = array();
         foreach ($accounts as $account) {
             $username = $account['username'];
@@ -189,7 +189,7 @@ class AccountController extends Controller
                 elseif ($code == 9400) {
                     $tmp[3] = $count;
                 }
-                else {
+                elseif ($code != -1) {
                     $tmp[4] += $count;
                 }
             }
@@ -198,7 +198,42 @@ class AccountController extends Controller
         return view('account.list', compact('res'));
     }
 
-    public function info() {
-        return "hello world";
+    public function info($un) {
+        $un = str_replace('_', '.', $un);
+        $uns = Account::info($un);
+        $codes = array();
+        foreach ($uns as $uc) {
+            $code = $uc['code'];
+            if (isset($codes[$code])) {
+                $codes[$code] += 1;
+            }
+            else {
+                $codes[$code] = 1;
+            }
+        }
+        unset($codes[-1]);
+        $res = array(
+            'labels'=> array(),
+            'datasets'=> array(
+                array(
+                    'label'=> "Error",
+                    'fillColor' => "rgba(151,187,205,0.5)",
+                    'strokeColor' => "rgba(151,187,205,0.8)",
+                    'pointColor'=> "rgba(151,187,205,1)",
+                    'pointStrokeColor' => "#fff",
+                    'pointHighlightFill' => "#fff",
+                    'pointHighlightStroke'=> "rgba(151,187,205,1)",
+                    'data'=> array(),
+                )
+            ),
+        );
+        $paes = Variables::get('paerror');
+        $paes = json_decode($paes->value, True, 3);
+        foreach ($codes as $code => $count) {
+            $res['labels'][] = $paes[$code];
+            $res['datasets'][0]['data'][] = $count;
+        }
+        $res = json_encode($res);
+        return view('account.info', compact('res', 'un'));
     }
 }

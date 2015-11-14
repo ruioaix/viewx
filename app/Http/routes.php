@@ -18,4 +18,5 @@ Route::get('/adjust', "AdjustController@index");
 Route::get('/account', "AccountController@index");
 Route::get('/account/goodorbad', "AccountController@goodorbad");
 Route::get('/account/list', "AccountController@alist");
-Route::get('/account/info', "AccountController@info");
+Route::get('/account/{email}', "AccountController@info");
+

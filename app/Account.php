@@ -24,9 +24,16 @@ class Account extends Model
         return $part;
     }
 
-    protected function info() {
-        $info = Account::orderBy('id', 'desc')
+    protected function alist() {
+        $alist = Account::orderBy('id', 'desc')
             ->select('username', 'code')
+            ->get();
+        return $alist;
+    }
+    
+    protected function info($username) {
+        $info = Account::where('username', '=', $username)
+            ->select('code')
             ->get();
         return $info;
     }
