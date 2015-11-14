@@ -158,7 +158,7 @@ class AccountController extends Controller
         return view('account.part', compact('sus', 'cookies', 'lfalse'));
     }
 
-    public function info() {
+    public function alist() {
         $accounts = Account::info();
         $uns = array();
         foreach ($accounts as $account) {
@@ -195,10 +195,10 @@ class AccountController extends Controller
             }
             $res[] = $tmp;
         }
-        return view('account.info', compact('res'));
+        return view('account.list', compact('res'));
     }
 
-    public function oneac() {
+    public function info() {
         return "hello world";
     }
 }

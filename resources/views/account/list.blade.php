@@ -38,7 +38,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
     var options = {
-        valueNames: [ 'username', 'success', 'cookies', 'rf', 'other' ],
+        valueNames: ['id', 'username', 'success', 'cookies', 'rf', 'other' ],
         page: 1000
     };
 

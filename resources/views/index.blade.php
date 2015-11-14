@@ -58,7 +58,7 @@
                       <ul class="dropdown-menu">
                         <li><a href="{{ action('AccountController@index') }}">Monitor</a></li>
                         <li><a href="{{ action('AccountController@goodorbad') }}">Good or Bad</a></li>
-                        <li><a href="{{ action('AccountController@info') }}"> Info </a></li>
+                        <li><a href="{{ action('AccountController@alist') }}"> List </a></li>
                       </ul>
                     </li>
                     <li><a href="{{ action('AdjustController@index') }}">XQ Adjust</a></li>
