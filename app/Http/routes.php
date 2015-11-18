@@ -21,3 +21,7 @@ Route::get('/account/list', "AccountController@alist");
 Route::get('/account/detail/{step}', "AccountController@step");
 Route::get('/account/{email}', "AccountController@info");
 
+Route::get('/CrawlerStructure', function () {
+    return view('crawlerstrue');
+});
+
