@@ -12,8 +12,12 @@
 */
 
 Route::get('/', "MainController@index");
+
+
 Route::get('/proxy/errortype', "ProxyController@errortype");
 Route::get('/proxy', "ProxyController@index");
+
+
 Route::get('/adjust', "AdjustController@index");
 Route::get('/account', "AccountController@index");
 Route::get('/account/goodorbad', "AccountController@goodorbad");
@@ -21,7 +25,4 @@ Route::get('/account/list', "AccountController@alist");
 Route::get('/account/detail/{step}', "AccountController@step");
 Route::get('/account/{email}', "AccountController@info");
 
-Route::get('/CrawlerStructure', function () {
-    return view('crawlerstrue');
-});
 

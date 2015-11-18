@@ -10,6 +10,6 @@ use App\Http\Controllers\Controller;
 class MainController extends Controller
 {
     public function index() {
-        return redirect('adjust');
+        return view('home');
     }
 }

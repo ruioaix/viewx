@@ -9,9 +9,9 @@
 @endsection
 
 @section('content')
-<ul id="login" class="hide">
-</ul>
+Download from <a href="https://github.com/xrfind/RXQ"> this page </a>, branch: mostly.
 
+<h2> Dependences: </h2>
 <ul id="run" class="hide">
 <li> run <ul>
     <li> login <ul>
@@ -37,60 +37,14 @@
     </ul></li>
     <li> adjust <ul> 
         <li> adjustdb </li>
-        <li> httpbase </li>
     </ul></li>
 </ul></li>
 </ul>
-
-<ul id="db" class="hide">
-    <li> db <ul>
-        <li> accountdb </li>
-        <li> proxydb </li>
-        <li> taskdb </li>
-        <li> gaindb </li>
-        <li> adjustdb </li>
-        <li> specialdb </li>
-        <li> taskdb </li>
-        <li> variables </li>
-    </ul></li>
-</ul>
-
-<ul id="default" class="hide">
-    <li> default <ul>
-        <li> account </li>
-        <li> accountdb </li>
-        <li> adjustdb </li>
-        <li> db </li>
-        <li> gaindb </li>
-        <li> hidemyass </li>
-        <li> infodb </li>
-        <li> proxydb </li>
-        <li> run </li>
-        <li> specialdb </li>
-        <li> taskdb </li>
-        <li> variables </li>
-    </ul></li>
-</ul>
-
-
 <div id="run-chart">
 </div>
-
-<div id="login-chart">
-</div>
-
-<div id="db-chart">
-</div>
-
-<div id="default-chart">
-</div>
-
 <script type="text/javascript">
 $(document).ready(function() {
-    $("#login").orgChart({container: $("#login-chart")});
     $("#run").orgChart({container: $("#run-chart")});
-    $("#db").orgChart({container: $("#db-chart")});
-    $("#default").orgChart({container: $("#default-chart")});
 });
 </script>
 
