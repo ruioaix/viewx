@@ -16,9 +16,8 @@ class ProxyController extends Controller
         return view('proxy.errortype');
     }
 
-    public function index() {
-        $step = 30 * 60;
-        $stepNum = 100;
+    protected function status($step) {
+        $stepNum = 60;
         $now = time();
         $ago = $now - $step * $stepNum;
         $proxies = Proxy::time($ago);
@@ -61,7 +60,7 @@ class ProxyController extends Controller
             $ts = $ago + $step * ($i + 1);
             $dt = new \DateTime("@$ts");
             $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
-            $pm['labels'][$i] = $dt->format("H:i");
+            $pm['labels'][$i] = $dt->format("m-d H:i");
             $pm['datasets'][0]['data'][$i] = 0;
             $pm['datasets'][1]['data'][$i] = 0;
             $pm['datasets'][2]['data'][$i] = 0;
@@ -115,7 +114,17 @@ class ProxyController extends Controller
             $pe['datasets'][0]['data'][] = $count;
         }
         $pe = json_encode($pe);
-        return view('proxy.main', compact('pm', 'pe'));
+        return compact('pm', 'pe', 'step');
+    }
+
+    public function index() {
+        $res = ProxyController::status(3600); 
+        return view('proxy.main', $res);
+    }
+
+    public function step($step) {
+        $res = ProxyController::status($step); 
+        return view('proxy.sjs', $res);
     }
 
 }

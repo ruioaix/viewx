@@ -16,6 +16,7 @@ Route::get('/', "MainController@index");
 
 Route::get('/proxy/errortype', "ProxyController@errortype");
 Route::get('/proxy', "ProxyController@index");
+Route::get('/proxy/sjs/{step}', "ProxyController@step");
 
 
 Route::get('/adjust', "AdjustController@index");
