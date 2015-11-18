@@ -3,6 +3,11 @@
 @section('title', 'XUEQIU Adjust')
 @endsection
 
+@section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+@endsection
+
+
 @section('content')
 
 <h2>Xueqiu Adjust Monitor: (50 hours)</h2>
