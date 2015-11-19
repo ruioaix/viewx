@@ -7,4 +7,4 @@ Homestead.json
 .env
 .tmp.php
 *.swp
-
+.DS_Store
