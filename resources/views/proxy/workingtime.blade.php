@@ -45,6 +45,22 @@ $(document).ready(function() {
     document.getElementById("freeproxylists_title").innerHTML = "<h3><a href='http://freeproxylists.net'>freeproxylists.net</a></h3>";
     var ctx = document.getElementById("freeproxylists_chart").getContext("2d");
     new Chart(ctx).Line({!! $res_a[8] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+
+    document.getElementById("ten_minute_title").innerHTML = "<h3>Errors happened when connection closed under 5 minutes:</h3>";
+    var ctx = document.getElementById("ten_minute_chart").getContext("2d");
+    new Chart(ctx).Line({!! $code_res_a[300] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+
+    document.getElementById("one_hour_title").innerHTML = "<h3>Errors happened when connection closed between 5 minutes and 1 hour:</h3>";
+    var ctx = document.getElementById("one_hour_chart").getContext("2d");
+    new Chart(ctx).Line({!! $code_res_a[3600] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+
+    document.getElementById("four_hour_title").innerHTML = "<h3>Errors happened when connection closed between 1 hour and 4 hours:</h3>";
+    var ctx = document.getElementById("four_hour_chart").getContext("2d");
+    new Chart(ctx).Line({!! $code_res_a[14400] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+
+    document.getElementById("more_four_hour_title").innerHTML = "<h3>Errors happened when connection keep more than 4 hours:</h3>";
+    var ctx = document.getElementById("more_four_hour_chart").getContext("2d");
+    new Chart(ctx).Line({!! $code_res_a['MORE'] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 });
 </script>
 @endsection
@@ -85,6 +101,14 @@ $(document).ready(function() {
     <canvas id="hidemyass_chart" width="1140" height="400"></canvas>
     <div id="freeproxylists_title"></div>
     <canvas id="freeproxylists_chart" width="1140" height="400"></canvas>
+    <div id="ten_minute_title"></div>
+    <canvas id="ten_minute_chart" width="1140" height="400"></canvas>
+    <div id="one_hour_title"></div>
+    <canvas id="one_hour_chart" width="1140" height="400"></canvas>
+    <div id="four_hour_title"></div>
+    <canvas id="four_hour_chart" width="1140" height="400"></canvas>
+    <div id="more_four_hour_title"></div>
+    <canvas id="more_four_hour_chart" width="1140" height="400"></canvas>
 </div>
 
 @endsection

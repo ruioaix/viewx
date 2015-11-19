@@ -173,13 +173,13 @@ class ProxyController extends Controller
 
     protected function timetox($time, $count) {
         if ($time <= 600) {
-            return floor($time/60);
+            return ceil($time/60);
         }
         if ($time <= 3600) {
-            return 9 + floor($time/600);
+            return 9 + ceil($time/600);
         }
         if ($time <= 24 * 3600) {
-            return 14 + floor($time/3600);
+            return 13 + ceil($time/1800);
         }
         return $count;
     }
@@ -208,7 +208,15 @@ class ProxyController extends Controller
             $source_time[$sk] = array();
         }
 
+        $codedist = array(
+            300 => array(),
+            3600 => array(),
+            14400 => array(),
+            'MORE' => array(),
+        );
+
         $ipportset = array();
+        $codeset = array();
         foreach ($slist as $proxy) {
             $ipport = $proxy['ipv4_port'];
             $time = $proxy['time'];
@@ -224,11 +232,31 @@ class ProxyController extends Controller
             if (isset($ipportset[$ipport])) {
                 if ($code == -1) {
                     unset($ipportset[$ipport]);
+                    unset($codeset[$ipport]);
                     $source_usage_rate_exact['all'][$source] += 1;
                 } 
                 elseif ($code == 0) {
-                    $source_time[$source][] = $ipportset[$ipport] - $time;
+                    $keep =  $ipportset[$ipport] - $time;
+                    $source_time[$source][] = $keep;
                     $source_usage_rate_exact['success'][$source] += 1;
+                    if ($keep <= 300) {
+                        $keep = 300;
+                    }
+                    elseif ($keep <= 3600) {
+                        $keep = 3600;
+                    }
+                    elseif ($keep <= 14400) {
+                        $keep = 14400;
+                    }
+                    else {
+                        $keep = 'MORE';
+                    }
+                    if (isset($codedist[$keep][$codeset[$ipport]])) {
+                        $codedist[$keep][$codeset[$ipport]] += 1;
+                    }
+                    else {
+                        $codedist[$keep][$codeset[$ipport]] = 1;
+                    }
                 }
                 else {
                     var_dump($ipport);
@@ -241,11 +269,12 @@ class ProxyController extends Controller
                 }
                 else{
                     $ipportset[$ipport] = $time;
+                    $codeset[$ipport] = $code;
                 }
             }
         }
 
-        $x = array(
+        $x = array(0,
             60, 120, 180, 240, 300, 360, 420, 480, 540, 600, #0-9
             1200, 1800, 2400, 3000, 3600, #10-14
             5400, 7200, #15, 16
@@ -259,7 +288,7 @@ class ProxyController extends Controller
 
         $res_a = array();
         foreach ($source_time as $source => $times) {
-            $res = ProxyController::threeline($ago, $step, $stepNum);
+            $res = ProxyController::threeline();
             foreach ($x as $key => $time) {
                 $hour = (int)($time/3600);
                 $minute = (int)($time%3600/60);
@@ -283,7 +312,20 @@ class ProxyController extends Controller
             $res_a[$source] = json_encode($res);
         }
 
-        return compact('res_a', 'step', 'stepNum', 'source_usage_rate', 'source_usage_rate_exact');
+        $code_res_a = array();
+        $paes = Variables::get('paerror');
+        $paes = json_decode($paes->value, True, 3);
+        foreach ($codedist as $time => $codes) {
+            $res = ProxyController::threeline();
+            arsort($codes);
+            foreach ($codes as $code => $count) {
+                $res['labels'][] = $paes[$code];
+                $res['datasets'][0]['data'][] = $count;
+            }
+            $code_res_a[$time] = json_encode($res);
+        }
+
+        return compact('res_a', 'code_res_a', 'step', 'stepNum', 'source_usage_rate', 'source_usage_rate_exact');
     }
 
     public function wtime() {
