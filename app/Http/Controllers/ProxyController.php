@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Proxy;
+use App\ProxyS;
 use App\Variables;
 
 class ProxyController extends Controller
@@ -16,16 +17,12 @@ class ProxyController extends Controller
         return view('proxy.errortype');
     }
 
-    protected function status($step) {
-        $stepNum = 60;
-        $now = time();
-        $ago = $now - $step * $stepNum;
-        $proxies = Proxy::time($ago);
-        $pm = array(
+    protected function threeline($ago, $step, $stepNum) {
+        $data = array(
             'labels' => array(),
             'datasets' => array(
                 array(
-                    'label'=> "begin",
+                    'label'=> "one",
                     'fillColor' => "rgba(220,220,220,0.2)",
                     'strokeColor' => "rgba(220,220,220,1)",
                     'pointColor' => "rgba(220,220,220,1)",
@@ -35,7 +32,7 @@ class ProxyController extends Controller
                     'data'=> array()
                 ),
                 array( 
-                    'label' => "success",
+                    'label' => "two",
                     'fillColor'=> "rgba(151,187,205,0.2)",
                     'strokeColor'=> "rgba(151,187,205,1)",
                     'pointColor'=> "rgba(151,187,205,1)",
@@ -60,11 +57,20 @@ class ProxyController extends Controller
             $ts = $ago + $step * ($i + 1);
             $dt = new \DateTime("@$ts");
             $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
-            $pm['labels'][$i] = $dt->format("m-d H:i");
-            $pm['datasets'][0]['data'][$i] = 0;
-            $pm['datasets'][1]['data'][$i] = 0;
-            $pm['datasets'][2]['data'][$i] = 0;
+            $data['labels'][$i] = $dt->format("m-d H:i");
+            $data['datasets'][0]['data'][$i] = 0;
+            $data['datasets'][1]['data'][$i] = 0;
+            $data['datasets'][2]['data'][$i] = 0;
         }
+        return $data;
+    }
+
+    protected function status($step) {
+        $stepNum = 60;
+        $now = time();
+        $ago = $now - $step * $stepNum;
+        $proxies = Proxy::time($ago);
+        $pm = ProxyController::threeline($ago, $step, $stepNum);
         $codes = array();
         $codescount = 1;
         foreach ($proxies as $proxy) {
@@ -127,4 +133,39 @@ class ProxyController extends Controller
         return view('proxy.sjs', $res);
     }
 
+    public function source_status($step) {
+        $stepNum = 60;
+        $now = time();
+        $ago = $now - $step * $stepNum;
+        $slist = ProxyS::time($ago);
+        $res = ProxyController::threeline($ago, $step, $stepNum);
+        foreach ($slist as $sone) {
+            $source = $sone['source'];
+            $count = $sone['count'];
+            $time = $sone['time'];
+
+            $i = (int) (($time - $ago - 10) / $step);
+            if ($source == 8) {
+                $res['datasets'][0]['data'][$i] += $count;
+            }
+            elseif ($source == 9) {
+                $res['datasets'][1]['data'][$i] += $count;
+            }
+            elseif ($source == 10)  {
+                $res['datasets'][2]['data'][$i] += $count;
+            }
+        }
+        $res = json_encode($res);
+        return compact('res', 'step');
+    }
+
+    public function source() {
+        $res = ProxyController::source_status(3600);
+        return view('proxy.source', $res);
+    }
+
+    public function sstep($step) {
+        $res = ProxyController::source_status($step); 
+        return view('proxy.ssjs', $res);
+    }
 }

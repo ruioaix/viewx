@@ -4,16 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Proxy extends Model
+class ProxyS extends Model
 {
-    protected $table = 'proxy_record';
+    protected $table = 'proxy_source';
     public $timestamps = false;
 
     protected function time($ago) {
-        $proxies = Proxy::where('time', '>=', $ago)
+        $source = ProxyS::where('time', '>=', $ago)
             ->orderBy('id', 'desc')
             ->get();
-        return $proxies;
+        return $source;
     }
-
 }
