@@ -17,7 +17,7 @@ class ProxyController extends Controller
         return view('proxy.errortype');
     }
 
-    protected function threeline($ago, $step, $stepNum) {
+    protected function threeline() {
         $data = array(
             'labels' => array(),
             'datasets' => array(
@@ -53,6 +53,11 @@ class ProxyController extends Controller
                 ),
             ),
         );
+        return $data;
+    }
+
+    protected function threeline_init($ago, $step, $stepNum) {
+        $data = ProxyController::threeline();
         for ($i = 0; $i < $stepNum; $i++ ) {
             $ts = $ago + $step * ($i + 1);
             $dt = new \DateTime("@$ts");
@@ -70,7 +75,7 @@ class ProxyController extends Controller
         $now = time();
         $ago = $now - $step * $stepNum;
         $proxies = Proxy::time($ago);
-        $pm = ProxyController::threeline($ago, $step, $stepNum);
+        $pm = ProxyController::threeline_init($ago, $step, $stepNum);
         $codes = array();
         $codescount = 1;
         foreach ($proxies as $proxy) {
@@ -138,7 +143,7 @@ class ProxyController extends Controller
         $now = time();
         $ago = $now - $step * $stepNum;
         $slist = ProxyS::time($ago);
-        $res = ProxyController::threeline($ago, $step, $stepNum);
+        $res = ProxyController::threeline_init($ago, $step, $stepNum);
         foreach ($slist as $sone) {
             $source = $sone['source'];
             $count = $sone['count'];
@@ -168,4 +173,130 @@ class ProxyController extends Controller
         $res = ProxyController::source_status($step); 
         return view('proxy.ssjs', $res);
     }
+
+    protected function timetox($time, $count) {
+        if ($time <= 600) {
+            return floor($time/60);
+        }
+        if ($time <= 3600) {
+            return 9 + floor($time/600);
+        }
+        if ($time <= 24 * 3600) {
+            return 14 + floor($time/3600);
+        }
+        return $count;
+    }
+
+    protected function wtime_core($step) {
+        $stepNum = 60;
+        $now = time();
+        $ago = $now - $step * $stepNum;
+        $slist = Proxy::time($ago);
+
+        $source_kind = array(8, 9, 10);
+        $source_time = array();
+        $source_usage_rate = array(
+            'success' => array(),
+            'all' => array(),
+        );
+        $source_usage_rate_exact = array(
+            'success' => array(),
+            'all' => array(),
+        );
+        foreach ($source_kind as $sk) {
+            $source_usage_rate['success'][$sk] = 0;
+            $source_usage_rate['all'][$sk] = 0;
+            $source_usage_rate_exact['success'][$sk] = 0;
+            $source_usage_rate_exact['all'][$sk] = 0;
+            $source_time[$sk] = array();
+        }
+
+        $ipportset = array();
+        foreach ($slist as $proxy) {
+            $ipport = $proxy['ipv4_port'];
+            $time = $proxy['time'];
+            $code = $proxy['code'];
+            $source = $proxy['source'];
+            if ($code == -1) {
+                $source_usage_rate['all'][$source] += 1;
+            }
+            elseif ($code == 0) {
+                $source_usage_rate['success'][$source] += 1;
+            }
+
+            if (isset($ipportset[$ipport])) {
+                if ($code == -1) {
+                    unset($ipportset[$ipport]);
+                    $source_usage_rate_exact['all'][$source] += 1;
+                } 
+                elseif ($code == 0) {
+                    $source_time[$source][] = $ipportset[$ipport] - $time;
+                    $source_usage_rate_exact['success'][$source] += 1;
+                }
+                else {
+                    var_dump($ipport);
+                    return redirect('/');
+                }
+            }
+            else {
+                if ($code == -1 || $code == 0) {
+                    continue;
+                }
+                else{
+                    $ipportset[$ipport] = $time;
+                }
+            }
+        }
+
+        $x = array(
+            60, 120, 180, 240, 300, 360, 420, 480, 540, 600, #0-9
+            1200, 1800, 2400, 3000, 3600, #10-14
+            5400, 7200, #15, 16
+            9000, 10800, 12600, 14400, 16200, 18000, 19800, 21600, 23400, 25200, #17-26
+            27000, 28800, 30600, 32400, 34200, 36000, 37800, 39600, 41400, 43200, #27-36
+            45000, 46800, 48600, 50400, 52200, 54000, 55800, 57600, 59400, 61200, #37-46
+            63000, 64800, 66600, 68400, 70200, 72000, 73800, 75600, 77400, 79200, #47-56
+            81000, 82800, 84600, 86400 #57-60
+        );
+
+
+        $res_a = array();
+        foreach ($source_time as $source => $times) {
+            $res = ProxyController::threeline($ago, $step, $stepNum);
+            foreach ($x as $key => $time) {
+                $hour = (int)($time/3600);
+                $minute = (int)($time%3600/60);
+                $secord = (int)($time%60);
+                if ($hour == 0) { $hour = ''; }
+                else { $hour = (string)$hour . 'H'; }
+                if ($minute == 0) { $minute = ''; }
+                else { $minute = (string)$minute . 'M';}
+                if ($secord == 0) { $secord = ''; }
+                else {$secord = (string)$secord . 'S';}
+                $time = $hour.$minute.$secord;
+                $res['labels'][$key] = $time;
+                $res['datasets'][0]['data'][$key] = 0;
+            }
+            $res['labels'][count($x)] = 'MORE';
+            $res['datasets'][0]['data'][count($x)] = 0;
+            foreach ($times as $time) {
+                $id = ProxyController::timetox($time, count($x));
+                $res['datasets'][0]['data'][$id] += 1;
+            }
+            $res_a[$source] = json_encode($res);
+        }
+
+        return compact('res_a', 'step', 'stepNum', 'source_usage_rate', 'source_usage_rate_exact');
+    }
+
+    public function wtime() {
+        $res = ProxyController::wtime_core(3600);
+        return view('proxy.workingtime', $res);
+    }
+
+    public function wstep($step) {
+        $res = ProxyController::wtime_core($step);
+        return view('proxy.wjs', $res);
+    }
+
 }

@@ -19,6 +19,8 @@ Route::get('/proxy', "ProxyController@index");
 Route::get('/proxy/sjs/{step}', "ProxyController@step");
 Route::get('/proxy/source', "ProxyController@source");
 Route::get('/proxy/source/{step}', "ProxyController@sstep");
+Route::get('/proxy/workingtime', "ProxyController@wtime");
+Route::get('/proxy/wrokingtime/{step}', "ProxyController@wstep");
 
 
 Route::get('/adjust', "AdjustController@index");
