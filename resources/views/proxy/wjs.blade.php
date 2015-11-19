@@ -1,21 +1,24 @@
 $(document).ready(function() {
-    $('#hidemyass_chart').remove(); 
-    $('#canvas_container').prepend('<canvas id="hidemyass_chart" width="1140" height="400"></canvas>');
-    $('#hidemyass_title').remove(); 
-    $('#canvas_container').prepend('<div id="hidemyass_title"></div>');
-
     $('#freeproxylists_chart').remove(); 
     $('#canvas_container').prepend('<canvas id="freeproxylists_chart" width="1140" height="400"></canvas>');
     $('#freeproxylists_title').remove(); 
     $('#canvas_container').prepend('<div id="freeproxylists_title"></div>');
+
+    $('#hidemyass_chart').remove(); 
+    $('#canvas_container').prepend('<canvas id="hidemyass_chart" width="1140" height="400"></canvas>');
+    $('#hidemyass_title').remove(); 
+    $('#canvas_container').prepend('<div id="hidemyass_title"></div>');
 
     $('#pachong_chart').remove(); 
     $('#canvas_container').prepend('<canvas id="pachong_chart" width="1140" height="400"></canvas>');
     $('#pachong_title').remove(); 
     $('#canvas_container').prepend('<div id="pachong_title"></div>');
 
-    $('#period').remove(); 
-    $('#canvas_container').prepend('<h3 id="period">Period: {{ (int)(($step * $stepNum)/(24*3600)) }}D{{ (int)(($step * $stepNum)%(24*3600)/3600) }}H</h3>');
+    document.getElementById("period").innerHTML = "<h2 id='period'>Period: {{ (int)(($step * $stepNum)/(24*3600)) }}D{{ (int)(($step * $stepNum)%(24*3600)/3600) }}H</h2>";
+
+    document.getElementById("pachong_usage").innerHTML = "{{ $source_usage_rate['success'][10] }}/{{$source_usage_rate['all'][10] }} ({{ $source_usage_rate_exact['success'][10] }}/{{$source_usage_rate_exact['all'][10] }}) {{ $source_usage_rate['success'][10]/$source_usage_rate['all'][10] }}"
+    document.getElementById("hidemyass_usage").innerHTML = "{{ $source_usage_rate['success'][9] }}/{{$source_usage_rate['all'][9] }} ({{ $source_usage_rate_exact['success'][9] }}/{{$source_usage_rate_exact['all'][9] }}) {{ $source_usage_rate['success'][9] / $source_usage_rate['all'][9] }}"
+    document.getElementById("freeproxylists_usage").innerHTML = "{{ $source_usage_rate['success'][8] }}/{{$source_usage_rate['all'][8] }} ({{ $source_usage_rate_exact['success'][8] }}/{{$source_usage_rate_exact['all'][8] }}) {{ $source_usage_rate['success'][8] / $source_usage_rate['all'][8] }}"
 
     document.getElementById("pachong_title").innerHTML = "<h3><a href='http://pachong.org'>Pachong.org</a></h3>";
     var ctx = document.getElementById("pachong_chart").getContext("2d");

@@ -43,8 +43,8 @@
                       <a href="{{ action('ProxyController@index') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Proxy <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                         <li><a href="{{ action('ProxyController@index') }}">Monitor</a></li>
-                        <li><a href="{{ action('ProxyController@source') }}">Source</a></li>
-                        <li><a href="{{ action('ProxyController@wtime') }}">WorkingTime</a></li>
+                        <li><a href="{{ action('ProxyController@source') }}">Circle</a></li>
+                        <li><a href="{{ action('ProxyController@wtime') }}">Health</a></li>
                         <li><a href="{{ action('ProxyController@errortype') }}">ErrorType</a></li>
                       </ul>
                     </li>

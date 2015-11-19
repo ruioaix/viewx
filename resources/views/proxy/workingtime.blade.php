@@ -1,7 +1,7 @@
 @extends('index')
 
 
-@section('title', 'Proxy WrokingTime Monitor')
+@section('title', 'Proxy Health Monitor')
 @endsection
 
 
@@ -68,8 +68,17 @@ $(document).ready(function() {
   <span class="" id="msg"> </span>
 </form>
 
+
+<h2 id='period'> </h2>
+
+<h3> Hits </h3>
+<div id='source_usage'> 
+<a href='http://pachong.org'>Pachong.org</a> : <strong id='pachong_usage'>{{ $source_usage_rate['success'][10] }}/{{$source_usage_rate['all'][10] }} ({{ $source_usage_rate_exact['success'][10] }}/{{$source_usage_rate_exact['all'][10] }}) {{ $source_usage_rate['success'][10]/$source_usage_rate['all'][10] }}</strong><br/>
+<a href='http://proxylist.hidemyass.com/'>hidemyass subscription</a> : <strong id='hidemyass_usage'>{{ $source_usage_rate['success'][9] }}/{{$source_usage_rate['all'][9] }} ({{ $source_usage_rate_exact['success'][9] }}/{{$source_usage_rate_exact['all'][9] }}) {{ $source_usage_rate['success'][9] / $source_usage_rate['all'][9] }}</strong><br/>
+<a href='freeproxylists.net'>freeproxylists.net</a> : <strong id='freeproxylists_usage'>{{ $source_usage_rate['success'][8] }}/{{$source_usage_rate['all'][8] }} ({{ $source_usage_rate_exact['success'][8] }}/{{$source_usage_rate_exact['all'][8] }}) {{ $source_usage_rate['success'][8] / $source_usage_rate['all'][8] }}</strong> <br/>
+</div>
+
 <div id="canvas_container">
-    <h3 id='period'> </h3>
     <div id="pachong_title"></div>
     <canvas id="pachong_chart" width="1140" height="400"></canvas>
     <div id="hidemyass_title"></div>
