@@ -13,9 +13,6 @@ use App\Variables;
 
 class ProxyController extends Controller
 {
-    public function errortype() {
-        return view('proxy.errortype');
-    }
 
     protected function threeline() {
         $data = array(
@@ -297,6 +294,13 @@ class ProxyController extends Controller
     public function wstep($step) {
         $res = ProxyController::wtime_core($step);
         return view('proxy.wjs', $res);
+    }
+
+    public function errortype() {
+        $paes = Variables::get('paerror');
+        $paes = json_decode($paes->value, True, 3);
+        ksort($paes);
+        return view('proxy.errortype', compact('paes'));
     }
 
 }
