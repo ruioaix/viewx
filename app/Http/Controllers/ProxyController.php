@@ -80,39 +80,49 @@ class ProxyController extends Controller
         return view('proxy.mjs', $res);
     }
 
-    public function circle_core($step) {
+    public function circle_core($from_secord, $to_secord) {
         $stepNum = Variables::getStepNum();
+
+        $period_secord = $from_secord - $to_secord;
+        $step_secord = (int)($period_secord / $stepNum);
         $now = time();
-        $ago = $now - $step * $stepNum;
-        $slist = ProxyS::time($ago);
-        $res = Variables::chartjs_line_three_inited_with_time($ago, $step, $stepNum);
+        #_tp means time point.
+        $beforebefore_tp = $now - $from_secord;
+        $before_tp = $now - $to_secord; 
+
+        $slist = ProxyS::period($beforebefore_tp, $before_tp);
+        $res = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum);
         foreach ($slist as $sone) {
             $source = $sone['source'];
             $count = $sone['count'];
             $time = $sone['time'];
 
-            $i = (int) (($time - $ago - 10) / $step);
-            if ($source == 8) {
+            $i = (int) (($time - $beforebefore_tp - 10) / $step_secord);
+            if ($source == 10) {
                 $res['datasets'][0]['data'][$i] += $count;
             }
             elseif ($source == 9) {
                 $res['datasets'][1]['data'][$i] += $count;
             }
-            elseif ($source == 10)  {
+            elseif ($source == 8)  {
                 $res['datasets'][2]['data'][$i] += $count;
             }
         }
         $res = json_encode($res);
-        return compact('res', 'step');
+        $url = action('ProxyController@cstep', ['']);
+        return compact('res', 'from_secord', 'to_secord', 'url');
     }
 
     public function circle() {
-        $res = ProxyController::circle_core(3600);
+        $res = ProxyController::circle_core(3600 * 60, 0);
         return view('proxy.circle', $res);
     }
 
-    public function cstep($step) {
-        $res = ProxyController::circle_core($step); 
+    public function cstep($from_to) {
+        $args = explode("-", $from_to);
+        $from_secord = (int)($args[0]) * 3600;
+        $to_secord = (int)($args[1]) * 3600;
+        $res = ProxyController::circle_core($from_secord, $to_secord); 
         return view('proxy.cjs', $res);
     }
 
