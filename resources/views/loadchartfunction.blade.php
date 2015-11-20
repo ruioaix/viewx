@@ -13,6 +13,9 @@ function loadchart() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 eval(xhttp.responseText)
             }
+            else {
+                document.getElementById("msg").innerHTML = "<strong> Error</strong>";
+            }
         };
         var url = "{{ $url }}";
         xhttp.open("GET", url.concat('/').concat(fromh).concat('-').concat(toh), true);
