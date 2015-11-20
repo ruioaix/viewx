@@ -30,12 +30,12 @@ class Variables extends Model
         return $colors[$id];
     }
 
-    protected function chartjs_line_three() {
+    protected function chartjs_line_three($one, $two, $three) {
         $data = array(
             'labels' => array(),
             'datasets' => array(
                 array(
-                    'label'=> "one",
+                    'label'=> $one,
                     'fillColor' => "rgba(0,0,0,0)",
                     'strokeColor' => Variables::getcolor(0),
                     'pointColor' => Variables::getcolor(1),
@@ -45,7 +45,7 @@ class Variables extends Model
                     'data'=> array()
                 ),
                 array( 
-                    'label' => "two",
+                    'label' => $two,
                     'fillColor'=> "rgba(0,0,0,0)",
                     'strokeColor'=> Variables::getcolor(2),
                     'pointColor'=> Variables::getcolor(3),
@@ -55,7 +55,7 @@ class Variables extends Model
                     'data' => array()
                 ),
                 array(
-                    'label'=> "three",
+                    'label'=> $three,
                     'fillColor' => "rgba(0,0,0,0)",
                     'strokeColor' => Variables::getcolor(4),
                     'pointColor' => Variables::getcolor(5),
@@ -69,8 +69,8 @@ class Variables extends Model
         return $data;
     }
 
-    protected function chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum) {
-        $data = Variables::chartjs_line_three();
+    protected function chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two, $three) {
+        $data = Variables::chartjs_line_three($one, $two, $three);
         $now = time();
         for ($i = 0; $i < $stepNum; $i++ ) {
             $ts = $beforebefore_tp + $step_secord * ($i + 1);

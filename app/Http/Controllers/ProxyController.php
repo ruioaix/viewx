@@ -25,7 +25,7 @@ class ProxyController extends Controller
         $beforebefore_tp = $now - $from_secord;
         $before_tp = $now - $to_secord; 
         $proxies = Proxy::period($beforebefore_tp, $before_tp);
-        $pm = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum);
+        $pm = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'begin', 'success', 'end');
         $codes = array();
         $codescount = 1;
         foreach ($proxies as $proxy) {
@@ -91,7 +91,7 @@ class ProxyController extends Controller
         $before_tp = $now - $to_secord; 
 
         $slist = ProxyS::period($beforebefore_tp, $before_tp);
-        $res = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum);
+        $res = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'pachong', 'hidemyass', 'freeproxylists');
         foreach ($slist as $sone) {
             $source = $sone['source'];
             $count = $sone['count'];
@@ -148,8 +148,6 @@ class ProxyController extends Controller
         $beforebefore_tp = $now - $from_secord;
         $before_tp = $now - $to_secord; 
 
-        $slist = Proxy::period($beforebefore_tp, $before_tp);
-
         $source_kind = array(8, 9, 10);
         $source_time = array();
         $source_usage_rate = array(
@@ -167,7 +165,6 @@ class ProxyController extends Controller
             $source_usage_rate_exact['all'][$sk] = 0;
             $source_time[$sk] = array();
         }
-
         $codedist = array(
             300 => array(),
             3600 => array(),
@@ -177,6 +174,7 @@ class ProxyController extends Controller
 
         $ipportset = array();
         $codeset = array();
+        $slist = Proxy::period($beforebefore_tp, $before_tp);
         foreach ($slist as $proxy) {
             $ipport = $proxy['ipv4_port'];
             $time = $proxy['time'];
@@ -246,7 +244,7 @@ class ProxyController extends Controller
         );
 
 
-        $res = Variables::chartjs_line_three();
+        $res = Variables::chartjs_line_three('freeproxylists', 'hidemyass', 'pachong');
         foreach ($x as $key => $time) {
             $hour = (int)($time/3600);
             $minute = (int)($time%3600/60);
@@ -279,7 +277,7 @@ class ProxyController extends Controller
         $paes = Variables::get('paerror');
         $paes = json_decode($paes->value, True, 3);
         foreach ($codedist as $time => $codes) {
-            $rest = Variables::chartjs_line_three();
+            $rest = Variables::chartjs_line_three('a', 'a', 'b');
             arsort($codes);
             foreach ($codes as $code => $count) {
                 $rest['labels'][] = $paes[$code];
@@ -288,7 +286,7 @@ class ProxyController extends Controller
             $code_res_a[$time] = json_encode($rest);
         }
 
-        return compact('res', 'code_res_a', 'step', 'stepNum', 'source_usage_rate', 'source_usage_rate_exact');
+        return compact('res', 'code_res_a', 'step_secord', 'stepNum', 'source_usage_rate', 'source_usage_rate_exact');
     }
 
     public function health() {

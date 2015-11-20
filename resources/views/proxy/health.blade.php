@@ -33,18 +33,18 @@ function loadchart() {
     }
 }
 $(document).ready(function() {
-    document.getElementById("period").innerHTML = "Period: {{ (int)(($step * $stepNum)/(24*3600)) }}D{{ (int)(($step * $stepNum)%(24*3600)/3600) }}H"
+    document.getElementById("period").innerHTML = "Period: {{ (int)(($step_secord * $stepNum)/(24*3600)) }}D{{ (int)(($step_secord * $stepNum)%(24*3600)/3600) }}H"
     document.getElementById("pachong_title").innerHTML = "<h3><a href='http://pachong.org'>Pachong.org</a></h3>";
     var ctx = document.getElementById("pachong_chart").getContext("2d");
-    new Chart(ctx).Line({!! $res_a[10] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+    new Chart(ctx).Line({!! $res !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2, multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"});
 
     document.getElementById("hidemyass_title").innerHTML = "<h3><a href='http://proxylist.hidemyass.com/'> Hidemyass Subscription</a></h3>";
     var ctx = document.getElementById("hidemyass_chart").getContext("2d");
-    new Chart(ctx).Line({!! $res_a[9] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+    new Chart(ctx).Line({!! $res !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 
     document.getElementById("freeproxylists_title").innerHTML = "<h3><a href='http://freeproxylists.net'>freeproxylists.net</a></h3>";
     var ctx = document.getElementById("freeproxylists_chart").getContext("2d");
-    new Chart(ctx).Line({!! $res_a[8] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+    new Chart(ctx).Line({!! $res !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 
     document.getElementById("ten_minute_title").innerHTML = "<h3>Errors happened when connection closed under 5 minutes:</h3>";
     var ctx = document.getElementById("ten_minute_chart").getContext("2d");
