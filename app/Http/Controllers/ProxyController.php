@@ -80,7 +80,7 @@ class ProxyController extends Controller
         return view('proxy.mjs', $res);
     }
 
-    public function source_status($step) {
+    public function circle_core($step) {
         $stepNum = Variables::getStepNum();
         $now = time();
         $ago = $now - $step * $stepNum;
@@ -106,14 +106,14 @@ class ProxyController extends Controller
         return compact('res', 'step');
     }
 
-    public function source() {
-        $res = ProxyController::source_status(3600);
-        return view('proxy.source', $res);
+    public function circle() {
+        $res = ProxyController::circle_core(3600);
+        return view('proxy.circle', $res);
     }
 
-    public function sstep($step) {
-        $res = ProxyController::source_status($step); 
-        return view('proxy.ssjs', $res);
+    public function cstep($step) {
+        $res = ProxyController::circle_core($step); 
+        return view('proxy.cjs', $res);
     }
 
     protected function timetox($time, $count) {

@@ -24,7 +24,7 @@ function loadchart() {
                 eval(xhttp.responseText)
             }
         };
-        var url = "{{ action('ProxyController@sstep', ['']) }}";
+        var url = "{{ action('ProxyController@cstep', ['']) }}";
         xhttp.open("GET", url.concat('/').concat(time), true);
         xhttp.send();
     }
