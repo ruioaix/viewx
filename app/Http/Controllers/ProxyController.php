@@ -13,16 +13,17 @@ use App\Variables;
 
 class ProxyController extends Controller
 {
-    protected function status($ago_secord, $period_secord) {
+    protected function monitor_core($from_secord, $to_secord) {
         #$period_secord > 3600s, 1h.
         #$stepNum for now 60, never > 100.
         #so, $step_secord > 36s.
         $stepNum = Variables::getStepNum();
+        $period_secord = $from_secord - $to_secord;
         $step_secord = (int)($period_secord / $stepNum);
         $now = time();
         #_tp means time point.
-        $before_tp = $now - $ago_secord; 
-        $beforebefore_tp = $before_tp - $period_secord;
+        $beforebefore_tp = $now - $from_secord;
+        $before_tp = $now - $to_secord; 
         $proxies = Proxy::period($beforebefore_tp, $before_tp);
         $pm = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum);
         $codes = array();
@@ -62,20 +63,21 @@ class ProxyController extends Controller
             $pe['datasets'][0]['data'][] = $count;
         }
         $pe = json_encode($pe);
-        return compact('pm', 'pe', 'step_secord');
+        $url = action('ProxyController@mstep', ['']);
+        return compact('pm', 'pe', 'from_secord', 'to_secord', 'url');
     }
 
     public function monitor() {
-        $res = ProxyController::status(0, 3600 * 60); 
-        return view('proxy.main', $res);
+        $res = ProxyController::monitor_core(60 * 3600, 0); 
+        return view('proxy.monitor', $res);
     }
 
-    public function mstep($ago_period) {
-        $args = explode("-", $ago_period);
-        $ago_secord = (int)($args[0]);
-        $period_secord = (int)($args[1]);
-        $res = ProxyController::status($ago_secord, $period_secord); 
-        return view('proxy.sjs', $res);
+    public function mstep($from_to) {
+        $args = explode("-", $from_to);
+        $from_secord = (int)($args[0]) * 3600;
+        $to_secord = (int)($args[1]) * 3600;
+        $res = ProxyController::monitor_core($from_secord, $to_secord); 
+        return view('proxy.mjs', $res);
     }
 
     public function source_status($step) {
