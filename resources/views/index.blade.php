@@ -8,8 +8,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" href="{{ action('MainController@index') }}/favicon.ico">
     <title>@yield('title')</title>
-    <link rel="icon" href="%level%pic/favicon.ico">
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -59,7 +59,7 @@
                     <li><a href="{{ action('AdjustController@index') }}">XQ Adjust</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="%level%about.html">About</a></li>
+                    <li><a href="{{ action('MainController@about') }}">About</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

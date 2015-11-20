@@ -12,6 +12,7 @@
 */
 
 Route::get('/', "MainController@index");
+Route::get('/about', "MainController@about");
 
 
 Route::get('/proxy', "ProxyController@index");
