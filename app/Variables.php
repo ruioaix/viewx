@@ -71,11 +71,13 @@ class Variables extends Model
 
     protected function chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum) {
         $data = Variables::chartjs_line_three();
+        $now = time();
         for ($i = 0; $i < $stepNum; $i++ ) {
             $ts = $beforebefore_tp + $step_secord * ($i + 1);
             $dt = new \DateTime("@$ts");
             $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
-            $data['labels'][$i] = $dt->format("m-d H:i");
+            $hours = (int)(($now - $ts)/3600);
+            $data['labels'][$i] = $hours . 'h ' . $dt->format("m-d H:i");
             $data['datasets'][0]['data'][$i] = 0;
             $data['datasets'][1]['data'][$i] = 0;
             $data['datasets'][2]['data'][$i] = 0;
