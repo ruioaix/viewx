@@ -9,8 +9,9 @@ class Proxy extends Model
     protected $table = 'proxy_record';
     public $timestamps = false;
 
-    protected function time($ago) {
-        $proxies = Proxy::where('time', '>=', $ago)
+    protected function period($beforebefore, $before) {
+        $proxies = Proxy::where('time', '>=', $beforebefore)
+            ->where('time', '<=', $before)
             ->orderBy('id', 'desc')
             ->get();
         return $proxies;

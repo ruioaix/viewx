@@ -13,70 +13,22 @@ use App\Variables;
 
 class ProxyController extends Controller
 {
-
-    protected function threeline() {
-        $data = array(
-            'labels' => array(),
-            'datasets' => array(
-                array(
-                    'label'=> "one",
-                    'fillColor' => "rgba(220,220,220,0.2)",
-                    'strokeColor' => "rgba(220,220,220,1)",
-                    'pointColor' => "rgba(220,220,220,1)",
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> "rgba(151,187,205,1)",
-                    'data'=> array()
-                ),
-                array( 
-                    'label' => "two",
-                    'fillColor'=> "rgba(151,187,205,0.2)",
-                    'strokeColor'=> "rgba(151,187,205,1)",
-                    'pointColor'=> "rgba(151,187,205,1)",
-                    'pointStrokeColor' => "#fff",
-                    'pointHighlightFill' => "#fff",
-                    'pointHighlightStroke' => "rgba(220,220,220,1)",
-                    'data' => array()
-                ),
-                array(
-                    'label'=> "end",
-                    'fillColor' => "rgba(220,220,220,0.2)",
-                    'strokeColor' => "rgba(220,220,220,1)",
-                    'pointColor' => "rgba(220,220,220,1)",
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> "rgba(151,187,205,1)",
-                    'data'=> array()
-                ),
-            ),
-        );
-        return $data;
-    }
-
-    protected function threeline_init($ago, $step, $stepNum) {
-        $data = ProxyController::threeline();
-        for ($i = 0; $i < $stepNum; $i++ ) {
-            $ts = $ago + $step * ($i + 1);
-            $dt = new \DateTime("@$ts");
-            $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
-            $data['labels'][$i] = $dt->format("m-d H:i");
-            $data['datasets'][0]['data'][$i] = 0;
-            $data['datasets'][1]['data'][$i] = 0;
-            $data['datasets'][2]['data'][$i] = 0;
-        }
-        return $data;
-    }
-
-    protected function status($step) {
-        $stepNum = 60;
+    protected function status($ago_secord, $period_secord) {
+        #$period_secord > 3600s, 1h.
+        #$stepNum for now 60, never > 100.
+        #so, $step_secord > 36s.
+        $stepNum = Variables::getStepNum();
+        $step_secord = (int)($period_secord / $stepNum);
         $now = time();
-        $ago = $now - $step * $stepNum;
-        $proxies = Proxy::time($ago);
-        $pm = ProxyController::threeline_init($ago, $step, $stepNum);
+        #_tp means time point.
+        $before_tp = $now - $ago_secord; 
+        $beforebefore_tp = $before_tp - $period_secord;
+        $proxies = Proxy::period($beforebefore_tp, $before_tp);
+        $pm = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum);
         $codes = array();
         $codescount = 1;
         foreach ($proxies as $proxy) {
-            $time = $proxy['time'];
+            $proxy_tp = $proxy['time'];
             $code = $proxy['code'];
             if (isset($codes[(string)$code])) {
                 $codes[(string)$code] += 1;
@@ -86,7 +38,8 @@ class ProxyController extends Controller
                 $codes[(string)$code] = 1;
                 $codescount += 1;
             }
-            $i = (int) (($time - $ago - 10) / $step);
+            $i = (int) (($proxy_tp - $beforebefore_tp) / $step_secord);
+            if ($i == $stepNum) { $i -= 1; }
             if ($code == -1) {
                 $pm['datasets'][0]['data'][$i] += 1;
             }
@@ -99,48 +52,38 @@ class ProxyController extends Controller
         }
         $pm = json_encode($pm);
 
-        $pe = array(
-            'labels' => array(),
-            'datasets' => array(
-                array(
-                    'label'=> "error",
-                    'fillColor' => "rgba(151,187,205,0.5)",
-                    'strokeColor' => "rgba(151,187,205,0.8)",
-                    'highlightFill' => "rgba(151,187,205,0.75)",
-                    'highlightStroke' => "rgba(151,187,205,1)",
-                    'data'=> array()
-                ),
-            ),
-        );
+        $pe = Variables::chartjs_bar_one();
         unset($codes['-1']);
         arsort($codes);
         $paes = Variables::get('paerror');
         $paes = json_decode($paes->value, True, 3);
-        
         foreach ($codes as $kind => $count) {
             $pe['labels'][] = $paes[$kind] . '(' . number_format($count/$codescount * 100, 1) . '%)';
             $pe['datasets'][0]['data'][] = $count;
         }
         $pe = json_encode($pe);
-        return compact('pm', 'pe', 'step');
+        return compact('pm', 'pe', 'step_secord');
     }
 
-    public function index() {
-        $res = ProxyController::status(3600); 
+    public function monitor() {
+        $res = ProxyController::status(0, 3600 * 60); 
         return view('proxy.main', $res);
     }
 
-    public function step($step) {
-        $res = ProxyController::status($step); 
+    public function mstep($ago_period) {
+        $args = explode("-", $ago_period);
+        $ago_secord = (int)($args[0]);
+        $period_secord = (int)($args[1]);
+        $res = ProxyController::status($ago_secord, $period_secord); 
         return view('proxy.sjs', $res);
     }
 
     public function source_status($step) {
-        $stepNum = 60;
+        $stepNum = Variables::getStepNum();
         $now = time();
         $ago = $now - $step * $stepNum;
         $slist = ProxyS::time($ago);
-        $res = ProxyController::threeline_init($ago, $step, $stepNum);
+        $res = Variables::chartjs_line_three_inited_with_time($ago, $step, $stepNum);
         foreach ($slist as $sone) {
             $source = $sone['source'];
             $count = $sone['count'];
@@ -185,7 +128,7 @@ class ProxyController extends Controller
     }
 
     protected function wtime_core($step) {
-        $stepNum = 60;
+        $stepNum = Variables::getStepNum();
         $now = time();
         $ago = $now - $step * $stepNum;
         $slist = Proxy::time($ago);
@@ -288,7 +231,7 @@ class ProxyController extends Controller
 
         $res_a = array();
         foreach ($source_time as $source => $times) {
-            $res = ProxyController::threeline();
+            $res = Variables::chartjs_line_three();
             foreach ($x as $key => $time) {
                 $hour = (int)($time/3600);
                 $minute = (int)($time%3600/60);
@@ -316,7 +259,7 @@ class ProxyController extends Controller
         $paes = Variables::get('paerror');
         $paes = json_decode($paes->value, True, 3);
         foreach ($codedist as $time => $codes) {
-            $res = ProxyController::threeline();
+            $res = Variables::chartjs_line_three();
             arsort($codes);
             foreach ($codes as $code => $count) {
                 $res['labels'][] = $paes[$code];

@@ -24,7 +24,7 @@ function loadchart() {
                 eval(xhttp.responseText)
             }
         };
-        var url = "{{ action('ProxyController@step', ['']) }}";
+        var url = "{{ action('ProxyController@mstep', ['']) }}";
         xhttp.open("GET", url.concat('/').concat(time), true);
         xhttp.send();
     }
@@ -33,10 +33,10 @@ function loadchart() {
     }
 }
 $(document).ready(function() {
-    document.getElementById("proxy_title_{{ $step }}").innerHTML = "<h3>Unit: {{ (int)($step/(24*3600)) }}D{{ (int)($step%(24*3600)/3600) }}H{{ (int)($step%3600)/60 }}M</h3>";
-    var ctx = document.getElementById("proxy_monitor_{{ $step }}").getContext("2d");
+    document.getElementById("proxy_title_{{ $step_secord }}").innerHTML = "<h3>Unit: {{ (int)($step_secord/(24*3600)) }}D{{ (int)($step_secord%(24*3600)/3600) }}H{{ (int)($step_secord%3600)/60 }}M</h3>";
+    var ctx = document.getElementById("proxy_monitor_{{ $step_secord }}").getContext("2d");
     new Chart(ctx).Line({!! $pm !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
-    var ctx = document.getElementById("proxy_error_{{ $step }}").getContext("2d");
+    var ctx = document.getElementById("proxy_error_{{ $step_secord }}").getContext("2d");
     new Chart(ctx).Bar({!! $pe !!}, {scaleLabel: function(object){return " " + object.value; }});
 });
 </script>
@@ -62,9 +62,9 @@ $(document).ready(function() {
 </form>
 
 <div id="canvas_container">
-    <div id="proxy_title_{{ $step }}"></div>
-    <canvas id="proxy_monitor_{{ $step }}" width="1140" height="400"></canvas>
-    <canvas id="proxy_error_{{ $step }}" width="1140" height="400"></canvas>
+    <div id="proxy_title_{{ $step_secord }}"></div>
+    <canvas id="proxy_monitor_{{ $step_secord }}" width="1140" height="400"></canvas>
+    <canvas id="proxy_error_{{ $step_secord }}" width="1140" height="400"></canvas>
 </div>
 
 @endsection
