@@ -19,8 +19,8 @@ Route::get('/proxy/monitor', "ProxyController@monitor");
 Route::get('/proxy/monitor/{step}', "ProxyController@mstep");
 Route::get('/proxy/circle', "ProxyController@circle");
 Route::get('/proxy/circle/{step}', "ProxyController@cstep");
-Route::get('/proxy/health', "ProxyController@wtime");
-Route::get('/proxy/health/{step}', "ProxyController@wstep");
+Route::get('/proxy/health', "ProxyController@health");
+Route::get('/proxy/health/{step}', "ProxyController@hstep");
 Route::get('/proxy/errortype', "ProxyController@errortype");
 
 

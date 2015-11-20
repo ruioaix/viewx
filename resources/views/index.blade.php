@@ -44,7 +44,7 @@
                       <ul class="dropdown-menu">
                         <li><a href="{{ action('ProxyController@monitor') }}">Monitor</a></li>
                         <li><a href="{{ action('ProxyController@circle') }}">Circle</a></li>
-                        <li><a href="{{ action('ProxyController@wtime') }}">Health</a></li>
+                        <li><a href="{{ action('ProxyController@health') }}">Health</a></li>
                         <li><a href="{{ action('ProxyController@errortype') }}">ErrorType</a></li>
                       </ul>
                     </li>

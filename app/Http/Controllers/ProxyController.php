@@ -139,11 +139,16 @@ class ProxyController extends Controller
         return $count;
     }
 
-    protected function wtime_core($step) {
+    protected function wtime_core($from_secord, $to_secord) {
         $stepNum = Variables::getStepNum();
+        $period_secord = $from_secord - $to_secord;
+        $step_secord = (int)($period_secord / $stepNum);
         $now = time();
-        $ago = $now - $step * $stepNum;
-        $slist = Proxy::time($ago);
+        #_tp means time point.
+        $beforebefore_tp = $now - $from_secord;
+        $before_tp = $now - $to_secord; 
+
+        $slist = Proxy::period($beforebefore_tp, $before_tp);
 
         $source_kind = array(8, 9, 10);
         $source_time = array();
@@ -241,56 +246,59 @@ class ProxyController extends Controller
         );
 
 
-        $res_a = array();
+        $res = Variables::chartjs_line_three();
+        foreach ($x as $key => $time) {
+            $hour = (int)($time/3600);
+            $minute = (int)($time%3600/60);
+            $secord = (int)($time%60);
+            if ($hour == 0) { $hour = ''; }
+            else { $hour = (string)$hour . 'H'; }
+            if ($minute == 0) { $minute = ''; }
+            else { $minute = (string)$minute . 'M';}
+            if ($secord == 0) { $secord = ''; }
+            else {$secord = (string)$secord . 'S';}
+            $time = $hour.$minute.$secord;
+            $res['labels'][$key] = $time;
+            $res['datasets'][0]['data'][$key] = 0;
+            $res['datasets'][1]['data'][$key] = 0;
+            $res['datasets'][2]['data'][$key] = 0;
+        }
+        $res['labels'][count($x)] = 'MORE';
+        $res['datasets'][0]['data'][count($x)] = 0;
+        $res['datasets'][1]['data'][count($x)] = 0;
+        $res['datasets'][2]['data'][count($x)] = 0;
         foreach ($source_time as $source => $times) {
-            $res = Variables::chartjs_line_three();
-            foreach ($x as $key => $time) {
-                $hour = (int)($time/3600);
-                $minute = (int)($time%3600/60);
-                $secord = (int)($time%60);
-                if ($hour == 0) { $hour = ''; }
-                else { $hour = (string)$hour . 'H'; }
-                if ($minute == 0) { $minute = ''; }
-                else { $minute = (string)$minute . 'M';}
-                if ($secord == 0) { $secord = ''; }
-                else {$secord = (string)$secord . 'S';}
-                $time = $hour.$minute.$secord;
-                $res['labels'][$key] = $time;
-                $res['datasets'][0]['data'][$key] = 0;
-            }
-            $res['labels'][count($x)] = 'MORE';
-            $res['datasets'][0]['data'][count($x)] = 0;
             foreach ($times as $time) {
                 $id = ProxyController::timetox($time, count($x));
-                $res['datasets'][0]['data'][$id] += 1;
+                $res['datasets'][$source - 8]['data'][$id] += 1;
             }
-            $res_a[$source] = json_encode($res);
         }
+        $res = json_encode($res);
 
         $code_res_a = array();
         $paes = Variables::get('paerror');
         $paes = json_decode($paes->value, True, 3);
         foreach ($codedist as $time => $codes) {
-            $res = Variables::chartjs_line_three();
+            $rest = Variables::chartjs_line_three();
             arsort($codes);
             foreach ($codes as $code => $count) {
-                $res['labels'][] = $paes[$code];
-                $res['datasets'][0]['data'][] = $count;
+                $rest['labels'][] = $paes[$code];
+                $rest['datasets'][0]['data'][] = $count;
             }
-            $code_res_a[$time] = json_encode($res);
+            $code_res_a[$time] = json_encode($rest);
         }
 
-        return compact('res_a', 'code_res_a', 'step', 'stepNum', 'source_usage_rate', 'source_usage_rate_exact');
+        return compact('res', 'code_res_a', 'step', 'stepNum', 'source_usage_rate', 'source_usage_rate_exact');
     }
 
-    public function wtime() {
-        $res = ProxyController::wtime_core(3600);
-        return view('proxy.workingtime', $res);
+    public function health() {
+        $res = ProxyController::wtime_core(3600 * 60, 0);
+        return view('proxy.health', $res);
     }
 
-    public function wstep($step) {
+    public function hstep($step) {
         $res = ProxyController::wtime_core($step);
-        return view('proxy.wjs', $res);
+        return view('proxy.hjs', $res);
     }
 
     public function errortype() {
