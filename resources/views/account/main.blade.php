@@ -3,8 +3,8 @@
 @section('title', 'XUEQIU Account')
 @endsection
 
-@section('content')
-
+@section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
 <script type="text/javascript">
 function loadDoc() {
     var step = document.getElementById('step').value
@@ -19,11 +19,32 @@ function loadDoc() {
     xhttp.send();
 }
 </script>
+@endsection
+
+@section('content')
+<form class="form-inline">
+  <div class="form-group">
+    <label for="form">How long you want to view? : </label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="day" placeholder="0">
+      <div class="input-group-addon"> days </div>
+    </div>
+    <div class="input-group">
+      <input type="text" class="form-control" id="hour" placeholder="0">
+      <div class="input-group-addon"> hours </div>
+    </div>
+  </div>
+  <button id='viewbutton' type="button" class="btn btn-primary" onclick="loadchart()">VIEW</button>
+  <span class="" id="msg"> </span>
+</form>
+<h2 id='period'> </h2>
+
 
 <form class="form-inline">
 <input class="search form-control" placeholder="Search" id="step"/>
 <button type="button" class="btn btn-primary" onclick="loadDoc()">VIEW</button>
 </form>
+<h2 id='period'> </h2>
 
 <div id="canvas_container">
 <h2>Xueqiu Account Monitor: (50 hours)</h2>
