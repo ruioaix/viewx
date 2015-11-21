@@ -235,7 +235,7 @@ class AccountController extends Controller
         else {
             $ave = 0;
         }
-        $usage = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%. Average alive duration: '."$ave";
+        $usage = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%. Average alive duration: '."$ave".'.';
         $cnt = count($aliving); 
         $usage .= " Aliving account: $cnt.";
 
