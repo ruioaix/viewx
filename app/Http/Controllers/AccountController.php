@@ -138,4 +138,126 @@ class AccountController extends Controller
         $res = json_encode($res);
         return view('account.info', compact('res', 'un'));
     }
+
+    protected function health_core($from_secord, $to_secord) {
+        $stepNum = Variables::getStepNum();
+        $period_secord = $from_secord - $to_secord;
+        $step_secord = (int)($period_secord / $stepNum);
+        $now = time();
+        #_tp means time point.
+        $beforebefore_tp = $now - $from_secord;
+        $before_tp = $now - $to_secord; 
+
+        $account_time = array();
+        $usage_rate = array( 'success' => 0, 'all' => 0,);
+        $usage_rate_exact = array( 'success' => 0, 'all' => 0);
+        $aliving = array();
+        $codedist = array( 300 => array(), 3600 => array(), 14400 => array(), 'MORE' => array());
+
+        $aset = array();
+        $codeset = array();
+        $slist = Account::period($beforebefore_tp, $before_tp);
+
+        foreach ($slist as $account) {
+            $username = $account['username'];
+            $time = $account['time'];
+            $code = $account['code'];
+            if ($code == -1) {
+                $usage_rate['all'] += 1;
+            }
+            elseif ($code == 0) {
+                $usage_rate['success'] += 1;
+            }
+
+            if (isset($aset[$username])) {
+                if ($code == -1) {
+                    unset($aset[$username]);
+                    unset($codeset[$username]);
+                    $usage_rate_exact['all'] += 1;
+                } 
+                elseif ($code == 0) {
+                    $keep =  $aset[$username] - $time;
+                    $account_time[] = $keep;
+                    $usage_rate_exact['success'] += 1;
+
+                    if ($keep <= 300) { $keep = 300; }
+                    elseif ($keep <= 3600) { $keep = 3600; }
+                    elseif ($keep <= 14400) { $keep = 14400; }
+                    else { $keep = 'MORE'; }
+
+                    if (isset($codedist[$keep][$codeset[$username]])) {
+                        $codedist[$keep][$codeset[$username]] += 1;
+                    }
+                    else {
+                        $codedist[$keep][$codeset[$username]] = 1;
+                    }
+                }
+                else {
+                    return redirect('/');
+                }
+            }
+            else {
+                if ($code == -1) {
+                    continue;
+                }
+                elseif ($code == 0) {
+                    $aliving[$username] = Variables::secordtoHMS($now - $time);
+                }
+                else{
+                    $aset[$username] = $time;
+                    $codeset[$username] = $code;
+                }
+            }
+        }
+
+        $sus = $usage_rate['success'];
+        $all = $usage_rate['all'];
+        $sus_e = $usage_rate_exact['success'];
+        $all_e = $usage_rate_exact['all'];
+        if ($all != 0) {
+            $value = number_format(100 * $sus/$all, 2);
+        }
+        else {
+            $value = 0;
+        }
+        $usage = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%.';
+        $cnt = count($aliving); 
+        $usage .= " Aliving account: $cnt.";
+
+        $res = Variables::chartjs_line_one_inited_with_timedist('account');
+        foreach ($account_time as $time) {
+            $id = Variables::timedist_getindex($time);
+            $res['datasets'][0]['data'][$id] += 1;
+        }
+        $res = json_encode($res);
+
+        $code_res_a = array();
+        $paes = Variables::paerror();
+        foreach ($codedist as $time => $codes) {
+            $rest = Variables::chartjs_line_one('one');
+            arsort($codes);
+            foreach ($codes as $code => $count) {
+                $rest['labels'][] = $paes[$code];
+                $rest['datasets'][0]['data'][] = $count;
+            }
+            $code_res_a[$time] = json_encode($rest);
+        }
+
+        $url = action('AccountController@hstep', ['']);
+        return compact('res', 'code_res_a', 'from_secord', 'to_secord', 'usage', 'aliving', 'url');
+    }
+
+    public function health() {
+        $res = AccountController::health_core(3600 * 60, 0);
+        return view('account.health', $res);
+    }
+
+    public function hstep($from_to) {
+        $args = explode("-", $from_to);
+        $from_secord = (int)($args[0]) * 3600;
+        $to_secord = (int)($args[1]) * 3600;
+        $res = AccountController::health_core($from_secord, $to_secord);
+        return view('account.hjs', $res);
+    }
+
 }

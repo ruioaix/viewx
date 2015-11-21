@@ -53,6 +53,7 @@
                       <ul class="dropdown-menu">
                         <li><a href="{{ action('AccountController@monitor') }}">Monitor</a></li>
                         <li><a href="{{ action('AccountController@alist') }}"> List </a></li>
+                        <li><a href="{{ action('AccountController@health') }}"> Health </a></li>
                       </ul>
                     </li>
                     <li><a href="{{ action('AdjustController@index') }}">XQ Adjust</a></li>
