@@ -26,10 +26,8 @@ Route::get('/proxy/errortype', "ProxyController@errortype");
 
 Route::get('/account/monitor', "AccountController@monitor");
 Route::get('/account/monitor/{step}', "AccountController@mstep");
-Route::get('/account/goodorbad', "AccountController@goodorbad");
 Route::get('/account/list', "AccountController@alist");
-Route::get('/account/detail/{step}', "AccountController@step");
-Route::get('/account/{email}', "AccountController@info");
+Route::get('/account/info/{step}', "AccountController@info");
 
 
 Route::get('/adjust', "AdjustController@index");

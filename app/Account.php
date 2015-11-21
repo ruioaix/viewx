@@ -17,18 +17,10 @@ class Account extends Model
         return $accounts;
     }
 
-    protected function part($code) {
-        $part = Account::where('code', '=', $code)
-            ->orderBy('id', 'desc')
-            ->select('username')
-            ->get(1000);
-        return $part;
-    }
-
     protected function alist() {
         $alist = Account::orderBy('id', 'desc')
             ->select('username', 'code')
-            ->get();
+            ->get(50000);
         return $alist;
     }
     
@@ -38,5 +30,4 @@ class Account extends Model
             ->get();
         return $info;
     }
-
 }

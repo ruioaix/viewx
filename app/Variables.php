@@ -79,15 +79,16 @@ class Variables extends Model
 
     protected function getcolor($id) {
         $colors = array(
-            "rgba(171, 201, 221, 0.8)",
-            "rgba(171, 201, 221, 1)",
-            "rgba(174, 221, 204, 0.8)",
-            "rgba(174, 221, 204, 1)",
-            "rgba(238, 236, 193, 0.8)",
-            "rgba(238, 236, 193, 1)",
-            "rgba(0, 116, 217, 0.9)",
-            "rgba(133, 20, 75, 0.5)",
-            "rgba(46, 204, 64, 0.5)",
+            0 => "rgba(171, 201, 221, 0.8)",
+            1 => "rgba(171, 201, 221, 1)",
+            2 => "rgba(174, 221, 204, 0.8)",
+            3 => "rgba(174, 221, 204, 1)",
+            4 => "rgba(238, 236, 193, 0.8)",
+            5 => "rgba(238, 236, 193, 1)",
+            6 => "rgba(0, 116, 217, 0.9)",
+            7 => "rgba(133, 20, 75, 0.5)",
+            8 => "rgba(46, 204, 64, 0.5)",
+            9 => "rgba(171, 201, 221, 0.5)",
         );
         return $colors[$id];
     }
@@ -99,6 +100,25 @@ class Variables extends Model
                 array(
                     'label'=> $one,
                     'fillColor' => "rgba(0,0,0,0)",
+                    'strokeColor' => Variables::getcolor(0),
+                    'pointColor' => Variables::getcolor(1),
+                    'pointStrokeColor'=> "#fff",
+                    'pointHighlightFill'=> "#fff",
+                    'pointHighlightStroke'=> Variables::getcolor(0),
+                    'data'=> array()
+                ),
+            )
+        );
+        return $data;
+    }
+
+    protected function chartjs_radar() {
+        $data = array(
+            'labels' => array(),
+            'datasets' => array(
+                array(
+                    'label'=> 'radar',
+                    'fillColor' => Variables::getcolor(9),
                     'strokeColor' => Variables::getcolor(0),
                     'pointColor' => Variables::getcolor(1),
                     'pointStrokeColor'=> "#fff",

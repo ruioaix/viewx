@@ -3,6 +3,26 @@
 @section('title', 'XQ Accounts Info')
 @endsection
 
+@section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/magnific-popup.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/jquery.magnific-popup.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var options = {
+        valueNames: ['id', 'username', 'success', 'cookies', 'rf', 'other' ],
+        page: 1000
+    };
+    var userList = new List('accounts', options);
+    $('.account-ajax-popup').magnificPopup({
+        type: 'ajax',
+        showCloseBtn: false,
+    });
+});
+</script>
+@endsection
+
 @section('content')
 <div id="accounts">
   <input class="search form-control" placeholder="Search" />
@@ -32,24 +52,5 @@
     @endforeach
     </tbody>
   </table>
-
 </div>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    var options = {
-        valueNames: ['id', 'username', 'success', 'cookies', 'rf', 'other' ],
-        page: 1000
-    };
-
-    var userList = new List('accounts', options);
-
-    $('.account-ajax-popup').magnificPopup({
-        type: 'ajax',
-        showCloseBtn: false,
-    });
-
-});
-</script>
-
 @endsection
