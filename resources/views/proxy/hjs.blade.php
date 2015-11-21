@@ -33,9 +33,9 @@ $(document).ready(function() {
 
     document.getElementById("period").innerHTML = "<h2 id='period'>From {{ (int)($from_secord/(24*3600)) }}D{{ (int)($from_secord%(24*3600)/3600) }}H to {{ (int)($to_secord/(24*3600)) }}D{{ (int)($to_secord%(24*3600)/3600) }}H</h2>";
 
-    document.getElementById("pachong_usage").innerHTML = "{{ $usage['pachong'] }}"
-    document.getElementById("hidemyass_usage").innerHTML = "{{ $usage['hidemyass'] }}"
-    document.getElementById("freeproxylists_usage").innerHTML = "{{ $usage['freeproxylists'] }}"
+    document.getElementById("pachong_usage").innerHTML = "{{ $usage['pachong'] }} @foreach ($aliving['pachong'] as $ipport => $time) <li> {{ $ipport }} => {{ $time }} </li> @endforeach "
+    document.getElementById("hidemyass_usage").innerHTML = "{{ $usage['hidemyass'] }} @foreach ($aliving['hidemyass'] as $ipport => $time) <li> {{ $ipport }} => {{ $time }} </li> @endforeach "
+    document.getElementById("freeproxylists_usage").innerHTML = "{{ $usage['freeproxylists'] }} @foreach ($aliving['freeproxylists'] as $ipport => $time) <li> {{ $ipport }} => {{ $time }} </li> @endforeach "
 
     document.getElementById("pachong_title").innerHTML = "<h3><a href='http://pachong.org'>Pachong.org</a></h3>";
     var ctx = document.getElementById("pachong_chart").getContext("2d");

@@ -144,12 +144,14 @@ class ProxyController extends Controller
             $source_usage_rate_exact['success'][$sk] = 0;
             $source_usage_rate_exact['all'][$sk] = 0;
             $source_time[$sk] = array();
+            $aliving[$st] = array();
         }
         $codedist = array( 300 => array(), 3600 => array(), 14400 => array(), 'MORE' => array(),);
 
         $ipportset = array();
         $codeset = array();
         $slist = Proxy::period($beforebefore_tp, $before_tp);
+
         foreach ($slist as $proxy) {
             $ipport = $proxy['ipv4_port'];
             $time = $proxy['time'];
@@ -172,6 +174,7 @@ class ProxyController extends Controller
                     $keep =  $ipportset[$ipport] - $time;
                     $source_time[$source][] = $keep;
                     $source_usage_rate_exact['success'][$source] += 1;
+
                     if ($keep <= 300) {
                         $keep = 300;
                     }
@@ -196,8 +199,11 @@ class ProxyController extends Controller
                 }
             }
             else {
-                if ($code == -1 || $code == 0) {
+                if ($code == -1) {
                     continue;
+                }
+                elseif ($code == 0) {
+                    $aliving[$source_kind[$source]][$ipport] = Variables::secordtoHMS($now - $time);
                 }
                 else{
                     $ipportset[$ipport] = $time;
@@ -205,6 +211,8 @@ class ProxyController extends Controller
                 }
             }
         }
+
+        
 
         $usage = array();
         foreach ($source_kind as $sourceid => $sourcestring) {
@@ -218,7 +226,9 @@ class ProxyController extends Controller
             else {
                 $value = 0;
             }
-            $usage[$sourcestring] = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%';
+            $usage[$sourcestring] = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%.';
+            $cnt = count($aliving[$sourcestring]); 
+            $usage[$sourcestring] .= " Aliving connections: $cnt.";
         }
 
         $res_a = array();
@@ -244,7 +254,7 @@ class ProxyController extends Controller
         }
 
         $url = action('ProxyController@hstep', ['']);
-        return compact('res_a', 'code_res_a', 'from_secord', 'to_secord', 'usage', 'url');
+        return compact('res_a', 'code_res_a', 'from_secord', 'to_secord', 'usage', 'aliving', 'url');
     }
 
     public function health() {

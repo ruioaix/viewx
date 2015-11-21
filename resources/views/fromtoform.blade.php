@@ -2,7 +2,7 @@
   <div class="form-group">
      <div class="input-group">
       <div class="input-group-addon">Period: from</div>
-      <input type="text" class="form-control" id="fromhour" placeholder="0">
+      <input type="text" class="form-control" id="fromhour" value="60">
       <div class="input-group-addon">hours ago</div>
      </div>
      <div class="input-group">

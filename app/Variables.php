@@ -195,20 +195,25 @@ class Variables extends Model
         return count($secord_x);
     }
 
+    protected function secordtoHMS($time) {
+        $hour = (int)($time/3600);
+        $minute = (int)($time%3600/60);
+        $secord = (int)($time%60);
+        if ($hour == 0) { $hour = ''; }
+        else { $hour = (string)$hour . 'H'; }
+        if ($minute == 0) { $minute = ''; }
+        else { $minute = (string)$minute . 'M';}
+        if ($secord == 0) { $secord = ''; }
+        else {$secord = (string)$secord . 'S';}
+        $time = $hour.$minute.$secord;
+        return $time;
+    }
+
     protected function chartjs_line_one_inited_with_timedist($one) {
         $secord_x = Variables::timedist();
         $res = Variables::chartjs_line_one($one);
         foreach ($secord_x as $key => $time) {
-            $hour = (int)($time/3600);
-            $minute = (int)($time%3600/60);
-            $secord = (int)($time%60);
-            if ($hour == 0) { $hour = ''; }
-            else { $hour = (string)$hour . 'H'; }
-            if ($minute == 0) { $minute = ''; }
-            else { $minute = (string)$minute . 'M';}
-            if ($secord == 0) { $secord = ''; }
-            else {$secord = (string)$secord . 'S';}
-            $time = $hour.$minute.$secord;
+            $time = Variables::secordtoHMS($time);
             $res['labels'][$key] = $time;
             $res['datasets'][0]['data'][$key] = 0;
         }

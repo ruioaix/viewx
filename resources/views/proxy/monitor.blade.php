@@ -1,7 +1,7 @@
 @extends('index')
 
 
-@section('title', 'Proxy Status Monitor')
+@section('title', 'Proxy Monitor')
 @endsection
 
 
