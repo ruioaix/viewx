@@ -9,8 +9,9 @@ class Account extends Model
     protected $table = 'account';
     public $timestamps = false;
 
-    protected function time($ago) {
-        $accounts = Account::where('time', '>=', $ago)
+    protected function period($beforebefore_tp, $before_tp) {
+        $accounts = Account::where('time', '>=', $beforebefore_tp)
+            ->where('time', '<=', $before_tp)
             ->orderBy('id', 'desc')
             ->get();
         return $accounts;

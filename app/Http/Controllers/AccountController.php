@@ -12,58 +12,18 @@ use App\Variables;
 
 class AccountController extends Controller
 {
-    public function index() {
-        $step = 30 * 60;
-        $stepNum = 100;
+    public function monitor_core($from_secord, $to_secord) {
+        $stepNum = Variables::getStepNum();
+        $period_secord = $from_secord - $to_secord;
+        $step_secord = (int)($period_secord / $stepNum);
         $now = time();
-        $ago = $now - $step * $stepNum;
-        $accounts = Account::time($ago);
-        $pm = array(
-            'labels' => array(),
-            'datasets' => array(
-                array(
-                    'label'=> "begin",
-                    'fillColor' => "rgba(220,220,220,0.2)",
-                    'strokeColor' => "rgba(220,220,220,1)",
-                    'pointColor' => "rgba(220,220,220,1)",
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> "rgba(151,187,205,1)",
-                    'data'=> array()
-                ),
-                array( 
-                    'label' => "success",
-                    'fillColor'=> "rgba(151,187,205,0.2)",
-                    'strokeColor'=> "rgba(151,187,205,1)",
-                    'pointColor'=> "rgba(151,187,205,1)",
-                    'pointStrokeColor' => "#fff",
-                    'pointHighlightFill' => "#fff",
-                    'pointHighlightStroke' => "rgba(220,220,220,1)",
-                    'data' => array()
-                ),
-                array(
-                    'label'=> "end",
-                    'fillColor' => "rgba(220,220,220,0.2)",
-                    'strokeColor' => "rgba(120,220,220,1)",
-                    'pointColor' => "rgba(120,220,220,1)",
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> "rgba(151,187,205,1)",
-                    'data'=> array()
-                ),
-            ),
-        );
-        for ($i = 0; $i < $stepNum; $i++ ) {
-            $ts = $ago + $step * ($i + 1);
-            $dt = new \DateTime("@$ts");
-            $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
-            $pm['labels'][$i] = $dt->format("H:i");
-            $pm['datasets'][0]['data'][$i] = 0;
-            $pm['datasets'][1]['data'][$i] = 0;
-            $pm['datasets'][2]['data'][$i] = 0;
-        }
+        #_tp means time point.
+        $beforebefore_tp = $now - $from_secord;
+        $before_tp = $now - $to_secord; 
+        $mnt = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'begin', 'success', 'end');
         $codes = array();
         $codescount = 1;
+        $accounts = Account::period($beforebefore_tp, $before_tp);
         foreach ($accounts as $account) {
             $time = $account['time'];
             $code = $account['code'];
@@ -75,43 +35,44 @@ class AccountController extends Controller
                 $codes[(string)$code] = 1;
                 $codescount += 1;
             }
-            $i = (int) (($time - $ago - 10) / $step);
+            $i = (int) (($time - $beforebefore_tp) / $step_secord);
+            if ($i == $stepNum) { $i -= 1; }
             if ($code == -1) {
-                $pm['datasets'][0]['data'][$i] += 1;
+                $mnt['datasets'][0]['data'][$i] += 1;
             }
             elseif ($code == 0) {
-                $pm['datasets'][1]['data'][$i] += 1;
+                $mnt['datasets'][1]['data'][$i] += 1;
             }
             else {
-                $pm['datasets'][2]['data'][$i] += 1;
+                $mnt['datasets'][2]['data'][$i] += 1;
             }
         }
-        $pm = json_encode($pm);
+        $mnt = json_encode($mnt);
 
-        $pe = array(
-            'labels' => array(),
-            'datasets' => array(
-                array(
-                    'label'=> "error",
-                    'fillColor' => "rgba(151,187,205,0.5)",
-                    'strokeColor' => "rgba(151,187,205,0.8)",
-                    'highlightFill' => "rgba(151,187,205,0.75)",
-                    'highlightStroke' => "rgba(151,187,205,1)",
-                    'data'=> array()
-                ),
-            ),
-        );
+        $err = Variables::chartjs_bar_one();
         unset($codes['-1']);
         arsort($codes);
-        $paes = Variables::get('paerror');
-        $paes = json_decode($paes->value, True, 3);
-
+        $paes = Variables::paerror();
         foreach ($codes as $kind => $count) {
-            $pe['labels'][] = $paes[$kind] . '(' . number_format($count/$codescount * 100, 1) . '%)';
-            $pe['datasets'][0]['data'][] = $count;
+            $err['labels'][] = $paes[$kind] . '(' . number_format($count/$codescount * 100, 1) . '%)';
+            $err['datasets'][0]['data'][] = $count;
         }
-        $pe = json_encode($pe);
-        return view('account.main', compact('pm', 'pe'));
+        $err = json_encode($err);
+        $url = action('AccountController@mstep', ['']);
+        return compact('mnt', 'err', 'from_secord', 'to_secord', 'url');
+    }
+
+    public function monitor() {
+        $res = AccountController::monitor_core(3600 * 60, 0);
+        return view('account.monitor', $res);
+    }
+
+    public function mstep($from_to) {
+        $args = explode("-", $from_to);
+        $from_secord = (int)($args[0]) * 3600;
+        $to_secord = (int)($args[1]) * 3600;
+        $res = AccountController::monitor_core($from_secord, $to_secord); 
+        return view('mjs', $res);
     }
 
     protected function goodorbad_core($code) {

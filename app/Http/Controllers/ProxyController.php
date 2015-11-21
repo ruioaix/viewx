@@ -25,7 +25,7 @@ class ProxyController extends Controller
         $beforebefore_tp = $now - $from_secord;
         $before_tp = $now - $to_secord; 
         $proxies = Proxy::period($beforebefore_tp, $before_tp);
-        $pm = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'begin', 'success', 'end');
+        $mnt = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'begin', 'success', 'end');
         $codes = array();
         $codescount = 1;
         foreach ($proxies as $proxy) {
@@ -42,28 +42,28 @@ class ProxyController extends Controller
             $i = (int) (($proxy_tp - $beforebefore_tp) / $step_secord);
             if ($i == $stepNum) { $i -= 1; }
             if ($code == -1) {
-                $pm['datasets'][0]['data'][$i] += 1;
+                $mnt['datasets'][0]['data'][$i] += 1;
             }
             elseif ($code == 0) {
-                $pm['datasets'][1]['data'][$i] += 1;
+                $mnt['datasets'][1]['data'][$i] += 1;
             }
             else {
-                $pm['datasets'][2]['data'][$i] += 1;
+                $mnt['datasets'][2]['data'][$i] += 1;
             }
         }
-        $pm = json_encode($pm);
+        $mnt = json_encode($mnt);
 
-        $pe = Variables::chartjs_bar_one();
+        $err = Variables::chartjs_bar_one();
         unset($codes['-1']);
         arsort($codes);
         $paes = Variables::paerror();
         foreach ($codes as $kind => $count) {
-            $pe['labels'][] = $paes[$kind] . '(' . number_format($count/$codescount * 100, 1) . '%)';
-            $pe['datasets'][0]['data'][] = $count;
+            $err['labels'][] = $paes[$kind] . '(' . number_format($count/$codescount * 100, 1) . '%)';
+            $err['datasets'][0]['data'][] = $count;
         }
-        $pe = json_encode($pe);
+        $err = json_encode($err);
         $url = action('ProxyController@mstep', ['']);
-        return compact('pm', 'pe', 'from_secord', 'to_secord', 'url');
+        return compact('mnt', 'err', 'from_secord', 'to_secord', 'url');
     }
 
     public function monitor() {
@@ -76,7 +76,7 @@ class ProxyController extends Controller
         $from_secord = (int)($args[0]) * 3600;
         $to_secord = (int)($args[1]) * 3600;
         $res = ProxyController::monitor_core($from_secord, $to_secord); 
-        return view('proxy.mjs', $res);
+        return view('mjs', $res);
     }
 
     public function circle_core($from_secord, $to_secord) {

@@ -24,7 +24,8 @@ Route::get('/proxy/health/{step}', "ProxyController@hstep");
 Route::get('/proxy/errortype', "ProxyController@errortype");
 
 
-Route::get('/account', "AccountController@index");
+Route::get('/account/monitor', "AccountController@monitor");
+Route::get('/account/monitor/{step}', "AccountController@mstep");
 Route::get('/account/goodorbad', "AccountController@goodorbad");
 Route::get('/account/list', "AccountController@alist");
 Route::get('/account/detail/{step}', "AccountController@step");
