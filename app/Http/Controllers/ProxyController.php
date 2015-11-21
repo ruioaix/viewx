@@ -212,8 +212,25 @@ class ProxyController extends Controller
             }
         }
 
+        $res_a = array();
+        $avet = array();
+        foreach ($source_time as $source => $times) {
+            $res = Variables::chartjs_line_one_inited_with_timedist($source_kind[$source]);
+            $totalt = 0.0;
+            foreach ($times as $time) {
+                $id = Variables::timedist_getindex($time);
+                $res['datasets'][0]['data'][$id] += 1;
+                $totalt += $time;
+            }
+            if (count($times)) {
+                $avet[$source] = Variables::secordtoHMS($totalt / count($times));
+            }
+            else {
+                $avet[$source] = 0;
+            }
+            $res_a[$source_kind[$source]] = json_encode($res);
+        }
         
-
         $usage = array();
         foreach ($source_kind as $sourceid => $sourcestring) {
             $sus = $source_usage_rate['success'][$sourceid];
@@ -226,19 +243,10 @@ class ProxyController extends Controller
             else {
                 $value = 0;
             }
-            $usage[$sourcestring] = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%.';
+            $ave = $avet[$sourceid];
+            $usage[$sourcestring] = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%. Average alive duration: '."$ave".'.';
             $cnt = count($aliving[$sourcestring]); 
             $usage[$sourcestring] .= " Aliving connections: $cnt.";
-        }
-
-        $res_a = array();
-        foreach ($source_time as $source => $times) {
-            $res = Variables::chartjs_line_one_inited_with_timedist($source_kind[$source]);
-            foreach ($times as $time) {
-                $id = Variables::timedist_getindex($time);
-                $res['datasets'][0]['data'][$id] += 1;
-            }
-            $res_a[$source_kind[$source]] = json_encode($res);
         }
 
         $code_res_a = array();

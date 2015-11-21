@@ -226,6 +226,9 @@ class Variables extends Model
         if ($secord == 0) { $secord = ''; }
         else {$secord = (string)$secord . 'S';}
         $time = $hour.$minute.$secord;
+        if ($time == '') {
+            $time = '0';
+        }
         return $time;
     }
 

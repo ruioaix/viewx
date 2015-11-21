@@ -158,6 +158,7 @@ class AccountController extends Controller
         $codeset = array();
         $slist = Account::period($beforebefore_tp, $before_tp);
 
+        $total = 0.0;
         foreach ($slist as $account) {
             $username = $account['username'];
             $time = $account['time'];
@@ -178,6 +179,7 @@ class AccountController extends Controller
                 elseif ($code == 0) {
                     $keep =  $aset[$username] - $time;
                     $account_time[] = $keep;
+                    $total += $keep;
                     $usage_rate_exact['success'] += 1;
 
                     if ($keep <= 300) { $keep = 300; }
@@ -210,6 +212,13 @@ class AccountController extends Controller
             }
         }
 
+        $res = Variables::chartjs_line_one_inited_with_timedist('account');
+        foreach ($account_time as $time) {
+            $id = Variables::timedist_getindex($time);
+            $res['datasets'][0]['data'][$id] += 1;
+        }
+        $res = json_encode($res);
+
         $sus = $usage_rate['success'];
         $all = $usage_rate['all'];
         $sus_e = $usage_rate_exact['success'];
@@ -220,16 +229,16 @@ class AccountController extends Controller
         else {
             $value = 0;
         }
-        $usage = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%.';
+        if (count($account_time)) {
+            $ave = Variables::secordtoHMS($total / count($account_time));
+        }
+        else {
+            $ave = 0;
+        }
+        $usage = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%. Average alive duration: '."$ave";
         $cnt = count($aliving); 
         $usage .= " Aliving account: $cnt.";
 
-        $res = Variables::chartjs_line_one_inited_with_timedist('account');
-        foreach ($account_time as $time) {
-            $id = Variables::timedist_getindex($time);
-            $res['datasets'][0]['data'][$id] += 1;
-        }
-        $res = json_encode($res);
 
         $code_res_a = array();
         $paes = Variables::paerror();
