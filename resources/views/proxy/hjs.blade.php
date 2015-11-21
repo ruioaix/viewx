@@ -31,37 +31,37 @@ $(document).ready(function() {
     $('#pachong_title').remove(); 
     $('#canvas_container').prepend('<div id="pachong_title"></div>');
 
-    document.getElementById("period").innerHTML = "<h2 id='period'>Period: {{ (int)(($step * $stepNum)/(24*3600)) }}D{{ (int)(($step * $stepNum)%(24*3600)/3600) }}H</h2>";
+    document.getElementById("period").innerHTML = "<h2 id='period'>From {{ (int)($from_secord/(24*3600)) }}D{{ (int)($from_secord%(24*3600)/3600) }}H to {{ (int)($to_secord/(24*3600)) }}D{{ (int)($to_secord%(24*3600)/3600) }}H</h2>";
 
-    document.getElementById("pachong_usage").innerHTML = "{{ $source_usage_rate['success'][10] }}/{{$source_usage_rate['all'][10] }} ({{ $source_usage_rate_exact['success'][10] }}/{{$source_usage_rate_exact['all'][10] }}) {{ $source_usage_rate['success'][10]/$source_usage_rate['all'][10] }}"
-    document.getElementById("hidemyass_usage").innerHTML = "{{ $source_usage_rate['success'][9] }}/{{$source_usage_rate['all'][9] }} ({{ $source_usage_rate_exact['success'][9] }}/{{$source_usage_rate_exact['all'][9] }}) {{ $source_usage_rate['success'][9] / $source_usage_rate['all'][9] }}"
-    document.getElementById("freeproxylists_usage").innerHTML = "{{ $source_usage_rate['success'][8] }}/{{$source_usage_rate['all'][8] }} ({{ $source_usage_rate_exact['success'][8] }}/{{$source_usage_rate_exact['all'][8] }}) {{ $source_usage_rate['success'][8] / $source_usage_rate['all'][8] }}"
+    document.getElementById("pachong_usage").innerHTML = "{{ $usage['pachong'] }}"
+    document.getElementById("hidemyass_usage").innerHTML = "{{ $usage['hidemyass'] }}"
+    document.getElementById("freeproxylists_usage").innerHTML = "{{ $usage['freeproxylists'] }}"
 
     document.getElementById("pachong_title").innerHTML = "<h3><a href='http://pachong.org'>Pachong.org</a></h3>";
     var ctx = document.getElementById("pachong_chart").getContext("2d");
-    new Chart(ctx).Line({!! $res_a[10] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+    new Chart(ctx).Line({!! $res_a['pachong'] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 
     document.getElementById("hidemyass_title").innerHTML = "<h3><a href='http://proxylist.hidemyass.com/'> Hidemyass Subscription</a></h3>";
     var ctx = document.getElementById("hidemyass_chart").getContext("2d");
-    new Chart(ctx).Line({!! $res_a[9] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+    new Chart(ctx).Line({!! $res_a['hidemyass'] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 
     document.getElementById("freeproxylists_title").innerHTML = "<h3><a href='http://freeproxylists.net'>freeproxylists.net</a></h3>";
     var ctx = document.getElementById("freeproxylists_chart").getContext("2d");
-    new Chart(ctx).Line({!! $res_a[8] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+    new Chart(ctx).Line({!! $res_a['freeproxylists'] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 
-    document.getElementById("ten_minute_title").innerHTML = "<h3>Errors happened when connection closed under 5 minutes:</h3>";
+    document.getElementById("ten_minute_title").innerHTML = "<h3>Connections aborted under 5m:</h3>";
     var ctx = document.getElementById("ten_minute_chart").getContext("2d");
     new Chart(ctx).Line({!! $code_res_a[300] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 
-    document.getElementById("one_hour_title").innerHTML = "<h3>Errors happened when connection closed between 5 minutes and 1 hour:</h3>";
+    document.getElementById("one_hour_title").innerHTML = "<h3>Connection aborted between 5 minutes and 1 hour :</h3>";
     var ctx = document.getElementById("one_hour_chart").getContext("2d");
     new Chart(ctx).Line({!! $code_res_a[3600] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 
-    document.getElementById("four_hour_title").innerHTML = "<h3>Errors happened when connection closed between 1 hour and 4 hours:</h3>";
+    document.getElementById("four_hour_title").innerHTML = "<h3>Connection aborted between 1 hour and 4 hours:</h3>";
     var ctx = document.getElementById("four_hour_chart").getContext("2d");
     new Chart(ctx).Line({!! $code_res_a[14400] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 
-    document.getElementById("more_four_hour_title").innerHTML = "<h3>Errors happened when connection keep more than 4 hours:</h3>";
+    document.getElementById("more_four_hour_title").innerHTML = "<h3>Connection keep more than 4 hours:</h3>";
     var ctx = document.getElementById("more_four_hour_chart").getContext("2d");
     new Chart(ctx).Line({!! $code_res_a['MORE'] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 
