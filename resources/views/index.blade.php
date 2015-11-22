@@ -62,6 +62,12 @@
                         <li><a href="{{ action('AdjustController@monitor') }}">Monitor</a></li>
                       </ul>
                     </li>
+                    <li class="dropdown">
+                      <a href="{{ action('ToolsController@fixparecord') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Tools<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{ action('ToolsController@fixparecord') }}">fix proxy&account record</a></li>
+                      </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ action('MainController@about') }}">About</a></li>

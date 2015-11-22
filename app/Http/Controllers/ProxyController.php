@@ -138,6 +138,7 @@ class ProxyController extends Controller
         $source_time = array();
         $source_usage_rate = array( 'success' => array(), 'all' => array(),);
         $source_usage_rate_exact = array( 'success' => array(), 'all' => array(),);
+        $aliving = array();
         foreach ($source_kind as $sk => $st) {
             $source_usage_rate['success'][$sk] = 0;
             $source_usage_rate['all'][$sk] = 0;
