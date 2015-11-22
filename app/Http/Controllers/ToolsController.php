@@ -61,6 +61,7 @@ class ToolsController extends Controller
                 }
             }
         }
+        #var_dump($ids);
         
         $beginlist = array();
         foreach ($begin as $ipport => $time) {
@@ -199,9 +200,8 @@ class ToolsController extends Controller
         $res = ToolsController::fixaccountrecord($from_secord, $to_secord);
         $account_ids = $res['ids'];
 
-        #TODO
-        #var_dump($proxy_ids);
-        #var_dump($account_ids);
+        Proxy::fix($proxy_ids);
+        Account::fix($account_ids);
 
         return view('tools.fsjs');
     }

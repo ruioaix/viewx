@@ -17,4 +17,8 @@ class Proxy extends Model
         return $proxies;
     }
 
+    protected function fix($ids) {
+        Proxy::whereIn('id', $ids)->delete();
+    }
+
 }

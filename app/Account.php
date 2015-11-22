@@ -31,4 +31,8 @@ class Account extends Model
             ->get();
         return $info;
     }
+
+    protected function fix($ids) {
+        Account::whereIn('id', $ids)->delete();
+    }
 }
