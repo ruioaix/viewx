@@ -27,12 +27,12 @@ class AccountController extends Controller
         foreach ($accounts as $account) {
             $time = $account['time'];
             $code = $account['code'];
-            if (isset($codes[(string)$code])) {
-                $codes[(string)$code] += 1;
+            if (isset($codes[$code])) {
+                $codes[$code] += 1;
                 $codescount += 1;
             }
             else {
-                $codes[(string)$code] = 1;
+                $codes[$code] = 1;
                 $codescount += 1;
             }
             $i = (int) (($time - $beforebefore_tp) / $step_secord);
@@ -50,7 +50,7 @@ class AccountController extends Controller
         $mnt = json_encode($mnt);
 
         $err = Variables::chartjs_bar_one();
-        unset($codes['-1']);
+        unset($codes[-1]);
         arsort($codes);
         $paes = Variables::paerror();
         foreach ($codes as $kind => $count) {
@@ -82,7 +82,7 @@ class AccountController extends Controller
         $last = array();
         foreach ($accounts as $account) {
             $username = $account['username'];
-            $code = (string)($account['code']);
+            $code = $account['code'];
             $time = $account['time'];
             if (isset($uns[$username][$code])) {
                 $uns[$username][$code] += 1;
@@ -90,7 +90,7 @@ class AccountController extends Controller
             else {
                 $uns[$username][$code] = 1;
             }
-            if ($code == '-1') {
+            if ($code == -1) {
                 if (isset($last[$username])) {
                     $times[$username] += $last[$username] - $time;
                     $last[$username] = $time;
@@ -116,16 +116,16 @@ class AccountController extends Controller
                 $tmp[5] = Variables::secordtoHMS($times[$username] / ($codes['-1'] - 1));
             }
             foreach ($codes as $code => $count) {
-                if ($code == '0') {
+                if ($code == 0) {
                     $tmp[1] = $count;
                 }
-                elseif ($code == '9302') {
+                elseif ($code == 9302) {
                     $tmp[2] = $count;
                 }
-                elseif ($code == '9400') {
+                elseif ($code == 9400) {
                     $tmp[3] = $count;
                 }
-                elseif ($code != '-1') {
+                elseif ($code != -1) {
                     $tmp[4] += $count;
                 }
             }

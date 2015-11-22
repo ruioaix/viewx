@@ -26,7 +26,7 @@ class Account extends Model
     
     protected function info($username) {
         $info = Account::where('username', '=', $username)
-            ->select('code')
+            ->select('code', 'time')
             ->get();
         return $info;
     }
