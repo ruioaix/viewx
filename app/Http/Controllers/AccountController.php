@@ -174,7 +174,7 @@ class AccountController extends Controller
         return view('account.alist', compact('res', 'aliving'));
     }
 
-    public function info($un) {
+    public function infoe($un) {
         $un = str_replace('_', '.', $un);
         $uns = Account::info($un);
         $codes = array();
@@ -195,8 +195,91 @@ class AccountController extends Controller
             $res['datasets'][0]['data'][] = $count;
         }
         $res = json_encode($res);
-        return view('account.info', compact('res', 'un'));
+        return view('account.infoe', compact('res', 'un'));
     }
+
+    public function infoi($un) {
+        $un = explode('-', $un);
+        $username = str_replace('_', '.', $un[1]);
+        $uns = Account::info($username);
+        $codes = array();
+        $interval = array();
+        $last = 0;
+        foreach ($uns as $uc) {
+            $time = $uc['time'];
+            $code = $uc['code'];
+            if ($code == -1) {
+                if ($last == 0) {
+                    $last = $time;
+                }
+                else {
+                    $interval[] = $last - $time;
+                    $last = $time;
+                }
+            }
+        }
+
+        $res = Variables::chartjs_line_one_inited_with_timedist('account');
+        $all = 0;
+        foreach ($interval as $time) {
+            $all += $time;
+            $id = Variables::timedist_getindex($time);
+            $res['datasets'][0]['data'][$id] += 1;
+        }
+        if ($all) {
+            $all = Variables::secordtoHMSF($all / count($interval));
+        }
+        $res = json_encode($res);
+        return view('account.infoia', compact('res', 'all', 'username'));
+    }
+
+    public function infoa($un) {
+        $un = explode('-', $un);
+        $username = str_replace('_', '.', $un[1]);
+        $uns = Account::info($username);
+        $codes = array();
+        $alive = array();
+        $last = 0;
+        foreach ($uns as $uc) {
+            $time = $uc['time'];
+            $code = $uc['code'];
+
+            if ($last != 0) {
+                if ($code == -1) {
+                    $last = 0;
+                } 
+                elseif ($code == 0) {
+                    $alive[] = $last - $time;
+                }
+                else {
+                    return redirect('/');
+                }
+            }
+            else {
+                if ($code == -1 || $code == 0) {
+                    continue;
+                }
+                else{
+                    $last = $time;
+                }
+            }
+        }
+
+        $res = Variables::chartjs_line_one_inited_with_timedist('account');
+        $all = 0;
+        foreach ($alive as $time) {
+            $all += $time;
+            $id = Variables::timedist_getindex($time);
+            $res['datasets'][0]['data'][$id] += 1;
+        }
+        if ($all) {
+            $all = Variables::secordtoHMSF($all / count($alive));
+        }
+        $res = json_encode($res);
+
+        return view('account.infoia', compact('res', 'all', 'username'));
+    }
+
 
     protected function health_core($from_secord, $to_secord) {
         $stepNum = Variables::getStepNum();
