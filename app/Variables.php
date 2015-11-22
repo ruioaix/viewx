@@ -232,6 +232,23 @@ class Variables extends Model
         return $time;
     }
 
+    protected function secordtoHMSF($time) {
+        $hour = (int)($time/3600);
+        $minute = (int)($time%3600/60);
+        $secord = (int)($time%60);
+        if ($hour == 0) { $hour = '0H'; }
+        else { $hour = (string)$hour . 'H'; }
+        if ($minute == 0) { $minute = '0M'; }
+        else { $minute = (string)$minute . 'M';}
+        if ($secord == 0) { $secord = '0S'; }
+        else {$secord = (string)$secord . 'S';}
+        $time = $hour.$minute.$secord;
+        if ($time == '') {
+            $time = '0';
+        }
+        return $time;
+    }
+
     protected function chartjs_line_one_inited_with_timedist($one) {
         $secord_x = Variables::timedist();
         $res = Variables::chartjs_line_one($one);

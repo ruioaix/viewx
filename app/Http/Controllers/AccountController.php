@@ -78,8 +78,12 @@ class AccountController extends Controller
     public function alist() {
         $accounts = Account::alist();
         $uns = array();
-        $times = array();
+        $interval = array();
         $last = array();
+        $aset = array();
+        $aliving = array();
+        $account_time = array();
+        $account_time_count = array();
         foreach ($accounts as $account) {
             $username = $account['username'];
             $code = $account['code'];
@@ -92,12 +96,42 @@ class AccountController extends Controller
             }
             if ($code == -1) {
                 if (isset($last[$username])) {
-                    $times[$username] += $last[$username] - $time;
+                    $interval[$username] += $last[$username] - $time;
                     $last[$username] = $time;
                 }
                 else {
                     $last[$username] = $time;
-                    $times[$username] = 0;
+                    $interval[$username] = 0;
+                }
+            }
+
+            if (isset($aset[$username])) {
+                if ($code == -1) {
+                    unset($aset[$username]);
+                } 
+                elseif ($code == 0) {
+                    if (isset($account_time[$username])) {
+                        $account_time[$username] += $aset[$username] - $time;
+                        $account_time_count[$username] += 1;
+                    }
+                    else {
+                        $account_time[$username] = $aset[$username] - $time;
+                        $account_time_count[$username] = 1;
+                    }
+                }
+                else {
+                    return redirect('/');
+                }
+            }
+            else {
+                if ($code == -1) {
+                    continue;
+                }
+                elseif ($code == 0) {
+                    $aliving[$username] = True;
+                }
+                else{
+                    $aset[$username] = $time;
                 }
             }
         }
@@ -113,7 +147,13 @@ class AccountController extends Controller
                 $tmp[5] = 0;
             }
             else {
-                $tmp[5] = Variables::secordtoHMS($times[$username] / ($codes['-1'] - 1));
+                $tmp[5] = Variables::secordtoHMSF($interval[$username] / ($codes['-1'] - 1));
+            }
+            if (isset($account_time_count[$username])) {
+                $tmp[6] = Variables::secordtoHMSF($account_time[$username] / $account_time_count[$username]);
+            }
+            else {
+                $tmp[6] = 0;
             }
             foreach ($codes as $code => $count) {
                 if ($code == 0) {
@@ -131,7 +171,7 @@ class AccountController extends Controller
             }
             $res[] = $tmp;
         }
-        return view('account.alist', compact('res'));
+        return view('account.alist', compact('res', 'aliving'));
     }
 
     public function info($un) {
