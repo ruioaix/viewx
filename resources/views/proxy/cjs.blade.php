@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $('#proxy_monitor_{{ $from_secord }}_{{ $to_secord }}').remove(); // this is my <canvas> element
+    $('#proxy_source_{{ $from_secord }}_{{ $to_secord }}').remove(); // this is my <canvas> element
     $('#canvas_container').prepend('<canvas id="proxy_source_{{ $from_secord }}_{{ $to_secord }}" width="1140" height="400"></canvas>');
     $('#proxy_title_{{ $from_secord }}_{{ $to_secord }}').remove(); // this is my <canvas> element
     $('#canvas_container').prepend('<div id="proxy_title_{{ $from_secord }}_{{ $to_secord }}"></div>');
