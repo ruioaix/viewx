@@ -189,4 +189,20 @@ class ToolsController extends Controller
         $url = action('ToolsController@fstep', ['']);
         return view('tools.fjs', compact('proxy_bl', 'proxy_er', 'proxy_ids', 'account_bl', 'account_er', 'account_ids', 'url'));
     }
+
+    public function fstepS($from_to) {
+        $args = explode("-", $from_to);
+        $from_secord = (int)($args[0]) * 3600;
+        $to_secord = (int)($args[1]) * 3600;
+        $res = ToolsController::fixproxyrecord($from_secord, $to_secord);
+        $proxy_ids = $res['ids'];
+        $res = ToolsController::fixaccountrecord($from_secord, $to_secord);
+        $account_ids = $res['ids'];
+
+        #TODO
+        #var_dump($proxy_ids);
+        #var_dump($account_ids);
+
+        return view('tools.fsjs');
+    }
 }

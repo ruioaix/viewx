@@ -39,3 +39,4 @@ Route::get('/adjust/monitor/{step}', "AdjustController@mstep");
 
 Route::get('/tools/fixparecord', "ToolsController@fixparecord");
 Route::get('/tools/fixparecord/{step}', "ToolsController@fstep");
+Route::get('/tools/fixparecordS/{step}', "ToolsController@fstepS");
