@@ -34,4 +34,5 @@ Route::get('/account/health', "AccountController@health");
 Route::get('/account/health/{step}', "AccountController@hstep");
 
 
-Route::get('/adjust', "AdjustController@index");
+Route::get('/adjust/monitor', "AdjustController@monitor");
+Route::get('/adjust/monitor/{step}', "AdjustController@mstep");

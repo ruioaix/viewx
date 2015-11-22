@@ -112,6 +112,20 @@ class Variables extends Model
         return $data;
     }
 
+    protected function chartjs_line_one_inited_with_time($beforebefore_tp, $step_secord, $stepNum) {
+        $data = Variables::chartjs_line_one('one');
+        $now = time();
+        for ($i = 0; $i < $stepNum; $i++ ) {
+            $ts = $beforebefore_tp + $step_secord * ($i + 1);
+            $dt = new \DateTime("@$ts");
+            $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
+            $hours = (int)(($now - $ts)/3600);
+            $data['labels'][$i] = $hours . 'h ' . $dt->format("m-d H:i");
+            $data['datasets'][0]['data'][$i] = 0;
+        }
+        return $data;
+    }
+
     protected function chartjs_radar() {
         $data = array(
             'labels' => array(),

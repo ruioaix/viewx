@@ -8,46 +8,44 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Adjust;
+use App\Variables;
 
 class AdjustController extends Controller
 {
-    public function index() {
-        #return "hello world";
-        $step = 30 * 60;
-        $stepNum = 100;
+    protected function monitor_core($from_secord, $to_secord) {
+        $stepNum = Variables::getStepNum();
+        $period_secord = $from_secord - $to_secord;
+        $step_secord = (int)($period_secord / $stepNum);
         $now = time();
-        $ago = $now - $step * $stepNum;
-        $adjustdt = Adjust::time($ago);
-        $pm = array(
-            'labels' => array(),
-            'datasets' => array(
-                array( 
-                    'label' => "success",
-                    'fillColor'=> "rgba(151,187,205,0.2)",
-                    'strokeColor'=> "rgba(151,187,205,1)",
-                    'pointColor'=> "rgba(151,187,205,1)",
-                    'pointStrokeColor' => "#fff",
-                    'pointHighlightFill' => "#fff",
-                    'pointHighlightStroke' => "rgba(220,220,220,1)",
-                    'data' => array()
-                ),
-            ),
-        );
-        for ($i = 0; $i < $stepNum; $i++ ) {
-            $ts = $ago + $step * ($i + 1);
-            $dt = new \DateTime("@$ts");
-            $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
-            $pm['labels'][$i] = $dt->format("H:i");
-            $pm['datasets'][0]['data'][$i] = 0;
-        }
+        #_tp means time point.
+        $beforebefore_tp = $now - $from_secord;
+        $before_tp = $now - $to_secord; 
+
+        $adjustdt = Adjust::period($beforebefore_tp, $before_tp);
+        $mnt = Variables::chartjs_line_one_inited_with_time($beforebefore_tp, $step_secord, $stepNum);
         foreach ($adjustdt as $adj) {
             $updated = $adj['updated'];
-            $i = (int) (($updated - $ago - 10) / $step);
-            $pm['datasets'][0]['data'][$i] += 1;
+            $i = (int) (($updated - $beforebefore_tp - 10) / $step_secord);
+            if ($i == $stepNum) {
+                $i -= 1;
+            }
+            $mnt['datasets'][0]['data'][$i] += 1;
         }
-        $adj = json_encode($pm);
-
-        return view('adjust.main', compact('adj'));
+        $mnt = json_encode($mnt);
+        $url = action('AdjustController@mstep', ['']);
+        return compact('mnt', 'from_secord', 'to_secord', 'url');
     }
 
+    public function monitor() {
+        $res = AdjustController::monitor_core(3600 * 60, 0);
+        return view('adjust.monitor', $res);
+    }
+
+    public function mstep($from_to) {
+        $args = explode("-", $from_to);
+        $from_secord = (int)($args[0]) * 3600;
+        $to_secord = (int)($args[1]) * 3600;
+        $res = AdjustController::monitor_core($from_secord, $to_secord);
+        return view('adjust.mjs', $res);
+    }
 }

@@ -56,7 +56,12 @@
                         <li><a href="{{ action('AccountController@health') }}"> Health </a></li>
                       </ul>
                     </li>
-                    <li><a href="{{ action('AdjustController@index') }}">XQ Adjust</a></li>
+                    <li class="dropdown">
+                      <a href="{{ action('AdjustController@monitor') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> XQ Adjust<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{ action('AdjustController@monitor') }}">Monitor</a></li>
+                      </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ action('MainController@about') }}">About</a></li>
