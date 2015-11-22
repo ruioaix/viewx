@@ -78,14 +78,27 @@ class AccountController extends Controller
     public function alist() {
         $accounts = Account::alist();
         $uns = array();
+        $times = array();
+        $last = array();
         foreach ($accounts as $account) {
             $username = $account['username'];
-            $code = $account['code'];
+            $code = (string)($account['code']);
+            $time = $account['time'];
             if (isset($uns[$username][$code])) {
                 $uns[$username][$code] += 1;
             }
             else {
                 $uns[$username][$code] = 1;
+            }
+            if ($code == '-1') {
+                if (isset($last[$username])) {
+                    $times[$username] += $last[$username] - $time;
+                    $last[$username] = $time;
+                }
+                else {
+                    $last[$username] = $time;
+                    $times[$username] = 0;
+                }
             }
         }
         $res = array();
@@ -96,17 +109,23 @@ class AccountController extends Controller
             $tmp[2] = 0;
             $tmp[3] = 0;
             $tmp[4] = 0;
+            if ($codes['-1'] < 2) {
+                $tmp[5] = 0;
+            }
+            else {
+                $tmp[5] = Variables::secordtoHMS($times[$username] / ($codes['-1'] - 1));
+            }
             foreach ($codes as $code => $count) {
-                if ($code == 0) {
+                if ($code == '0') {
                     $tmp[1] = $count;
                 }
-                elseif ($code == 9302) {
+                elseif ($code == '9302') {
                     $tmp[2] = $count;
                 }
-                elseif ($code == 9400) {
+                elseif ($code == '9400') {
                     $tmp[3] = $count;
                 }
-                elseif ($code != -1) {
+                elseif ($code != '-1') {
                     $tmp[4] += $count;
                 }
             }
@@ -159,12 +178,25 @@ class AccountController extends Controller
         $slist = Account::period($beforebefore_tp, $before_tp);
 
         $total = 0.0;
+        $interval = array();
+        $last = array();
+        $interval_count = array();
         foreach ($slist as $account) {
             $username = $account['username'];
             $time = $account['time'];
             $code = $account['code'];
             if ($code == -1) {
                 $usage_rate['all'] += 1;
+                if (isset($last[$username])) {
+                    $interval[$username] += $last[$username] - $time;
+                    $last[$username] = $time;
+                    $interval_count[$username] += 1;
+                }
+                else {
+                    $interval[$username] = 0;
+                    $last[$username] = $time;
+                    $interval_count[$username] = 0;
+                }
             }
             elseif ($code == 0) {
                 $usage_rate['success'] += 1;
@@ -219,6 +251,19 @@ class AccountController extends Controller
         }
         $res = json_encode($res);
 
+        $all_interval = 0;
+        $all_interval_count = 0;
+        foreach ($interval as $username => $alltime) {
+            $all_interval += $alltime;
+            $all_interval_count += $interval_count[$username];
+        }
+        if ($all_interval_count != 0) {
+            $ave_interval = Variables::secordtoHMS($all_interval / $all_interval_count);
+        }
+        else {
+            $ave_interval = 0;
+        }
+
         $sus = $usage_rate['success'];
         $all = $usage_rate['all'];
         $sus_e = $usage_rate_exact['success'];
@@ -235,10 +280,9 @@ class AccountController extends Controller
         else {
             $ave = 0;
         }
-        $usage = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%. Average alive duration: '."$ave".'.';
+        $usage = "$sus".'/'."$all".' ('."$sus_e".'/'."$all_e".') '."$value".'%. Average reuse interval: '."$ave_interval".'. Average alive duration: '."$ave".'.';
         $cnt = count($aliving); 
         $usage .= " Aliving account: $cnt.";
-
 
         $code_res_a = array();
         $paes = Variables::paerror();

@@ -19,7 +19,7 @@ class Account extends Model
 
     protected function alist() {
         $alist = Account::orderBy('id', 'desc')
-            ->select('username', 'code')
+            ->select('username', 'code', 'time')
             ->get(50000);
         return $alist;
     }

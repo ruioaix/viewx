@@ -11,7 +11,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
     var options = {
-        valueNames: ['id', 'username', 'success', 'cookies', 'rf', 'other' ],
+        valueNames: ['id', 'username', 'success', 'cookies', 'rf', 'other', 'interval' ],
         page: 1000
     };
     var userList = new List('accounts', options);
@@ -37,6 +37,7 @@ $(document).ready(function() {
         <th> <button class="btn btn-default sort" data-sort="cookies"> CookiesErr </button> </th>
         <th> <button class="btn btn-default sort" data-sort="rf"> ReturnFalse </button> </th>
         <th> <button class="btn btn-default sort" data-sort="other"> OtherErr </button> </th>
+        <th> <button class="btn btn-default sort" data-sort="interval"> ReuseInterval</button> </th>
       </tr>
     </thead>
     <tbody class="list">
@@ -48,6 +49,7 @@ $(document).ready(function() {
         <td class="cookies">{{ $account[2] }}</td>
         <td class="rf">{{ $account[3] }}</td>
         <td class="other">{{ $account[4] }}</td>
+        <td class="interval">{{ $account[5] }}</td>
       </tr>
     @endforeach
     </tbody>
