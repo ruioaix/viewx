@@ -13,7 +13,8 @@ Download from <a href="https://github.com/xrfind/RXQ"> this page </a>, branch: m
 
 <h2> Dependences: </h2>
 <ul id="run" class="hide">
-<li> run <ul>
+<li> (thread pool) start <ul>
+<li> (one thread) run<ul>
     <li> login <ul>
         <li> proxy <ul> 
             <li> proxydb </li> 
@@ -39,6 +40,8 @@ Download from <a href="https://github.com/xrfind/RXQ"> this page </a>, branch: m
         <li> adjustdb </li>
     </ul></li>
 </ul></li>
+</ul></li>
+
 </ul>
 <div id="run-chart">
 </div>
