@@ -52,6 +52,7 @@
                       <a href="{{ action('AccountController@monitor') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> XQ Account <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                         <li><a href="{{ action('AccountController@monitor') }}">Monitor</a></li>
+                        <li><a href="{{ action('AccountController@circle') }}">Circle</a></li>
                         <li><a href="{{ action('AccountController@alist') }}"> List </a></li>
                         <li><a href="{{ action('AccountController@health') }}"> Health </a></li>
                       </ul>
