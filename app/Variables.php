@@ -15,9 +15,15 @@ class Variables extends Model
         return $var;
     }
 
+    protected function one($name) {
+        $var = Variables::where('name', '=', $name)
+            ->first();
+        return $var;
+    }
+
     protected function set($name, $value) {
         Variables::where('name', $name)
-            ->update(['value' => $value]);
+            ->update(['value' => $value, 'time' => time()]);
     }
 
     protected function paerror() {

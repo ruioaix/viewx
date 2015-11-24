@@ -11,6 +11,8 @@ use App\Task;
 use App\TaskC;
 use App\Variables;
 
+use Carbon\Carbon;
+
 class TaskController extends Controller
 {
     protected function monitor_core($from_secord, $to_secord) {
@@ -132,11 +134,11 @@ class TaskController extends Controller
         $adjust_common /= $total;
         $adjust_list /= $total;
         $adjust_complete /= $total;
-        Variables::set('tasktype_prob_info', $info);
-        Variables::set('tasktype_prob_gain', $gain);
-        Variables::set('tasktype_prob_adjust_common', $adjust_common);
-        Variables::set('tasktype_prob_adjust_list', $adjust_list);
-        Variables::set('tasktype_prob_adjust_complete', $adjust_complete);
+        Variables::set('tasktype_prob_info', number_format($info, 3));
+        Variables::set('tasktype_prob_gain', number_format($gain, 3));
+        Variables::set('tasktype_prob_adjust_common', number_format($adjust_common, 3));
+        Variables::set('tasktype_prob_adjust_list', number_format($adjust_list, 3));
+        Variables::set('tasktype_prob_adjust_complete', number_format($adjust_complete, 3));
     }
 
     protected function dbtoview($data) {
@@ -156,14 +158,29 @@ class TaskController extends Controller
 
     public function manage(Request $request) {
         #var_dump(Input::all());
-        $info = Variables::get('tasktype_prob_info');
-        $gain = Variables::get('tasktype_prob_gain');
-        $adjust_common = Variables::get('tasktype_prob_adjust_common');
-        $adjust_list = Variables::get('tasktype_prob_adjust_list');
-        $adjust_complete = Variables::get('tasktype_prob_adjust_complete');
+        $info = Variables::one('tasktype_prob_info');
+        $gain = Variables::one('tasktype_prob_gain');
+        $adjust_common = Variables::one('tasktype_prob_adjust_common');
+        $adjust_list = Variables::one('tasktype_prob_adjust_list');
+        $adjust_complete = Variables::one('tasktype_prob_adjust_complete');
+
+        $info_date = $info['time'];
+        $info = $info['value'];
+        $gain_date = $gain['time'];
+        $gain = $gain['value'];
+        $adjust_common_date = $adjust_common['time'];
+        $adjust_common = $adjust_common['value'];
+        $adjust_list_date = $adjust_list['time'];
+        $adjust_list = $adjust_list['value'];
+        $adjust_complete_date = $adjust_complete['time'];
+        $adjust_complete = $adjust_complete['value'];
 
         $res = TaskController::dbtoview(compact('info', 'gain', 'adjust_common', 'adjust_list', 'adjust_complete'));
-
+        $res['info_date'] = Carbon::createFromTimestamp($info_date, 'Europe/Zurich')->toDateTimeString();
+        $res['gain_date'] = Carbon::createFromTimestamp($gain_date, 'Europe/Zurich')->toDateTimeString();
+        $res['adjust_common_date'] = Carbon::createFromTimestamp($adjust_common_date, 'Europe/Zurich')->toDateTimeString();
+        $res['adjust_list_date'] = Carbon::createFromTimestamp($adjust_list_date, 'Europe/Zurich')->toDateTimeString();
+        $res['adjust_complete_date'] = Carbon::createFromTimestamp($adjust_complete_date, 'Europe/Zurich')->toDateTimeString();
         return view('task.manage', $res);
     }
 
