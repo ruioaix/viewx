@@ -10,9 +10,8 @@ class Variables extends Model
 
     protected function get($name) {
         $var = Variables::where('name', '=', $name)
-            ->select('value')
-            ->first();
-        return $var['value'];
+            ->value('value');
+        return $var;
     }
 
     protected function paerror() {

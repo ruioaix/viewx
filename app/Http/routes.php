@@ -39,6 +39,8 @@ Route::get('/task/monitor', "TaskController@monitor");
 Route::get('/task/monitor/{step}', "TaskController@mstep");
 Route::get('/task/adjust', "TaskController@adjust");
 Route::get('/task/adjust/{step}', "TaskController@adstep");
+Route::get('/task/manage', "TaskController@manage");
+Route::post('/task/manage', "TaskController@manageupdate");
 
 Route::get('/tools/fixparecord', "ToolsController@fixparecord");
 Route::get('/tools/fixparecord/{step}', "ToolsController@fstep");

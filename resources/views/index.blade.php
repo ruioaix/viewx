@@ -60,8 +60,9 @@
                     <li class="dropdown">
                       <a href="{{ action('TaskController@monitor') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> XQ Task<span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                        <li><a href="{{ action('TaskController@monitor') }}">Monitor</a></li>
-                        <li><a href="{{ action('TaskController@adjust') }}">xueqiu adjust</a></li>
+                        <li><a href="{{ action('TaskController@monitor') }}">Task Monitor</a></li>
+                        <li><a href="{{ action('TaskController@adjust') }}">XQ Adjust Task</a></li>
+                        <li><a href="{{ action('TaskController@manage') }}">Task Manage</a></li>
                       </ul>
                     </li>
                     <li class="dropdown">

@@ -111,4 +111,25 @@ class TaskController extends Controller
         return view('one_l_ft_js', $res);
     }
 
+    public function manage(Request $request) {
+        #var_dump(Input::all());
+        $info = Variables::get('tasktype_prob_info');
+        $gain = Variables::get('tasktype_prob_gain');
+        $adjust_common = Variables::get('tasktype_prob_adjust_common');
+        $adjust_list = Variables::get('tasktype_prob_adjust_list');
+        $adjust_complete = Variables::get('tasktype_prob_adjust_complete');
+
+        return view('task.manage', compact('info', 'gain', 'adjust_common', 'adjust_list', 'adjust_complete'));
+    }
+
+    public function manageupdate(Request $request) {
+        #var_dump($request->infoprob);
+        #$info = Variables::get('tasktype_prob_info');
+        #$gain = Variables::get('tasktype_prob_gain');
+        #$adjust_common = Variables::get('tasktype_prob_adjust_common');
+        #$adjust_list = Variables::get('tasktype_prob_adjust_list');
+        #$adjust_complete = Variables::get('tasktype_prob_adjust_complete');
+
+        return redirect(action('TaskController@manage'));
+    }
 }
