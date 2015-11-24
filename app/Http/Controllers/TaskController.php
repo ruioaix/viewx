@@ -24,7 +24,7 @@ class TaskController extends Controller
         #_tp means time point.
         $beforebefore_tp = $now - $from_secord;
         $before_tp = $now - $to_secord; 
-        $res = Variables::chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'info', 'gain', 'adjust');
+        $res = Variables::chartjs_line_four_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'info', 'gain', 'adjust', 'adjust-complete');
 
         $tasks = Task::period_begin($beforebefore_tp, $before_tp);
         foreach ($tasks as $tk) {
@@ -40,6 +40,9 @@ class TaskController extends Controller
             }
             elseif ($task_type == 2) {
                 $res['datasets'][2]['data'][$i] += 1;
+            }
+            elseif ($task_type == 4) {
+                $res['datasets'][3]['data'][$i] += 1;
             }
         }
         $res = json_encode($res);
