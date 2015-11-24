@@ -1,16 +1,14 @@
 @extends('index')
 
 
-@section('title', 'Proxy Circles')
+@section('title', $title)
 @endsection
-
 
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
 @include('loadchartfunction')
-<script> @include('proxy.cjs') </script>
+<script> @include('one_l_ft_js')</script>
 @endsection
-
 
 @section('content')
 @include('fromtoform')

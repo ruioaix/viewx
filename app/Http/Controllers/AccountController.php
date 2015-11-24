@@ -48,7 +48,7 @@ class AccountController extends Controller
                 $mnt['datasets'][2]['data'][$i] += 1;
             }
         }
-        $mnt = json_encode($mnt);
+        $one = json_encode($mnt);
 
         $err = Variables::chartjs_bar_one();
         unset($codes[-1]);
@@ -58,14 +58,15 @@ class AccountController extends Controller
             $err['labels'][] = $paes[$kind] . '(' . number_format($count/$codescount * 100, 1) . '%)';
             $err['datasets'][0]['data'][] = $count;
         }
-        $err = json_encode($err);
+        $two = json_encode($err);
         $url = action('AccountController@mstep', ['']);
-        return compact('mnt', 'err', 'from_secord', 'to_secord', 'url');
+        return compact('one', 'two', 'from_secord', 'to_secord', 'url');
     }
 
     public function monitor() {
         $res = AccountController::monitor_core(3600 * 60, 0);
-        return view('account.monitor', $res);
+        $res['title'] = "Account Monitor";
+        return view('two_lb_ft', $res);
     }
 
     public function mstep($from_to) {
@@ -73,7 +74,7 @@ class AccountController extends Controller
         $from_secord = (int)($args[0]) * 3600;
         $to_secord = (int)($args[1]) * 3600;
         $res = AccountController::monitor_core($from_secord, $to_secord); 
-        return view('mjs', $res);
+        return view('two_lb_ft_js', $res);
     }
 
     public function alist() {
@@ -461,7 +462,8 @@ class AccountController extends Controller
 
     public function circle() {
         $res = AccountController::circle_core(3600 * 60, 0);
-        return view('account.circle', $res);
+        $res['title'] = "Account Circle";
+        return view('one_l_ft', $res);
     }
 
     public function cstep($from_to) {
@@ -469,6 +471,6 @@ class AccountController extends Controller
         $from_secord = (int)($args[0]) * 3600;
         $to_secord = (int)($args[1]) * 3600;
         $res = AccountController::circle_core($from_secord, $to_secord); 
-        return view('account.cjs', $res);
+        return view('one_l_ft_js', $res);
     }
 }

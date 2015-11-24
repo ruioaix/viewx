@@ -22,24 +22,24 @@ class AdjustController extends Controller
         $before_tp = $now - $to_secord; 
 
         $adjustdt = Adjust::period($beforebefore_tp, $before_tp);
-        $mnt = Variables::chartjs_line_one_inited_with_time($beforebefore_tp, $step_secord, $stepNum);
+        $res = Variables::chartjs_line_one_inited_with_time($beforebefore_tp, $step_secord, $stepNum);
         foreach ($adjustdt as $adj) {
             $updated = $adj['updated'];
             $i = (int) (($updated - $beforebefore_tp - 10) / $step_secord);
             if ($i == $stepNum) {
                 $i -= 1;
             }
-            $mnt['datasets'][0]['data'][$i] += 1;
+            $res['datasets'][0]['data'][$i] += 1;
         }
-        $mnt = json_encode($mnt);
+        $res = json_encode($res);
         $url = action('AdjustController@mstep', ['']);
-        return compact('mnt', 'from_secord', 'to_secord', 'url');
+        return compact('res', 'from_secord', 'to_secord', 'url');
     }
 
     public function monitor() {
         $res = AdjustController::monitor_core(3600 * 60, 0);
         $res['title'] = "Adjust Data Monitor";
-        return view('one_canvas_line_from_to', $res);
+        return view('one_l_ft', $res);
     }
 
     public function mstep($from_to) {
@@ -47,6 +47,6 @@ class AdjustController extends Controller
         $from_secord = (int)($args[0]) * 3600;
         $to_secord = (int)($args[1]) * 3600;
         $res = AdjustController::monitor_core($from_secord, $to_secord);
-        return view('one_canvas_line_from_to_js', $res);
+        return view('one_l_ft_js', $res);
     }
 }
