@@ -145,6 +145,51 @@ class Variables extends Model
         return $data;
     }
 
+    protected function chartjs_line_two($one, $two) {
+        $data = array(
+            'labels' => array(),
+            'datasets' => array(
+                array(
+                    'label'=> $one,
+                    'fillColor' => "rgba(0,0,0,0)",
+                    'strokeColor' => Variables::getcolor(0),
+                    'pointColor' => Variables::getcolor(1),
+                    'pointStrokeColor'=> "#fff",
+                    'pointHighlightFill'=> "#fff",
+                    'pointHighlightStroke'=> Variables::getcolor(0),
+                    'data'=> array()
+                ),
+                array( 
+                    'label' => $two,
+                    'fillColor'=> "rgba(0,0,0,0)",
+                    'strokeColor'=> Variables::getcolor(2),
+                    'pointColor'=> Variables::getcolor(3),
+                    'pointStrokeColor' => "#fff",
+                    'pointHighlightFill' => "#fff",
+                    'pointHighlightStroke' => Variables::getcolor(2),
+                    'data' => array()
+                ),
+            ),
+        );
+        return $data;
+    }
+
+    protected function chartjs_line_two_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two) {
+        $data = Variables::chartjs_line_two($one, $two);
+        $now = time();
+        for ($i = 0; $i < $stepNum; $i++ ) {
+            $ts = $beforebefore_tp + $step_secord * ($i + 1);
+            $dt = new \DateTime("@$ts");
+            $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
+            $hours = (int)(($now - $ts)/3600);
+            $data['labels'][$i] = $hours . 'h ' . $dt->format("m-d H:i");
+            $data['datasets'][0]['data'][$i] = 0;
+            $data['datasets'][1]['data'][$i] = 0;
+        }
+        return $data;
+    }
+
+
     protected function chartjs_line_three($one, $two, $three) {
         $data = array(
             'labels' => array(),

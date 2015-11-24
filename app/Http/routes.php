@@ -35,10 +35,11 @@ Route::get('/account/infoa/{step}', "AccountController@infoa");
 Route::get('/account/health', "AccountController@health");
 Route::get('/account/health/{step}', "AccountController@hstep");
 
-
-Route::get('/adjust/monitor', "AdjustController@monitor");
-Route::get('/adjust/monitor/{step}', "AdjustController@mstep");
+Route::get('/task/monitor', "TaskController@monitor");
+Route::get('/task/monitor/{step}', "TaskController@mstep");
 
 Route::get('/tools/fixparecord', "ToolsController@fixparecord");
 Route::get('/tools/fixparecord/{step}', "ToolsController@fstep");
 Route::get('/tools/fixparecordS/{step}', "ToolsController@fstepS");
+Route::get('/tools/adjust', "AdjustController@monitor");
+Route::get('/tools/adjust/{step}', "AdjustController@mstep");

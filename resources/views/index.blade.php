@@ -58,15 +58,16 @@
                       </ul>
                     </li>
                     <li class="dropdown">
-                      <a href="{{ action('AdjustController@monitor') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> XQ Adjust<span class="caret"></span></a>
+                      <a href="{{ action('TaskController@monitor') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> XQ Task<span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                        <li><a href="{{ action('AdjustController@monitor') }}">Monitor</a></li>
+                        <li><a href="{{ action('TaskController@monitor') }}">Monitor</a></li>
                       </ul>
                     </li>
                     <li class="dropdown">
                       <a href="{{ action('ToolsController@fixparecord') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Tools<span class="caret"></span></a>
                       <ul class="dropdown-menu">
                         <li><a href="{{ action('ToolsController@fixparecord') }}">fix proxy&account record</a></li>
+                        <li><a href="{{ action('AdjustController@monitor') }}">xueqiu adjust data</a></li>
                       </ul>
                     </li>
                 </ul>
