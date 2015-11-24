@@ -159,15 +159,15 @@ class Variables extends Model
                     'pointHighlightStroke'=> Variables::getcolor(0),
                     'data'=> array()
                 ),
-                array( 
-                    'label' => $two,
-                    'fillColor'=> "rgba(0,0,0,0)",
-                    'strokeColor'=> Variables::getcolor(2),
-                    'pointColor'=> Variables::getcolor(3),
-                    'pointStrokeColor' => "#fff",
-                    'pointHighlightFill' => "#fff",
-                    'pointHighlightStroke' => Variables::getcolor(2),
-                    'data' => array()
+                array(
+                    'label'=> $two,
+                    'fillColor' => "rgba(0,0,0,0)",
+                    'strokeColor' => Variables::getcolor(4),
+                    'pointColor' => Variables::getcolor(5),
+                    'pointStrokeColor'=> "#fff",
+                    'pointHighlightFill'=> "#fff",
+                    'pointHighlightStroke'=> Variables::getcolor(4),
+                    'data'=> array()
                 ),
             ),
         );

@@ -49,7 +49,8 @@ class TaskController extends Controller
 
     public function monitor() {
         $res = TaskController::monitor_core(60 * 3600, 0); 
-        return view('task.monitor', $res);
+        $res['title'] = "Task Monitor";
+        return view('one_canvas_line_from_to', $res);
     }
 
     public function mstep($from_to) {
@@ -57,7 +58,54 @@ class TaskController extends Controller
         $from_secord = (int)($args[0]) * 3600;
         $to_secord = (int)($args[1]) * 3600;
         $res = TaskController::monitor_core($from_secord, $to_secord); 
-        return view('task.mjs', $res);
+        return view('one_canvas_line_from_to_js', $res);
+    }
+
+    protected function adjust_core($from_secord, $to_secord) {
+        #$period_secord > 3600s, 1h.
+        #$stepNum for now 60, never > 100.
+        #so, $step_secord > 36s.
+        $stepNum = Variables::getStepNum();
+        $period_secord = $from_secord - $to_secord;
+        $step_secord = (int)($period_secord / $stepNum);
+        $now = time();
+        #_tp means time point.
+        $beforebefore_tp = $now - $from_secord;
+        $before_tp = $now - $to_secord; 
+        $mnt = Variables::chartjs_line_two_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'begin', 'success');
+
+        $tasks = Task::period($beforebefore_tp, $before_tp, 2);
+        foreach ($tasks as $tk) {
+            $task_tp = $tk['time'];
+            $task_type = $tk['type'];
+            $task_code = $tk['code'];
+            $i = (int) (($task_tp - $beforebefore_tp) / $step_secord);
+            if ($i == $stepNum) { $i -= 1; }
+            if ($task_code == -1) {
+                $mnt['datasets'][0]['data'][$i] += 1;
+            }
+            elseif ($task_code == 0) {
+                $mnt['datasets'][1]['data'][$i] += 1;
+            }
+        }
+        $mnt = json_encode($mnt);
+
+        $url = action('TaskController@adstep', ['']);
+        return compact('mnt', 'from_secord', 'to_secord', 'url');
+    }
+
+    public function adjust() {
+        $res = TaskController::adjust_core(60 * 3600, 0); 
+        $res['title'] = "Adjust Task";
+        return view('one_canvas_line_from_to', $res);
+    }
+
+    public function adstep($from_to) {
+        $args = explode("-", $from_to);
+        $from_secord = (int)($args[0]) * 3600;
+        $to_secord = (int)($args[1]) * 3600;
+        $res = TaskController::adjust_core($from_secord, $to_secord); 
+        return view('one_canvas_line_from_to_js', $res);
     }
 
 }

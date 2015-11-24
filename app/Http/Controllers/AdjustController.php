@@ -38,7 +38,8 @@ class AdjustController extends Controller
 
     public function monitor() {
         $res = AdjustController::monitor_core(3600 * 60, 0);
-        return view('adjust.monitor', $res);
+        $res['title'] = "Adjust Data Monitor";
+        return view('one_canvas_line_from_to', $res);
     }
 
     public function mstep($from_to) {
@@ -46,6 +47,6 @@ class AdjustController extends Controller
         $from_secord = (int)($args[0]) * 3600;
         $to_secord = (int)($args[1]) * 3600;
         $res = AdjustController::monitor_core($from_secord, $to_secord);
-        return view('adjust.mjs', $res);
+        return view('one_canvas_line_from_to_js', $res);
     }
 }

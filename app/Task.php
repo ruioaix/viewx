@@ -17,4 +17,13 @@ class Task extends Model
             ->get();
         return $data;
     }
+
+    protected function period($beforebefore, $before, $type) {
+        $data = Task::where('time', '>=', $beforebefore)
+            ->where('time', '<=', $before)
+            ->where('type', '=', $type)
+            ->orderBy('id', 'desc')
+            ->get();
+        return $data;
+    }
 }
