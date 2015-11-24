@@ -7,11 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Variables extends Model
 {
     protected $table = 'variables';
+    public $timestamps = false;
 
     protected function get($name) {
         $var = Variables::where('name', '=', $name)
             ->value('value');
         return $var;
+    }
+
+    protected function set($name, $value) {
+        Variables::where('name', $name)
+            ->update(['value' => $value]);
     }
 
     protected function paerror() {

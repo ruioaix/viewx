@@ -111,6 +111,46 @@ class TaskController extends Controller
         return view('one_l_ft_js', $res);
     }
 
+    protected function viewtodb($data) {
+        $info = $data['info'];
+        $gain = $data['gain'];
+        $adjust_common = $data['adjust_common'];
+        $adjust_list = $data['adjust_list'];
+        $adjust_complete = $data['adjust_complete'];
+
+        $total = $info + $gain + $adjust_common + $adjust_list + $adjust_complete;
+
+        $gain += $info;
+        $adjust_common += $gain;
+        $adjust_list += $adjust_common;
+        $adjust_complete += $adjust_list;
+        $info /= $total;
+        $gain /= $total;
+        $adjust_common /= $total;
+        $adjust_list /= $total;
+        $adjust_complete /= $total;
+        Variables::set('tasktype_prob_info', $info);
+        Variables::set('tasktype_prob_gain', $gain);
+        Variables::set('tasktype_prob_adjust_common', $adjust_common);
+        Variables::set('tasktype_prob_adjust_list', $adjust_list);
+        Variables::set('tasktype_prob_adjust_complete', $adjust_complete);
+    }
+
+    protected function dbtoview($data) {
+        $info = $data['info'];
+        $gain = $data['gain'];
+        $adjust_common = $data['adjust_common'];
+        $adjust_list = $data['adjust_list'];
+        $adjust_complete = $data['adjust_complete'];
+
+        $adjust_complete -= $adjust_list;
+        $adjust_list -= $adjust_common;
+        $adjust_common -= $gain;
+        $gain -= $info;
+        return compact('info', 'gain', 'adjust_common', 'adjust_list', 'adjust_complete');
+    }
+
+
     public function manage(Request $request) {
         #var_dump(Input::all());
         $info = Variables::get('tasktype_prob_info');
@@ -119,17 +159,29 @@ class TaskController extends Controller
         $adjust_list = Variables::get('tasktype_prob_adjust_list');
         $adjust_complete = Variables::get('tasktype_prob_adjust_complete');
 
-        return view('task.manage', compact('info', 'gain', 'adjust_common', 'adjust_list', 'adjust_complete'));
+        $res = TaskController::dbtoview(compact('info', 'gain', 'adjust_common', 'adjust_list', 'adjust_complete'));
+
+        return view('task.manage', $res);
+    }
+
+    protected function getnumber($value) {
+        if (is_numeric($value)) { 
+            return $value + 0; 
+        } 
+        return 0;
     }
 
     public function manageupdate(Request $request) {
-        #var_dump($request->infoprob);
-        #$info = Variables::get('tasktype_prob_info');
-        #$gain = Variables::get('tasktype_prob_gain');
-        #$adjust_common = Variables::get('tasktype_prob_adjust_common');
-        #$adjust_list = Variables::get('tasktype_prob_adjust_list');
-        #$adjust_complete = Variables::get('tasktype_prob_adjust_complete');
+        $info = TaskController::getnumber($request->infoprob);
+        $gain = TaskController::getnumber($request->gainprob);
+        $adjust_common = TaskController::getnumber($request->adjustprob);
+        $adjust_list = TaskController::getnumber($request->adjustlprob);
+        $adjust_complete = TaskController::getnumber($request->adjustcprob);
 
-        return redirect(action('TaskController@manage'));
+        $total = $info + $gain + $adjust_common + $adjust_list + $adjust_complete;
+        if ($total != 0) {
+            TaskController::viewtodb(compact('msg', 'info', 'gain', 'adjust_common', 'adjust_list', 'adjust_complete'));
+        }
+        return redirect()->action('TaskController@manage');
     }
 }
