@@ -12,7 +12,7 @@ class Variables extends Model
         $var = Variables::where('name', '=', $name)
             ->select('value')
             ->first();
-        return $var;
+        return $var['value'];
     }
 
     protected function paerror() {

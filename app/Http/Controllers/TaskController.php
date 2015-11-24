@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Task;
+use App\TaskC;
 use App\Variables;
 
 class TaskController extends Controller
@@ -96,7 +97,9 @@ class TaskController extends Controller
 
     public function adjust() {
         $res = TaskController::adjust_core(60 * 3600, 0); 
-        $res['title'] = "Adjust Task";
+        $maxzid = Variables::get('maxzid');
+        $num = TaskC::number(2);
+        $res['title'] = "Adjust Task: $num/$maxzid";
         return view('one_l_ft', $res);
     }
 
