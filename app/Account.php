@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
-    protected $table = 'account';
+    protected $table = 'account_record';
     public $timestamps = false;
 
     protected function period($beforebefore_tp, $before_tp) {
