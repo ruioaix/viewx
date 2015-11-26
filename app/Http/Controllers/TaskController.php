@@ -139,10 +139,10 @@ class TaskController extends Controller
             if ($task_code == -1) {
                 $res['datasets'][0]['data'][$i] += 1;
             }
-            elseif ($task_code == -10) {
+            elseif ($task_code == 0) {
                 $res['datasets'][1]['data'][$i] += 1;
             }
-            elseif ($task_code > 0) {
+            elseif ($task_code == 1) {
                 $res['datasets'][2]['data'][$i] += 1;
             }
             else {
