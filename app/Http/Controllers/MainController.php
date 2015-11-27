@@ -34,18 +34,36 @@ class MainController extends Controller
         $nodeids = $data['nodeids'];
         $edges = $data['edges'];
         $nodes = array();
-        foreach ($nodeids as $id => $node) {
-            $nodes[] = "{id: $id, label: '$node', color: '#90C1FE'},";
+        $exclude = array(
+            're' => 1, 'os' => 1, 'time' => 1, 'random' => 1, 'sys' => 1, 
+            #'json' => 1,
+            #'core.db' => 1,
+            #'core.httpbase' => 1,
+        );
+        foreach ($nodeids as $node => $id) {
+            if (!isset($exclude[$node])) {
+                $nodes[] = "{id: $id, label: '$node', color: '#90C1FE'},";
+            }
         }
         $relations = array();
-        foreach ($edges as $id => $inhas) {
-            foreach($inhas['has'] as $obj) {
-                $sign = "$id=>$obj";
-                $relations[$sign] = "{from: $id, to: $obj, arrows:'to'},";
-            }
-            foreach($inhas['in'] as $obj) {
-                $sign = "$obj=>$id";
-                $relations[$sign] = "{from: $obj, to: $id, arrows:'to'},";
+        foreach ($edges as $node => $inhas) {
+            if (!isset($exclude[$node])) {
+                foreach($inhas['has'] as $obj) {
+                    if (!isset($exclude[$obj])) {
+                        $sign = "$node=>$obj";
+                        $fid = $nodeids[$node];
+                        $tid = $nodeids[$obj];
+                        $relations[$sign] = "{from: $fid, to: $tid, arrows:'to'},";
+                    }
+                }
+                foreach($inhas['in'] as $obj) {
+                    if (!isset($exclude[$obj])) {
+                        $sign = "$obj=>$node";
+                        $tid = $nodeids[$node];
+                        $fid = $nodeids[$obj];
+                        $relations[$sign] = "{from: $fid, to: $tid, arrows:'to'},";
+                    }
+                }
             }
         }
         $url = action('MainController@node', ['']);
@@ -65,11 +83,11 @@ class MainController extends Controller
         $data = MainController::readf();
         $nodeids = $data['nodeids'];
         $edges = $data['edges'];
+        $id = str_replace('-', '.', $id);
         if (!isset($nodeids[$id])) {
-            $id = str_replace('-', '.', $id);
-            foreach ($nodeids as $key => $node) {
-                if ($id == $node) {
-                    $id = $key;
+            foreach ($nodeids as $node => $nid) {
+                if ($id == $nid) {
+                    $id = $node;
                     break;
                 }
             }
@@ -78,22 +96,23 @@ class MainController extends Controller
                 return view('rxqs.js', $res);
             }
         }
+        $node = $id;
+        $id = $nodeids[$node];
 
         $nodes = array();
-        $node = $nodeids[$id];
-        $nodes[$id] = "{id: $id, label: '$node', color: '#90C1FE'},";
+        $nodes[$node] = "{id: $id, label: '$node', color: '#90C1FE'},";
         $relations = array();
-        foreach ($edges[$id]['has'] as $obj) {
-            $sign = "$id=>$obj";
-            $relations[$sign] = "{from: $id, to: $obj, arrows:'to'},";
-            $node = $nodeids[$obj];
-            $nodes[$obj] = "{id: $obj, label: '$node', color: '#90C1FE'},";
+        foreach ($edges[$node]['has'] as $obj) {
+            $sign = "$node=>$obj";
+            $tid = $nodeids[$obj];
+            $relations[$sign] = "{from: $id, to: $tid, arrows:'to'},";
+            $nodes[$obj] = "{id: $tid, label: '$obj', color: '#90C1FE'},";
         }
-        foreach($edges[$id]['in'] as $obj) {
+        foreach($edges[$node]['in'] as $obj) {
             $sign = "$obj=>$id";
-            $relations[$sign] = "{from: $obj, to: $id, arrows:'to'},";
-            $node = $nodeids[$obj];
-            $nodes[$obj] = "{id: $obj, label: '$node', color: '#90C1FE'},";
+            $fid = $nodeids[$obj];
+            $relations[$sign] = "{from: $fid, to: $id, arrows:'to'},";
+            $nodes[$obj] = "{id: $fid, label: '$obj', color: '#90C1FE'},";
         }
         $node = 1;
         return view('rxqs.js', compact('nodes', 'relations', 'node'));
