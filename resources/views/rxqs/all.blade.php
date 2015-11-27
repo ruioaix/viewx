@@ -9,6 +9,14 @@
 <script type="text/javascript"> @include('rxqs.js') </script>
 <style type="text/css"> #mynetwork { width: 1140px; height: 600px; } </style>
 <script type="text/javascript">
+$(document).ready(function() {
+    $("#name").keydown(function(event){
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            return false;
+        }
+    });
+});
 function loadchart(nodeid) {
     if (nodeid == -1) {
         document.getElementById("msg").innerHTML = "working...";
