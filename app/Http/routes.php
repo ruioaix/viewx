@@ -12,10 +12,10 @@
 */
 
 Route::get('/', "MainController@index");
-Route::get('/about', "MainController@about");
 Route::get('/onlyhas', "MainController@onlyhas");
 Route::get('/onlyin', "MainController@onlyin");
 Route::get('/all', "MainController@all");
+Route::get('/all/{node}', "MainController@node");
 
 
 Route::get('/proxy/monitor', "ProxyController@monitor");
