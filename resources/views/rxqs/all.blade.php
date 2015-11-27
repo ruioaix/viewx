@@ -9,8 +9,16 @@
 <script type="text/javascript"> @include('rxqs.js') </script>
 <style type="text/css"> #mynetwork { width: 1140px; height: 600px; } </style>
 <script type="text/javascript">
-function loadchart(node) {
-    document.getElementById("msg").innerHTML = "working...";
+function loadchart(nodeid) {
+    if (nodeid == -1) {
+        document.getElementById("msg").innerHTML = "working...";
+        var node = document.getElementById('name').value;
+        if (node == '' || node == 'all') node=-1;
+        else node = node.replace('.', '-')
+    }
+    else {
+        var node = nodeid
+    }
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -26,7 +34,15 @@ function loadchart(node) {
 @endsection
 
 @section('content')
-<button id='viewbutton' type="button" class="btn btn-primary" onclick="loadchart(-1)">SHOW ALL</button>
-<span id="msg"></span>
+<form class="form-inline">
+  <div class="form-group">
+     <div class="input-group">
+      <div class="input-group-addon">Module Name:</div>
+      <input type="text" class="form-control" id="name" placeholder="">
+     </div>
+  </div>
+  <button id='viewbutton' type="button" class="btn btn-primary" onclick="loadchart(-1)">SHOW</button>
+  <span class="" id="msg"> </span>
+</form>
 <div id="mynetwork"></div>
 @endsection

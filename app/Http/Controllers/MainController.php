@@ -65,6 +65,19 @@ class MainController extends Controller
         $data = MainController::readf();
         $nodeids = $data['nodeids'];
         $edges = $data['edges'];
+        if (!isset($nodeids[$id])) {
+            $id = str_replace('-', '.', $id);
+            foreach ($nodeids as $key => $node) {
+                if ($id == $node) {
+                    $id = $key;
+                    break;
+                }
+            }
+            if (!isset($nodeids[$id])) {
+                $res = MainController::all_core();
+                return view('rxqs.js', $res);
+            }
+        }
 
         $nodes = array();
         $node = $nodeids[$id];
