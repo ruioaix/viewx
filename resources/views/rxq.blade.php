@@ -1,9 +1,5 @@
 @extends('index')
 
-
-@section('title', 'About')
-@endsection
-
 @section('script')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.9.0/vis.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.9.0/vis.min.js"></script>
@@ -21,12 +17,12 @@
 <script type="text/javascript">
 // create an array with nodes
 var nodes = new vis.DataSet([
-@include('dataset')
+    @yield('dataset')
 ]);
 
 // create an array with edges
 var edges = new vis.DataSet([
-@include('edges')
+    @yield('edges')
 ]);
 
 // create a network

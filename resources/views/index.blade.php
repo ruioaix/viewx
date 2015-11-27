@@ -75,7 +75,14 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ action('MainController@about') }}">About</a></li>
+                    <li class="dropdown">
+                      <a href="{{ action('MainController@about') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> RXQ<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{ action('MainController@onlyhas') }}">Modules only import others</a></li>
+                        <li><a href="{{ action('MainController@onlyin') }}">Modules only being imported</a></li>
+                        <li><a href="{{ action('MainController@all') }}">Modules Relations</a></li>
+                      </ul>
+                    </li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

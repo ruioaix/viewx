@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaskC extends Model
 {
-    protected $table = 'task_finish';
+    protected $table = 'task';
     public $timestamps = false;
 
     protected function number($type) {

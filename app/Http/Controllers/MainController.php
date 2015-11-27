@@ -16,4 +16,16 @@ class MainController extends Controller
     public function about() {
         return view('about');
     }
+
+    public function onlyhas() {
+        return view('rxqs.onlyhas');
+    }
+
+    public function onlyin() {
+        return view('rxqs.onlyin');
+    }
+
+    public function all() {
+        return view('rxqs.all');
+    }
 }
