@@ -41,6 +41,9 @@ $(document).ready(function() {
     $('#name').on('input', function() {
         delay(function(){
             var node = document.getElementById('name').value;
+            if (node.length == 0) {
+                return;
+            }
             for (var nid in nodes['_data']) {
                 for (var nd in nodes['_data'][nid]) {
                     if (nd == 'label') {
