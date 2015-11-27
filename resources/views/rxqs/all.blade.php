@@ -38,7 +38,7 @@ function loadchart(nodeid) {
   <div class="form-group">
      <div class="input-group">
       <div class="input-group-addon">Module Name:</div>
-      <input type="text" class="form-control" id="name" placeholder="">
+      <input type="text" class="form-control" id="name" placeholder="ALL">
      </div>
   </div>
   <button id='viewbutton' type="button" class="btn btn-primary" onclick="loadchart(-1)">SHOW</button>
