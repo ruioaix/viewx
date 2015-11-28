@@ -45,8 +45,8 @@
     <div class="form-group">
         {!! Form::label('adjustcprob', 'adjust comp', ['class' => "col-sm-3 control-label"]) !!}
         <div class="col-sm-7 input-group">
-            {!! Form::text('adjustcprob', $adjust_complete, ['class' => "form-control"]) !!}
-            <div class="input-group-addon">updated at {{ $adjust_complete_date }}</div>
+            {!! Form::text('adjustcprob', $adjust_cheating, ['class' => "form-control"]) !!}
+            <div class="input-group-addon">updated at {{ $adjust_cheating_date }}</div>
         </div>
     </div>
     <div class="form-group">

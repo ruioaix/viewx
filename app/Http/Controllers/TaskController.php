@@ -174,24 +174,24 @@ class TaskController extends Controller
         $gain = $data['gain'];
         $adjust_common = $data['adjust_common'];
         $adjust_list = $data['adjust_list'];
-        $adjust_complete = $data['adjust_complete'];
+        $adjust_cheating = $data['adjust_cheating'];
 
-        $total = $info + $gain + $adjust_common + $adjust_list + $adjust_complete;
+        $total = $info + $gain + $adjust_common + $adjust_list + $adjust_cheating;
 
         $gain += $info;
         $adjust_common += $gain;
         $adjust_list += $adjust_common;
-        $adjust_complete += $adjust_list;
+        $adjust_cheating += $adjust_list;
         $info /= $total;
         $gain /= $total;
         $adjust_common /= $total;
         $adjust_list /= $total;
-        $adjust_complete /= $total;
+        $adjust_cheating /= $total;
         Variables::set('tasktype_prob_info', number_format($info, 3));
         Variables::set('tasktype_prob_gain', number_format($gain, 3));
         Variables::set('tasktype_prob_adjust_common', number_format($adjust_common, 3));
         Variables::set('tasktype_prob_adjust_list', number_format($adjust_list, 3));
-        Variables::set('tasktype_prob_adjust_complete', number_format($adjust_complete, 3));
+        Variables::set('tasktype_prob_cheating', number_format($adjust_cheating, 3));
     }
 
     protected function dbtoview($data) {
@@ -199,13 +199,13 @@ class TaskController extends Controller
         $gain = $data['gain'];
         $adjust_common = $data['adjust_common'];
         $adjust_list = $data['adjust_list'];
-        $adjust_complete = $data['adjust_complete'];
+        $adjust_cheating = $data['adjust_cheating'];
 
-        $adjust_complete -= $adjust_list;
+        $adjust_cheating -= $adjust_list;
         $adjust_list -= $adjust_common;
         $adjust_common -= $gain;
         $gain -= $info;
-        return compact('info', 'gain', 'adjust_common', 'adjust_list', 'adjust_complete');
+        return compact('info', 'gain', 'adjust_common', 'adjust_list', 'adjust_cheating');
     }
 
 
@@ -215,7 +215,7 @@ class TaskController extends Controller
         $gain = Variables::one('tasktype_prob_gain');
         $adjust_common = Variables::one('tasktype_prob_adjust_common');
         $adjust_list = Variables::one('tasktype_prob_adjust_list');
-        $adjust_complete = Variables::one('tasktype_prob_adjust_complete');
+        $adjust_cheating = Variables::one('tasktype_prob_cheating');
 
         $info_date = $info['time'];
         $info = $info['value'];
@@ -225,15 +225,15 @@ class TaskController extends Controller
         $adjust_common = $adjust_common['value'];
         $adjust_list_date = $adjust_list['time'];
         $adjust_list = $adjust_list['value'];
-        $adjust_complete_date = $adjust_complete['time'];
-        $adjust_complete = $adjust_complete['value'];
+        $adjust_cheating_date = $adjust_cheating['time'];
+        $adjust_cheating= $adjust_cheating['value'];
 
-        $res = TaskController::dbtoview(compact('info', 'gain', 'adjust_common', 'adjust_list', 'adjust_complete'));
+        $res = TaskController::dbtoview(compact('info', 'gain', 'adjust_common', 'adjust_list', 'adjust_cheating'));
         $res['info_date'] = Carbon::createFromTimestamp($info_date, 'Europe/Zurich')->toDateTimeString();
         $res['gain_date'] = Carbon::createFromTimestamp($gain_date, 'Europe/Zurich')->toDateTimeString();
         $res['adjust_common_date'] = Carbon::createFromTimestamp($adjust_common_date, 'Europe/Zurich')->toDateTimeString();
         $res['adjust_list_date'] = Carbon::createFromTimestamp($adjust_list_date, 'Europe/Zurich')->toDateTimeString();
-        $res['adjust_complete_date'] = Carbon::createFromTimestamp($adjust_complete_date, 'Europe/Zurich')->toDateTimeString();
+        $res['adjust_cheating_date'] = Carbon::createFromTimestamp($adjust_cheating_date, 'Europe/Zurich')->toDateTimeString();
         return view('task.manage', $res);
     }
 
@@ -249,11 +249,11 @@ class TaskController extends Controller
         $gain = TaskController::getnumber($request->gainprob);
         $adjust_common = TaskController::getnumber($request->adjustprob);
         $adjust_list = TaskController::getnumber($request->adjustlprob);
-        $adjust_complete = TaskController::getnumber($request->adjustcprob);
+        $adjust_cheating = TaskController::getnumber($request->adjustcprob);
 
-        $total = $info + $gain + $adjust_common + $adjust_list + $adjust_complete;
+        $total = $info + $gain + $adjust_common + $adjust_list + $adjust_cheating;
         if ($total != 0) {
-            TaskController::viewtodb(compact('msg', 'info', 'gain', 'adjust_common', 'adjust_list', 'adjust_complete'));
+            TaskController::viewtodb(compact('msg', 'info', 'gain', 'adjust_common', 'adjust_list', 'adjust_cheating'));
         }
         return redirect()->action('TaskController@manage');
     }
