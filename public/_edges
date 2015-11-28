@@ -1,4 +1,10 @@
 {
+  "urllib.parse": {
+    "has": [],
+    "in": [
+      "core.freeproxylistsnet"
+    ]
+  },
   "art.task_record_adjust_merge": {
     "has": [
       "core.db"
@@ -7,14 +13,83 @@
       "artisan"
     ]
   },
-  "art.account": {
+  "core.login": {
     "has": [
+      "core.httpbase",
+      "core.proxy",
       "core.account",
-      "core.accountdb",
-      "config.env.xqac"
+      "re"
+    ],
+    "in": [
+      "core.run"
+    ]
+  },
+  "core.adjust": {
+    "has": [
+      "core.adjustdb",
+      "core.httpbase",
+      "json",
+      "re"
+    ],
+    "in": [
+      "core.run"
+    ]
+  },
+  "core.proxy": {
+    "has": [
+      "threading",
+      "core.freeproxylistsnet",
+      "core.hidemyass",
+      "core.proxydb",
+      "random",
+      "time",
+      "core.pachongorg"
+    ],
+    "in": [
+      "core.login"
+    ]
+  },
+  "email": {
+    "has": [],
+    "in": [
+      "core.hidemyass"
+    ]
+  },
+  "core.variables": {
+    "has": [
+      "core.variablesdb"
+    ],
+    "in": [
+      "core.run",
+      "core.task"
+    ]
+  },
+  "stacktracer": {
+    "has": [],
+    "in": [
+      "core.stacktracer"
+    ]
+  },
+  "sys": {
+    "has": [],
+    "in": [
+      "core.run",
+      "artisan",
+      "core.stacktracer"
+    ]
+  },
+  "art.variables": {
+    "has": [
+      "core.variablesdb"
     ],
     "in": [
       "artisan"
+    ]
+  },
+  "traceback": {
+    "has": [],
+    "in": [
+      "core.stacktracer"
     ]
   },
   "art.adjust_database_merge": {
@@ -26,125 +101,48 @@
       "artisan"
     ]
   },
-  "logging": {
-    "has": [],
-    "in": [
-      "core.run"
-    ]
-  },
-  "core.hidemyass": {
+  "core.specialdb": {
     "has": [
-      "zipfile",
-      "imaplib",
-      "config.env",
-      "io",
-      "email",
-      "re"
-    ],
-    "in": [
-      "core.proxy"
-    ]
-  },
-  "config.env.xqac": {
-    "has": [],
-    "in": [
-      "art.account"
-    ]
-  },
-  "mysql.connector.errorcode": {
-    "has": [],
-    "in": [
-      "core.db"
-    ]
-  },
-  "time": {
-    "has": [],
-    "in": [
-      "core.freeproxylistsnet",
-      "core.proxy",
-      "core.taskdb",
-      "core.adjustdb",
-      "core.stacktracer",
-      "core.specialdb",
-      "core.gaindb",
-      "core.run",
-      "core.proxydb",
-      "core.pachongorg",
-      "core.variablesdb",
-      "core.infodb",
-      "core.accountdb",
-      "core.gain"
-    ]
-  },
-  "core.infodb": {
-    "has": [
+      "json",
       "time",
       "core.db"
-    ],
-    "in": [
-      "core.info",
-      "art.db"
-    ]
-  },
-  "core.gaindb": {
-    "has": [
-      "time",
-      "core.db",
-      "json"
     ],
     "in": [
       "art.db",
-      "core.gain"
+      "core.special"
     ]
   },
-  "core.pachongorg": {
+  "start": {
     "has": [
-      "time",
-      "core.httpbase",
-      "bs4.BeautifulSoup",
-      "re"
+      "core.run",
+      "concurrent.futures.ThreadPoolExecutor",
+      "concurrent.futures.as_completed",
+      "core.env",
+      "concurrent.futures.thread"
     ],
-    "in": [
-      "core.proxy"
-    ]
+    "in": []
   },
-  "core.variablesdb": {
+  "art.account": {
     "has": [
-      "time",
-      "core.db"
-    ],
-    "in": [
-      "art.variables",
-      "core.variables",
-      "art.db"
-    ]
-  },
-  "art.variables": {
-    "has": [
-      "core.variablesdb"
+      "os",
+      "core.account",
+      "core.accountdb"
     ],
     "in": [
       "artisan"
     ]
   },
-  "os": {
-    "has": [],
-    "in": [
-      "core.stacktracer",
-      "core.run",
-      "art.sourcecode",
-      "config.env"
-    ]
-  },
-  "core.accountdb": {
+  "core.freeproxylistsnet": {
     "has": [
-      "time",
-      "core.db"
+      "core.httpbase",
+      "urllib.parse",
+      "re",
+      "random",
+      "bs4.BeautifulSoup",
+      "time"
     ],
     "in": [
-      "core.account",
-      "art.account",
-      "art.db"
+      "core.proxy"
     ]
   },
   "pygments.lexers.PythonLexer": {
@@ -153,36 +151,10 @@
       "core.stacktracer"
     ]
   },
-  "json": {
+  "pygments.formatters.HtmlFormatter": {
     "has": [],
     "in": [
-      "core.adjust",
-      "core.info",
-      "art.sourcecode",
-      "core.adjustdb",
-      "core.specialdb",
-      "core.gaindb",
-      "config.env",
-      "art.adjust_database_merge",
-      "core.gain"
-    ]
-  },
-  "re": {
-    "has": [],
-    "in": [
-      "core.freeproxylistsnet",
-      "core.taskdb",
-      "core.adjust",
-      "core.info",
-      "core.task",
-      "core.hidemyass",
-      "art.sourcecode",
-      "core.run",
-      "core.login",
-      "core.pachongorg",
-      "core.httpbase",
-      "core.account",
-      "core.gain"
+      "core.stacktracer"
     ]
   },
   "bs4.BeautifulSoup": {
@@ -192,63 +164,21 @@
       "core.pachongorg"
     ]
   },
-  "traceback": {
-    "has": [],
-    "in": [
-      "core.stacktracer"
-    ]
-  },
-  "core.stacktracer": {
-    "has": [
-      "traceback",
-      "sys",
-      "os",
-      "time",
-      "threading",
-      "pygments.lexers.PythonLexer",
-      "pygments.formatters.HtmlFormatter",
-      "pygments.highlight",
-      "stacktracer"
-    ],
-    "in": []
-  },
-  "hashlib": {
-    "has": [],
-    "in": [
-      "core.account"
-    ]
-  },
-  "core.proxydb": {
-    "has": [
-      "time",
-      "core.db"
-    ],
-    "in": [
-      "core.proxy",
-      "art.db"
-    ]
-  },
-  "core.login": {
-    "has": [
-      "core.httpbase",
-      "core.account",
-      "core.proxy",
-      "re"
-    ],
-    "in": [
-      "core.run"
-    ]
-  },
-  "config.env": {
+  "core.env": {
     "has": [
       "json",
       "os"
     ],
     "in": [
-      "core.account",
-      "core.db",
-      "core.hidemyass",
       "core.run",
+      "start",
+      "core.hidemyass",
+      "core.db"
+    ]
+  },
+  "concurrent.futures.ThreadPoolExecutor": {
+    "has": [],
+    "in": [
       "start"
     ]
   },
@@ -258,170 +188,60 @@
       "core.hidemyass"
     ]
   },
+  "mysql.connector": {
+    "has": [],
+    "in": [
+      "core.db"
+    ]
+  },
+  "core.pachongorg": {
+    "has": [
+      "core.httpbase",
+      "bs4.BeautifulSoup",
+      "time",
+      "re"
+    ],
+    "in": [
+      "core.proxy"
+    ]
+  },
+  "mysql.connector.errorcode": {
+    "has": [],
+    "in": [
+      "core.db"
+    ]
+  },
+  "requests": {
+    "has": [],
+    "in": [
+      "core.httpbase"
+    ]
+  },
   "concurrent.futures.as_completed": {
     "has": [],
     "in": [
       "start"
     ]
   },
-  "core.httpbase": {
-    "has": [
-      "re",
-      "requests",
-      "socket"
-    ],
-    "in": [
-      "core.freeproxylistsnet",
-      "core.adjust",
-      "core.info",
-      "core.login",
-      "core.pachongorg",
-      "core.gain"
-    ]
-  },
-  "urllib.parse": {
+  "os": {
     "has": [],
     "in": [
-      "core.freeproxylistsnet"
-    ]
-  },
-  "core.taskdb": {
-    "has": [
-      "time",
-      "core.db",
-      "re"
-    ],
-    "in": [
-      "core.task",
-      "art.db"
-    ]
-  },
-  "core.info": {
-    "has": [
-      "core.infodb",
-      "core.httpbase",
-      "re",
-      "json"
-    ],
-    "in": [
-      "core.run"
-    ]
-  },
-  "core.task": {
-    "has": [
-      "core.taskdb",
-      "threading",
-      "random",
-      "core.variables",
-      "re",
-      "core.special"
-    ],
-    "in": [
-      "core.run"
-    ]
-  },
-  "sys": {
-    "has": [],
-    "in": [
-      "core.stacktracer",
-      "artisan",
-      "core.run"
-    ]
-  },
-  "threading": {
-    "has": [],
-    "in": [
-      "core.stacktracer",
-      "core.account",
-      "core.task",
-      "core.proxy"
-    ]
-  },
-  "concurrent.futures.thread": {
-    "has": [],
-    "in": [
-      "start"
-    ]
-  },
-  "core.adjustdb": {
-    "has": [
-      "time",
-      "core.db",
-      "json"
-    ],
-    "in": [
-      "core.special",
-      "art.db",
-      "core.adjust"
-    ]
-  },
-  "artisan": {
-    "has": [
-      "art.task_record_adjust_merge",
       "art.account",
-      "sys",
-      "art.sourcecode",
-      "core.run",
-      "art.db",
-      "art.adjust_database_merge",
-      "art.variables"
-    ],
-    "in": []
-  },
-  "concurrent.futures.ThreadPoolExecutor": {
-    "has": [],
-    "in": [
-      "start"
-    ]
-  },
-  "start": {
-    "has": [
-      "concurrent.futures.as_completed",
-      "concurrent.futures.thread",
-      "core.run",
-      "config.env",
-      "concurrent.futures.ThreadPoolExecutor"
-    ],
-    "in": []
-  },
-  "email": {
-    "has": [],
-    "in": [
-      "core.hidemyass"
-    ]
-  },
-  "core.account": {
-    "has": [
-      "threading",
-      "hashlib",
-      "core.accountdb",
-      "config.env",
-      "random",
-      "re"
-    ],
-    "in": [
-      "core.login",
-      "art.account"
-    ]
-  },
-  "random": {
-    "has": [],
-    "in": [
-      "core.freeproxylistsnet",
-      "core.proxy",
-      "core.task",
-      "core.run",
       "core.account",
-      "core.special"
+      "core.run",
+      "core.env",
+      "art.sourcecode",
+      "core.stacktracer"
     ]
   },
-  "core.variables": {
+  "core.proxydb": {
     "has": [
-      "core.variablesdb"
+      "time",
+      "core.db"
     ],
     "in": [
-      "core.task",
-      "core.run"
+      "art.db",
+      "core.proxy"
     ]
   },
   "socket": {
@@ -430,42 +250,81 @@
       "core.httpbase"
     ]
   },
-  "core.freeproxylistsnet": {
-    "has": [
-      "bs4.BeautifulSoup",
-      "time",
-      "core.httpbase",
-      "random",
-      "re",
-      "urllib.parse"
-    ],
+  "zipfile": {
+    "has": [],
     "in": [
-      "core.proxy"
+      "core.hidemyass"
     ]
   },
-  "core.proxy": {
+  "core.info": {
     "has": [
-      "core.freeproxylistsnet",
-      "core.hidemyass",
-      "threading",
-      "time",
-      "core.pachongorg",
-      "core.proxydb",
-      "random"
-    ],
-    "in": [
-      "core.login"
-    ]
-  },
-  "core.adjust": {
-    "has": [
-      "core.adjustdb",
+      "core.infodb",
       "core.httpbase",
-      "re",
-      "json"
+      "json",
+      "re"
     ],
     "in": [
       "core.run"
+    ]
+  },
+  "core.gain": {
+    "has": [
+      "core.httpbase",
+      "time",
+      "json",
+      "re",
+      "core.gaindb"
+    ],
+    "in": [
+      "core.run"
+    ]
+  },
+  "random": {
+    "has": [],
+    "in": [
+      "core.task",
+      "core.freeproxylistsnet",
+      "core.proxy",
+      "core.account",
+      "core.run",
+      "core.special"
+    ]
+  },
+  "logging": {
+    "has": [],
+    "in": [
+      "core.run"
+    ]
+  },
+  "pygments.highlight": {
+    "has": [],
+    "in": [
+      "core.stacktracer"
+    ]
+  },
+  "time": {
+    "has": [],
+    "in": [
+      "core.specialdb",
+      "core.gaindb",
+      "core.variablesdb",
+      "core.freeproxylistsnet",
+      "core.infodb",
+      "core.adjustdb",
+      "core.proxydb",
+      "core.proxy",
+      "core.gain",
+      "core.run",
+      "core.taskdb",
+      "core.stacktracer",
+      "core.pachongorg",
+      "core.accountdb"
+    ]
+  },
+  "imaplib": {
+    "has": [],
+    "in": [
+      "core.hidemyass"
     ]
   },
   "art.sourcecode": {
@@ -478,136 +337,272 @@
       "artisan"
     ]
   },
-  "zipfile": {
-    "has": [],
-    "in": [
-      "core.hidemyass"
-    ]
-  },
-  "mysql.connector": {
-    "has": [],
-    "in": [
-      "core.db"
-    ]
-  },
-  "core.specialdb": {
+  "artisan": {
     "has": [
-      "time",
-      "core.db",
-      "json"
-    ],
-    "in": [
-      "core.special",
-      "art.db"
-    ]
-  },
-  "stacktracer": {
-    "has": [],
-    "in": [
-      "core.stacktracer"
-    ]
-  },
-  "core.run": {
-    "has": [
-      "core.adjust",
-      "core.info",
-      "logging",
-      "core.task",
-      "sys",
-      "os",
-      "time",
-      "core.login",
-      "config.env",
-      "random",
-      "core.variables",
-      "re",
-      "core.gain"
-    ],
-    "in": [
-      "artisan",
-      "start"
-    ]
-  },
-  "imaplib": {
-    "has": [],
-    "in": [
-      "core.hidemyass"
-    ]
-  },
-  "art.db": {
-    "has": [
-      "core.taskdb",
-      "core.db",
-      "core.adjustdb",
-      "core.specialdb",
-      "core.gaindb",
-      "core.variablesdb",
-      "core.proxydb",
-      "core.accountdb",
-      "core.infodb"
-    ],
-    "in": [
-      "artisan"
-    ]
-  },
-  "core.db": {
-    "has": [
-      "config.env",
-      "mysql.connector.errorcode",
-      "mysql.connector"
-    ],
-    "in": [
       "art.task_record_adjust_merge",
-      "core.taskdb",
-      "core.adjustdb",
-      "core.specialdb",
-      "core.gaindb",
-      "core.proxydb",
-      "art.adjust_database_merge",
-      "core.variablesdb",
-      "core.infodb",
+      "art.account",
       "art.db",
-      "core.accountdb"
-    ]
-  },
-  "pygments.highlight": {
-    "has": [],
-    "in": [
-      "core.stacktracer"
-    ]
-  },
-  "core.gain": {
-    "has": [
-      "json",
-      "core.httpbase",
-      "core.gaindb",
-      "re",
-      "time"
+      "core.run",
+      "sys",
+      "art.variables",
+      "art.adjust_database_merge",
+      "art.sourcecode"
     ],
-    "in": [
-      "core.run"
-    ]
-  },
-  "requests": {
-    "has": [],
-    "in": [
-      "core.httpbase"
-    ]
+    "in": []
   },
   "core.special": {
     "has": [
-      "core.adjustdb",
       "core.specialdb",
-      "random"
+      "random",
+      "core.adjustdb"
     ],
     "in": [
       "core.task"
     ]
   },
-  "pygments.formatters.HtmlFormatter": {
+  "core.accountdb": {
+    "has": [
+      "time",
+      "core.db"
+    ],
+    "in": [
+      "art.db",
+      "core.account",
+      "art.account"
+    ]
+  },
+  "core.run": {
+    "has": [
+      "re",
+      "core.login",
+      "core.task",
+      "core.adjust",
+      "os",
+      "core.variables",
+      "core.info",
+      "core.gain",
+      "random",
+      "logging",
+      "sys",
+      "core.env",
+      "time"
+    ],
+    "in": [
+      "start",
+      "artisan"
+    ]
+  },
+  "core.httpbase": {
+    "has": [
+      "requests",
+      "socket",
+      "re"
+    ],
+    "in": [
+      "core.login",
+      "core.freeproxylistsnet",
+      "core.adjust",
+      "core.info",
+      "core.gain",
+      "core.pachongorg"
+    ]
+  },
+  "threading": {
     "has": [],
     "in": [
-      "core.stacktracer"
+      "core.proxy",
+      "core.account",
+      "core.stacktracer",
+      "core.task"
+    ]
+  },
+  "hashlib": {
+    "has": [],
+    "in": [
+      "core.account"
+    ]
+  },
+  "re": {
+    "has": [],
+    "in": [
+      "core.httpbase",
+      "core.login",
+      "core.freeproxylistsnet",
+      "core.adjust",
+      "core.task",
+      "core.hidemyass",
+      "core.account",
+      "core.info",
+      "core.gain",
+      "core.run",
+      "core.taskdb",
+      "art.sourcecode",
+      "core.pachongorg"
+    ]
+  },
+  "core.task": {
+    "has": [
+      "threading",
+      "re",
+      "core.variables",
+      "random",
+      "core.taskdb",
+      "core.special"
+    ],
+    "in": [
+      "core.run"
+    ]
+  },
+  "core.variablesdb": {
+    "has": [
+      "time",
+      "core.db"
+    ],
+    "in": [
+      "art.db",
+      "art.variables",
+      "core.variables"
+    ]
+  },
+  "core.infodb": {
+    "has": [
+      "time",
+      "core.db"
+    ],
+    "in": [
+      "art.db",
+      "core.info"
+    ]
+  },
+  "core.gaindb": {
+    "has": [
+      "json",
+      "time",
+      "core.db"
+    ],
+    "in": [
+      "core.gain",
+      "art.db"
+    ]
+  },
+  "art.db": {
+    "has": [
+      "core.specialdb",
+      "core.gaindb",
+      "core.variablesdb",
+      "core.infodb",
+      "core.adjustdb",
+      "core.proxydb",
+      "core.taskdb",
+      "core.db",
+      "core.accountdb"
+    ],
+    "in": [
+      "artisan"
+    ]
+  },
+  "core.account": {
+    "has": [
+      "threading",
+      "hashlib",
+      "re",
+      "os",
+      "random",
+      "core.accountdb"
+    ],
+    "in": [
+      "art.account",
+      "core.login"
+    ]
+  },
+  "core.hidemyass": {
+    "has": [
+      "zipfile",
+      "re",
+      "email",
+      "core.env",
+      "imaplib",
+      "io"
+    ],
+    "in": [
+      "core.proxy"
+    ]
+  },
+  "core.adjustdb": {
+    "has": [
+      "json",
+      "time",
+      "core.db"
+    ],
+    "in": [
+      "art.db",
+      "core.adjust",
+      "core.special"
+    ]
+  },
+  "json": {
+    "has": [],
+    "in": [
+      "core.specialdb",
+      "core.gaindb",
+      "core.adjustdb",
+      "core.adjust",
+      "core.info",
+      "core.gain",
+      "core.env",
+      "art.adjust_database_merge",
+      "art.sourcecode"
+    ]
+  },
+  "core.db": {
+    "has": [
+      "core.env",
+      "mysql.connector.errorcode",
+      "mysql.connector"
+    ],
+    "in": [
+      "core.specialdb",
+      "art.task_record_adjust_merge",
+      "core.gaindb",
+      "core.variablesdb",
+      "core.infodb",
+      "core.adjustdb",
+      "core.proxydb",
+      "art.db",
+      "core.taskdb",
+      "art.adjust_database_merge",
+      "core.accountdb"
+    ]
+  },
+  "core.stacktracer": {
+    "has": [
+      "traceback",
+      "threading",
+      "os",
+      "pygments.lexers.PythonLexer",
+      "pygments.formatters.HtmlFormatter",
+      "stacktracer",
+      "pygments.highlight",
+      "sys",
+      "time"
+    ],
+    "in": []
+  },
+  "concurrent.futures.thread": {
+    "has": [],
+    "in": [
+      "start"
+    ]
+  },
+  "core.taskdb": {
+    "has": [
+      "time",
+      "re",
+      "core.db"
+    ],
+    "in": [
+      "art.db",
+      "core.task"
     ]
   }
 }

@@ -29,6 +29,9 @@ $(document).ready(function() {
     };
 
     var network = new vis.Network(container, data, options);
+    network.on("doubleClick", function (params) {
+        loadchart(params.nodes);
+    });
 
     var delay = (function(){
       var timer = 0;

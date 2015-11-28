@@ -35,8 +35,7 @@ class MainController extends Controller
         $edges = $data['edges'];
         $nodes = array();
         $exclude = array(
-            're' => 1, 'os' => 1, 'time' => 1, 'random' => 1, 'sys' => 1, 
-            #'json' => 1,
+            're' => 1, 'os' => 1, 'time' => 1, 'random' => 1, 'sys' => 1, 'json' => 1,
             #'core.db' => 1,
             #'core.httpbase' => 1,
         );
