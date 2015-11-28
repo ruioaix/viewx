@@ -130,10 +130,12 @@ class TaskController extends Controller
         $res = Variables::chartjs_line_four_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'try', 'fine', 'cheating', 'other');
 
         $tasks = Task::period($beforebefore_tp, $before_tp, 4);
+        $cheatings = array();
         foreach ($tasks as $tk) {
             $task_tp = $tk['time'];
             $task_type = $tk['type'];
             $task_code = $tk['code'];
+            $task_zid = $tk['zid'];
             $i = (int) (($task_tp - $beforebefore_tp) / $step_secord);
             if ($i == $stepNum) { $i -= 1; }
             if ($task_code == -1) {
@@ -144,6 +146,7 @@ class TaskController extends Controller
             }
             elseif ($task_code == 1) {
                 $res['datasets'][2]['data'][$i] += 1;
+                $cheatings[] = $task_zid;
             }
             else {
                 $res['datasets'][3]['data'][$i] += 1;
