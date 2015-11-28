@@ -29,51 +29,6 @@ class MainController extends Controller
         return compact('nodeids', 'edges');
     }
 
-    protected function all_core() {
-        $data = MainController::readf();
-        $nodeids = $data['nodeids'];
-        $edges = $data['edges'];
-        $nodes = array();
-        $exclude = array(
-            're' => 1, 'os' => 1, 'time' => 1, 'random' => 1, 'sys' => 1, 'json' => 1,
-            #'core.db' => 1,
-            #'core.httpbase' => 1,
-        );
-        foreach ($nodeids as $node => $id) {
-            if (!isset($exclude[$node])) {
-                $nodes[] = "{id: $id, label: '$node', color: '#90C1FE'},";
-            }
-        }
-        $relations = array();
-        foreach ($edges as $node => $inhas) {
-            if (!isset($exclude[$node])) {
-                foreach($inhas['has'] as $obj) {
-                    if (!isset($exclude[$obj])) {
-                        $sign = "$node=>$obj";
-                        $fid = $nodeids[$node];
-                        $tid = $nodeids[$obj];
-                        $relations[$sign] = "{from: $fid, to: $tid, arrows:'to'},";
-                    }
-                }
-                foreach($inhas['in'] as $obj) {
-                    if (!isset($exclude[$obj])) {
-                        $sign = "$obj=>$node";
-                        $tid = $nodeids[$node];
-                        $fid = $nodeids[$obj];
-                        $relations[$sign] = "{from: $fid, to: $tid, arrows:'to'},";
-                    }
-                }
-            }
-        }
-        $url = action('MainController@node', ['']);
-        return compact('nodes', 'relations', 'url');
-    }
-
-    public function all() {
-        $res = MainController::all_core();
-        return view('rxqs.all', $res);
-    }
-
     public function node($id) {
         if ($id == -1) {
             $res = MainController::all_core();
@@ -116,4 +71,70 @@ class MainController extends Controller
         $node = 1;
         return view('rxqs.js', compact('nodes', 'relations', 'node'));
     }
+
+
+    protected function core($exclude, $keyword) {
+        $data = MainController::readf();
+        $nodeids = $data['nodeids'];
+        $edges = $data['edges'];
+        $nodes = array();
+        foreach ($nodeids as $node => $id) {
+            if (isset($exclude[$node])) continue;
+            if ($keyword != "" && strpos($node, $keyword) !== False) continue;
+            $nodes[] = "{id: $id, label: '$node', color: '#90C1FE'},";
+        }
+        $relations = array();
+        foreach ($edges as $node => $inhas) {
+            if (isset($exclude[$node])) continue;
+            if ($keyword != "" && strpos($node, $keyword) !== False) continue;
+            foreach($inhas['has'] as $obj) {
+                if (isset($exclude[$obj])) continue;
+                if ($keyword != "" && strpos($node, $keyword) !== False) continue;
+                $sign = "$node=>$obj";
+                $fid = $nodeids[$node];
+                $tid = $nodeids[$obj];
+                $relations[$sign] = "{from: $fid, to: $tid, arrows:'to'},";
+            }
+            foreach($inhas['in'] as $obj) {
+                if (isset($exclude[$obj])) continue;
+                if ($keyword != "" && strpos($node, $keyword) !== False) continue;
+                $sign = "$obj=>$node";
+                $tid = $nodeids[$node];
+                $fid = $nodeids[$obj];
+                $relations[$sign] = "{from: $fid, to: $tid, arrows:'to'},";
+            }
+        }
+        $url = action('MainController@node', ['']);
+        return compact('nodes', 'relations', 'url');
+    }
+
+    public function all() {
+        $exclude = array(
+            're' => 1, 'os' => 1, 'time' => 1, 'random' => 1, 'sys' => 1, 'json' => 1, 'threading' => 1, 'logging' => 1,
+        );
+        $keyword = "";
+        $res = MainController::core($exclude, $keyword);
+        return view('rxqs.all', $res);
+    }
+
+    public function start() {
+        $exclude = array(
+            'artisan' => 1,
+            're' => 1, 'os' => 1, 'time' => 1, 'random' => 1, 'sys' => 1, 'json' => 1, 'threading' => 1, 'logging' => 1,
+        );
+        $keyword = 'art.';
+        $res = MainController::core($exclude, $keyword);
+        return view('rxqs.all', $res);
+    }
+
+    public function artisan() {
+        $exclude = array(
+            'start' => 1,
+            're' => 1, 'os' => 1, 'time' => 1, 'random' => 1, 'sys' => 1, 'json' => 1, 'threading' => 1, 'logging' => 1,
+        );
+        $keyword = 'core.';
+        $res = MainController::core($exclude, $keyword);
+        return view('rxqs.all', $res);
+    }
+
 }

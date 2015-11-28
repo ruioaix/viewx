@@ -75,7 +75,14 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ action('MainController@all') }}">RXQ</a></li>
+                    <li class="dropdown">
+                      <a href="{{ action('MainController@all') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> RXQ<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{ action('MainController@all') }}">ALL</a></li>
+                        <li><a href="{{ action('MainController@start') }}">Start</a></li>
+                        <li><a href="{{ action('MainController@artisan') }}">Artisan</a></li>
+                      </ul>
+                    </li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

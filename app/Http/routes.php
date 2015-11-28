@@ -16,6 +16,8 @@ Route::get('/onlyhas', "MainController@onlyhas");
 Route::get('/onlyin', "MainController@onlyin");
 Route::get('/all', "MainController@all");
 Route::get('/all/{node}', "MainController@node");
+Route::get('/start', "MainController@start");
+Route::get('/artisan', "MainController@artisan");
 
 
 Route::get('/proxy/monitor', "ProxyController@monitor");
