@@ -30,8 +30,10 @@ class TaskController extends Controller
 
         $tasks = Task::period_begin($beforebefore_tp, $before_tp);
         foreach ($tasks as $tk) {
-            $task_tp = $tk['time'];
-            $task_type = $tk['type'];
+            $task_tp = $tk->time;
+            $task_type = $tk->type;
+            #$task_tp = $tk['time'];
+            #$task_type = $tk['type'];
             $i = (int) (($task_tp - $beforebefore_tp) / $step_secord);
             if ($i == $stepNum) { $i -= 1; }
             if ($task_type == 0) {
@@ -80,11 +82,12 @@ class TaskController extends Controller
         $before_tp = $now - $to_secord; 
         $res = Variables::chartjs_line_two_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'begin', 'success');
 
-        $tasks = Task::period($beforebefore_tp, $before_tp, 2);
+        $tasks = Task::period2($beforebefore_tp, $before_tp, 2);
         foreach ($tasks as $tk) {
-            $task_tp = $tk['time'];
-            $task_type = $tk['type'];
-            $task_code = $tk['code'];
+            #$task_tp = $tk['time'];
+            #$task_code = $tk['code'];
+            $task_tp = $tk->time;
+            $task_code = $tk->code;
             $i = (int) (($task_tp - $beforebefore_tp) / $step_secord);
             if ($i == $stepNum) { $i -= 1; }
             if ($task_code == -1) {
@@ -129,13 +132,15 @@ class TaskController extends Controller
         $before_tp = $now - $to_secord; 
         $res = Variables::chartjs_line_four_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'try', 'fine', 'cheating', 'other');
 
-        $tasks = Task::period($beforebefore_tp, $before_tp, 4);
+        $tasks = Task::period3($beforebefore_tp, $before_tp, 4);
         $cheatings = array();
         foreach ($tasks as $tk) {
-            $task_tp = $tk['time'];
-            $task_type = $tk['type'];
-            $task_code = $tk['code'];
-            $task_zid = $tk['zid'];
+            #$task_tp = $tk['time'];
+            #$task_code = $tk['code'];
+            #$task_zid = $tk['zid'];
+            $task_tp = $tk->time;
+            $task_code = $tk->code;
+            $task_zid = $tk->zid;
             $i = (int) (($task_tp - $beforebefore_tp) / $step_secord);
             if ($i == $stepNum) { $i -= 1; }
             if ($task_code == -1) {
