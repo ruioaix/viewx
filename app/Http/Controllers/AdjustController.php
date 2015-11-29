@@ -24,7 +24,8 @@ class AdjustController extends Controller
         $adjustdt = Adjust::period($beforebefore_tp, $before_tp);
         $res = Variables::chartjs_line_one_inited_with_time($beforebefore_tp, $step_secord, $stepNum);
         foreach ($adjustdt as $adj) {
-            $updated = $adj['updated'];
+            $updated = $adj->updated;
+            #$updated = $adj['updated'];
             $i = (int) (($updated - $beforebefore_tp - 10) / $step_secord);
             if ($i == $stepNum) {
                 $i -= 1;
