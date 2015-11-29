@@ -38,7 +38,9 @@
     <div class="form-group">
         {!! Form::label('adjustlprob', 'adjust list', ['class' => "col-sm-3 control-label"]) !!}
         <div class="col-sm-7 input-group">
+            <fieldset disabled>
             {!! Form::text('adjustlprob', $adjust_list, ['class' => "form-control"]) !!}
+            </fieldset>
             <div class="input-group-addon">updated at {{ $adjust_list_date }}</div>
         </div>
     </div>

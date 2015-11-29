@@ -23,7 +23,14 @@ class Adjust extends Model
     protected function one($zid) {
         $one = Adjust::where('zid', $zid)
             ->orderBy('id', 'desc')
+            ->select('data')
             ->get();
         return $one;
+    }
+
+
+    protected function cheating($zid) {
+        $adjustdt = DB::select("select data from zuhe_cheating where zid = ? order by id desc", [$zid]);
+        return $adjustdt;
     }
 }

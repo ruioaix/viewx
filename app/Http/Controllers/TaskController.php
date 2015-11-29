@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Task;
 use App\TaskC;
 use App\Variables;
+use App\Adjust;
 
 use Carbon\Carbon;
 
@@ -160,13 +161,13 @@ class TaskController extends Controller
         $res = json_encode($res);
 
         $url = action('TaskController@ccstep', ['']);
-        return compact('res', 'from_secord', 'to_secord', 'url');
+        return compact('res', 'from_secord', 'to_secord', 'url', 'cheatings');
     }
 
     public function cheating() {
         $res = TaskController::cheating_core(60 * 3600, 0); 
         $res['title'] = "Xueqie Check Cheating";
-        return view('one_l_ft', $res);
+        return view('task.cheating', $res);
     }
 
     public function ccstep($from_to) {
@@ -175,6 +176,86 @@ class TaskController extends Controller
         $to_secord = (int)($args[1]) * 3600;
         $res = TaskController::cheating_core($from_secord, $to_secord); 
         return view('one_l_ft_js', $res);
+    }
+
+    protected function check_diff_multi($array1, $array2){
+        $result = array();
+        foreach($array1 as $key => $val) {
+            if ($val == null && !isset($array2[$key])) continue;
+            if(isset($array2[$key])){
+                if(is_array($val)) {
+                    if (is_array($array2[$key])) {
+                        $res =  TaskController::check_diff_multi($val, $array2[$key]);
+                        if ($res != null) {
+                            $result[$key] = $res;
+                        }
+                    }
+                    else {
+                        $result[$key] = array($val, $array2[$key]);
+                    }
+                }
+                elseif ($val != $array2[$key]) {
+                    $result[$key] = array($val, $array2[$key]);
+                }
+            } else {
+                $result[$key] = array($val, 'nonexist');
+            }
+        }
+        if (count($result) == 0) return null;
+        return $result;
+    }
+
+    protected function array2ul($array) {
+        $out="<ul>";
+        foreach($array as $key => $elem){
+            if(!is_array($elem)){
+                $out=$out."<li><span>$key:[$elem]</span></li>";
+            }
+            else $out=$out."<li><span>$key</span>".TaskController::array2ul($elem)."</li>";
+        }
+        $out=$out."</ul>";
+        return $out; 
+    }
+
+    protected function special_merge($A, $old) {
+        if (count($A) == 0) $lastid = PHP_INT_MAX;
+        else $lastid = (int)($A[count($A) - 1]['id']);
+        foreach ($old as $data) {
+            $id = (int)($data['id']); 
+            if ($id >= $lastid) { continue; }
+            $A[] = $data;
+        }
+        return $A;
+    }
+
+    public function czh($zid) {
+        $origin = Adjust::one($zid);
+        $A = array();
+        foreach ($origin as $data) {
+            $A = TaskController::special_merge($A, json_decode($data['data'], true));
+            #print_r($data['data']);
+        }
+        $new = Adjust::cheating($zid);
+        $B = array();
+        foreach ($new as $data) {
+            $B = json_decode($data->data, true);
+        }
+        if (count($B) < 400) {
+            $firstid = (int)($A[0]['id']);
+            foreach ($B as $key => $data) {
+                if ((int)($data['id']) > $firstid) {
+                    continue;
+                }
+                break;
+            }
+            $B = array_slice($B, $key);
+        }
+        $res = TaskController::check_diff_multi($A, $B);
+        $res = TaskController::array2ul($res);
+        #$res = TaskController::array2ul($A);
+        $title = "Cheating detail";
+
+        return view('text', compact('res', 'title', 'zid'));
     }
 
     protected function viewtodb($data) {

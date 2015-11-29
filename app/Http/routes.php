@@ -46,6 +46,7 @@ Route::get('/task/adjust', "TaskController@adjust");
 Route::get('/task/adjust/{step}', "TaskController@adstep");
 Route::get('/task/cheating', "TaskController@cheating");
 Route::get('/task/cheating/{step}', "TaskController@ccstep");
+Route::get('/task/cheatingzh/{step}', "TaskController@czh");
 Route::get('/task/manage', "TaskController@manage");
 Route::post('/task/manage', "TaskController@manageupdate");
 
