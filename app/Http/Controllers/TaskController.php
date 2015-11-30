@@ -175,7 +175,7 @@ class TaskController extends Controller
         $from_secord = (int)($args[0]) * 3600;
         $to_secord = (int)($args[1]) * 3600;
         $res = TaskController::cheating_core($from_secord, $to_secord); 
-        return view('one_l_ft_js', $res);
+        return view('task.chtjs', $res);
     }
 
     protected function check_diff_multi($array1, $array2){
