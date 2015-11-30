@@ -30,7 +30,7 @@ class Adjust extends Model
 
 
     protected function cheating($zid) {
-        $adjustdt = DB::select("select data from zuhe_cheating where zid = ? order by id desc", [$zid]);
+        $adjustdt = DB::select("select data from zuhe_cheating where zid = ? order by id desc limit 1", [$zid]);
         return $adjustdt;
     }
 }

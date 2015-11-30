@@ -205,18 +205,6 @@ class TaskController extends Controller
         return $result;
     }
 
-    protected function array2ul($array) {
-        $out="<ul>";
-        foreach($array as $key => $elem){
-            if(!is_array($elem)){
-                $out=$out."<li><span>$key:[$elem]</span></li>";
-            }
-            else $out=$out."<li><span>$key</span>".TaskController::array2ul($elem)."</li>";
-        }
-        $out=$out."</ul>";
-        return $out; 
-    }
-
     protected function special_merge($A, $old) {
         if (count($A) == 0) $lastid = PHP_INT_MAX;
         else $lastid = (int)($A[count($A) - 1]['id']);
@@ -233,29 +221,43 @@ class TaskController extends Controller
         $A = array();
         foreach ($origin as $data) {
             $A = TaskController::special_merge($A, json_decode($data['data'], true));
-            #print_r($data['data']);
         }
         $new = Adjust::cheating($zid);
-        $B = array();
         foreach ($new as $data) {
             $B = json_decode($data->data, true);
         }
-        if (count($B) < 400) {
-            $firstid = (int)($A[0]['id']);
-            foreach ($B as $key => $data) {
-                if ((int)($data['id']) > $firstid) {
-                    continue;
-                }
-                break;
+
+        $bid = (int)($B[count($B) - 1]['id']);
+        $AA = array();
+        foreach ($A as $key => $data) {
+            $aid = (int)($A[$key]['id']);
+            if ($aid >= $bid) {
+                $AA[] = $data;
             }
-            $B = array_slice($B, $key);
         }
-        $res = TaskController::check_diff_multi($A, $B);
-        $res = TaskController::array2ul($res);
-        #$res = TaskController::array2ul($A);
+        $A = $AA;
+
+        if (count($A) < count($B)) {
+            $B = array_slice($B, count($B) - count($A));
+        }
+        elseif (count($A) > count($B)) {
+            $A = array_slice($A, count($A) - count($B));
+        }
+
+        $AA = array();
+        $BB = array();
+        foreach ($A as $key => $data) {
+            $AA['['.$key.']'] = $data;
+            $BB['['.$key.']'] = $B[$key];
+        }
+
+        $origin_json = json_encode($AA);
+        $new_json = json_encode($BB); 
+        $res = TaskController::check_diff_multi($AA, $BB);
+        $res = json_encode($res);
         $title = "Cheating detail";
 
-        return view('text', compact('res', 'title', 'zid'));
+        return view('text', compact('res', 'title', 'zid', 'origin_json', 'new_json'));
     }
 
     protected function viewtodb($data) {
