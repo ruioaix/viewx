@@ -19,6 +19,12 @@ Route::get('/all/{node}', "MainController@node");
 Route::get('/start', "MainController@start");
 Route::get('/artisan', "MainController@artisan");
 
+Route::get('/login/current', "LoginController@current");
+Route::get('/login/current/{step}', "LoginController@cstep");
+Route::get('/login/circle', "LoginController@circle");
+Route::get('/login/circle/{step}', "LoginController@ccstep");
+Route::get('/login/health', "LoginController@health");
+Route::get('/login/health/{step}', "LoginController@hstep");
 
 Route::get('/proxy/monitor', "ProxyController@monitor");
 Route::get('/proxy/monitor/{step}', "ProxyController@mstep");

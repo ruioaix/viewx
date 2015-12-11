@@ -40,23 +40,14 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="{{ action('MainController@index') }}">Crawl System Info</a></li>
                     <li class="dropdown">
-                      <a href="{{ action('ProxyController@monitor') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Proxy <span class="caret"></span></a>
+                      <a href="{{ action('LoginController@current') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Login <span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                        <li><a href="{{ action('ProxyController@monitor') }}">Monitor</a></li>
-                        <li><a href="{{ action('ProxyController@circle') }}">Circle</a></li>
-                        <li><a href="{{ action('ProxyController@health') }}">Health</a></li>
-                        <li><a href="{{ action('ProxyController@errortype') }}">ErrorType</a></li>
+                        <li><a href="{{ action('LoginController@current') }}">Current</a></li>
+                        <li><a href="{{ action('LoginController@circle') }}">Circle</a></li>
+                        <li><a href="{{ action('LoginController@health') }}">Health</a></li>
                       </ul>
                     </li>
-                    <li class="dropdown">
-                      <a href="{{ action('AccountController@monitor') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> XQ Account <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="{{ action('AccountController@monitor') }}">Monitor</a></li>
-                        <li><a href="{{ action('AccountController@circle') }}">Circle</a></li>
-                        <li><a href="{{ action('AccountController@alist') }}"> List </a></li>
-                        <li><a href="{{ action('AccountController@health') }}"> Health </a></li>
-                      </ul>
-                    </li>
+
                     <li class="dropdown">
                       <a href="{{ action('TaskController@monitor') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> XQ Task<span class="caret"></span></a>
                       <ul class="dropdown-menu">
