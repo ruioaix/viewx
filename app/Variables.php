@@ -80,6 +80,12 @@ class Variables extends Model
             4990=> "ADJ-unknown",
             4999=> "ADJ-continue",
 
+            5200=> "RANK-200",
+            5400=> "RANK-400",
+            5402=> "RANK-400-loginAgain",
+            5990=> "RANK-unknown",
+            5999=> "RANK-continue",
+
             9200=> "XQ-Verification",
             9302=> "LG-CookiesWrong",
             9400=> "LG-AccountError",
