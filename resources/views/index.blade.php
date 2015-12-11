@@ -40,9 +40,8 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="{{ action('MainController@index') }}">Crawl System Info</a></li>
                     <li class="dropdown">
-                      <a href="{{ action('LoginController@current') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Login <span class="caret"></span></a>
+                      <a href="{{ action('LoginController@health') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Login <span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                        <li><a href="{{ action('LoginController@current') }}">Current</a></li>
                         <li><a href="{{ action('LoginController@circle') }}">Circle</a></li>
                         <li><a href="{{ action('LoginController@health') }}">Health</a></li>
                       </ul>

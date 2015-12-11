@@ -19,4 +19,14 @@ class login extends Model
         return $data;
     }
 
+    protected function record($beforebefore, $before) {
+        $data = DB::select("select ipv4_port,username,code,time from login_record where time between ? and ? order by id desc", [$beforebefore, $before]);
+        return $data;
+    }
+
+    protected function living() {
+        $data = DB::select("select ipv4_port,username,time from login_current");
+        return $data;
+    }
+    
 }
