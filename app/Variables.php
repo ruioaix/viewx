@@ -162,19 +162,19 @@ class Variables extends Model
     }
 
     protected function chartjs_line_one_inited_with_time($beforebefore_tp, $step_secord, $stepNum) {
-        return chartjs_line_inited_with_time(1, array('one'), $beforebefore_tp, $step_secord, $stepNum);
+        return Variables::chartjs_line_inited_with_time(1, array('one'), $beforebefore_tp, $step_secord, $stepNum);
     }
 
     protected function chartjs_line_two_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two) {
-        return chartjs_line_inited_with_time(2, array($one, $two), $beforebefore_tp, $step_secord, $stepNum);
+        return Variables::chartjs_line_inited_with_time(2, array($one, $two), $beforebefore_tp, $step_secord, $stepNum);
     }
 
     protected function chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two, $three) {
-        return chartjs_line_inited_with_time(3, array($one, $two, $three), $beforebefore_tp, $step_secord, $stepNum);
+        return Variables::chartjs_line_inited_with_time(3, array($one, $two, $three), $beforebefore_tp, $step_secord, $stepNum);
     }
 
     protected function chartjs_line_four_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two, $three, $four) {
-        return chartjs_line_inited_with_time(4, array($one, $two, $three, $four), $beforebefore_tp, $step_secord, $stepNum);
+        return Variables::chartjs_line_inited_with_time(4, array($one, $two, $three, $four), $beforebefore_tp, $step_secord, $stepNum);
     }
 
     protected function chartjs_radar() {
@@ -262,7 +262,7 @@ class Variables extends Model
 
     protected function chartjs_line_one_inited_with_timedist($one) {
         $secord_x = Variables::timedist();
-        $res = Variables::chartjs_line_one($one);
+        $res = Variables::chartjs_line(1, array($one));
         foreach ($secord_x as $key => $time) {
             $time = Variables::secordtoHMS($time);
             $res['labels'][$key] = $time;

@@ -168,7 +168,7 @@ class LoginController extends Controller
         $codedists = array();
         $paes = Variables::paerror();
         foreach ($codedist as $time => $codes) {
-            $rest = Variables::chartjs_line_one('one');
+            $rest = Variables::chartjs_line(1, array('one'));
             arsort($codes);
             foreach ($codes as $code => $count) {
                 $rest['labels'][] = $paes[$code];
