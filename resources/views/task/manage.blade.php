@@ -18,37 +18,21 @@
         {!! Form::label('infoprob', 'info', ['class' => "col-sm-3 control-label"]) !!}
         <div class="col-sm-7 input-group">
             {!! Form::text('infoprob', $info, ['class' => "form-control"]) !!}
-            <div class="input-group-addon">updated at {{ $info_date }}</div>
+            <div class="input-group-addon">{{ $info_date }}</div>
         </div>
     </div>
     <div class="form-group">
         {!! Form::label('gainprob', 'gain', ['class' => "col-sm-3 control-label"]) !!}
         <div class="col-sm-7 input-group">
             {!! Form::text('gainprob', $gain, ['class' => "form-control"]) !!}
-            <div class="input-group-addon">updated at {{ $gain_date }}</div>
+            <div class="input-group-addon">{{ $gain_date }}</div>
         </div>
     </div>
     <div class="form-group">
         {!! Form::label('adjustprob', 'adjust', ['class' => "col-sm-3 control-label"]) !!}
         <div class="col-sm-7 input-group">
-            {!! Form::text('adjustprob', $adjust_common, ['class' => "form-control"]) !!}
-            <div class="input-group-addon">updated at {{ $adjust_common_date }}</div>
-        </div>
-    </div>
-    <div class="form-group">
-        {!! Form::label('adjustlprob', 'adjust list', ['class' => "col-sm-3 control-label"]) !!}
-        <div class="col-sm-7 input-group">
-            <fieldset disabled>
-            {!! Form::text('adjustlprob', $adjust_list, ['class' => "form-control"]) !!}
-            </fieldset>
-            <div class="input-group-addon">updated at {{ $adjust_list_date }}</div>
-        </div>
-    </div>
-    <div class="form-group">
-        {!! Form::label('adjustcprob', 'adjust comp', ['class' => "col-sm-3 control-label"]) !!}
-        <div class="col-sm-7 input-group">
-            {!! Form::text('adjustcprob', $adjust_cheating, ['class' => "form-control"]) !!}
-            <div class="input-group-addon">updated at {{ $adjust_cheating_date }}</div>
+            {!! Form::text('adjustprob', $adjust, ['class' => "form-control"]) !!}
+            <div class="input-group-addon">{{ $adjust_date }}</div>
         </div>
     </div>
     <div class="form-group">
