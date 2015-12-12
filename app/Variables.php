@@ -98,42 +98,55 @@ class Variables extends Model
         $colors = array(
             0 => "rgba(171, 201, 221, 0.8)",
             1 => "rgba(171, 201, 221, 1)",
+
             2 => "rgba(174, 221, 204, 0.8)",
             3 => "rgba(174, 221, 204, 1)",
+
             4 => "rgba(238, 236, 193, 0.8)",
             5 => "rgba(238, 236, 193, 1)",
-            6 => "rgba(0, 116, 217, 0.9)",
-            7 => "rgba(133, 20, 75, 0.5)",
-            8 => "rgba(46, 204, 64, 0.5)",
-            9 => "rgba(171, 201, 221, 0.5)",
-            10=> "rgba(232, 209, 231, 0.8)",
-            11=> "rgba(232, 209, 231, 1)",
-            12=> "rgba(232, 209, 231, 0.5)",
+
+            6 => "rgba(232, 209, 231, 0.8)",
+            7 => "rgba(232, 209, 231, 1)",
+
+            8 => "rgba(79, 195, 247, 0.8)",
+            9 => "rgba(79, 195, 247, 1)",
+
+            10 => "rgba(3, 169, 244, 0.8)",
+            11 => "rgba(3, 169, 244, 1)",
+
+            12 => "rgba(228, 82, 27, 0.8)",
+            13 => "rgba(228, 82, 27, 1)",
+
+            90 => "rgba(171, 201, 221, 0.5)",
         );
         return $colors[$id];
     }
 
-    protected function chartjs_line_one($one) {
+    protected function chartjs_line($num, $msgs) {
         $data = array(
             'labels' => array(),
             'datasets' => array(
-                array(
-                    'label'=> $one,
-                    'fillColor' => "rgba(0,0,0,0)",
-                    'strokeColor' => Variables::getcolor(0),
-                    'pointColor' => Variables::getcolor(1),
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> Variables::getcolor(0),
-                    'data'=> array()
-                ),
             )
         );
+        for ($i = 0; $i < $num; $i++) {
+            $j = 2 * $i;
+            $one = array(
+                'label'=> $msgs[$i],
+                'fillColor' => "rgba(0,0,0,0)",
+                'strokeColor' => Variables::getcolor($j),
+                'pointColor' => Variables::getcolor($j + 1),
+                'pointStrokeColor'=> "#fff",
+                'pointHighlightFill'=> "#fff",
+                'pointHighlightStroke'=> Variables::getcolor($j),
+                'data'=> array()
+            );
+            $data['datasets'][] = $one;
+        }
         return $data;
     }
 
-    protected function chartjs_line_one_inited_with_time($beforebefore_tp, $step_secord, $stepNum) {
-        $data = Variables::chartjs_line_one('one');
+    protected function chartjs_line_inited_with_time($num, $msg, $beforebefore_tp, $step_secord, $stepNum) {
+        $data = Variables::chartjs_line($num, $msg);
         $now = time();
         for ($i = 0; $i < $stepNum; $i++ ) {
             $ts = $beforebefore_tp + $step_secord * ($i + 1);
@@ -141,9 +154,27 @@ class Variables extends Model
             $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
             $hours = (int)(($now - $ts)/3600);
             $data['labels'][$i] = $hours . 'h ' . $dt->format("m-d H:i");
-            $data['datasets'][0]['data'][$i] = 0;
+            for ($j = 0; $j < $num; $j++) {
+                $data['datasets'][$j]['data'][$i] = 0;
+            }
         }
         return $data;
+    }
+
+    protected function chartjs_line_one_inited_with_time($beforebefore_tp, $step_secord, $stepNum) {
+        return chartjs_line_inited_with_time(1, array('one'), $beforebefore_tp, $step_secord, $stepNum);
+    }
+
+    protected function chartjs_line_two_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two) {
+        return chartjs_line_inited_with_time(2, array($one, $two), $beforebefore_tp, $step_secord, $stepNum);
+    }
+
+    protected function chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two, $three) {
+        return chartjs_line_inited_with_time(3, array($one, $two, $three), $beforebefore_tp, $step_secord, $stepNum);
+    }
+
+    protected function chartjs_line_four_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two, $three, $four) {
+        return chartjs_line_inited_with_time(4, array($one, $two, $three, $four), $beforebefore_tp, $step_secord, $stepNum);
     }
 
     protected function chartjs_radar() {
@@ -152,7 +183,7 @@ class Variables extends Model
             'datasets' => array(
                 array(
                     'label'=> 'radar',
-                    'fillColor' => Variables::getcolor(9),
+                    'fillColor' => Variables::getcolor(90),
                     'strokeColor' => Variables::getcolor(0),
                     'pointColor' => Variables::getcolor(1),
                     'pointStrokeColor'=> "#fff",
@@ -162,172 +193,6 @@ class Variables extends Model
                 ),
             )
         );
-        return $data;
-    }
-
-    protected function chartjs_line_two($one, $two) {
-        $data = array(
-            'labels' => array(),
-            'datasets' => array(
-                array(
-                    'label'=> $one,
-                    'fillColor' => "rgba(0,0,0,0)",
-                    'strokeColor' => Variables::getcolor(0),
-                    'pointColor' => Variables::getcolor(1),
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> Variables::getcolor(0),
-                    'data'=> array()
-                ),
-                array(
-                    'label'=> $two,
-                    'fillColor' => "rgba(0,0,0,0)",
-                    'strokeColor' => Variables::getcolor(4),
-                    'pointColor' => Variables::getcolor(5),
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> Variables::getcolor(4),
-                    'data'=> array()
-                ),
-            ),
-        );
-        return $data;
-    }
-
-    protected function chartjs_line_two_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two) {
-        $data = Variables::chartjs_line_two($one, $two);
-        $now = time();
-        for ($i = 0; $i < $stepNum; $i++ ) {
-            $ts = $beforebefore_tp + $step_secord * ($i + 1);
-            $dt = new \DateTime("@$ts");
-            $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
-            $hours = (int)(($now - $ts)/3600);
-            $data['labels'][$i] = $hours . 'h ' . $dt->format("m-d H:i");
-            $data['datasets'][0]['data'][$i] = 0;
-            $data['datasets'][1]['data'][$i] = 0;
-        }
-        return $data;
-    }
-
-
-    protected function chartjs_line_three($one, $two, $three) {
-        $data = array(
-            'labels' => array(),
-            'datasets' => array(
-                array(
-                    'label'=> $one,
-                    'fillColor' => "rgba(0,0,0,0)",
-                    'strokeColor' => Variables::getcolor(0),
-                    'pointColor' => Variables::getcolor(1),
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> Variables::getcolor(0),
-                    'data'=> array()
-                ),
-                array( 
-                    'label' => $two,
-                    'fillColor'=> "rgba(0,0,0,0)",
-                    'strokeColor'=> Variables::getcolor(2),
-                    'pointColor'=> Variables::getcolor(3),
-                    'pointStrokeColor' => "#fff",
-                    'pointHighlightFill' => "#fff",
-                    'pointHighlightStroke' => Variables::getcolor(2),
-                    'data' => array()
-                ),
-                array(
-                    'label'=> $three,
-                    'fillColor' => "rgba(0,0,0,0)",
-                    'strokeColor' => Variables::getcolor(4),
-                    'pointColor' => Variables::getcolor(5),
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> Variables::getcolor(4),
-                    'data'=> array()
-                ),
-            ),
-        );
-        return $data;
-    }
-
-    protected function chartjs_line_three_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two, $three) {
-        $data = Variables::chartjs_line_three($one, $two, $three);
-        $now = time();
-        for ($i = 0; $i < $stepNum; $i++ ) {
-            $ts = $beforebefore_tp + $step_secord * ($i + 1);
-            $dt = new \DateTime("@$ts");
-            $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
-            $hours = (int)(($now - $ts)/3600);
-            $data['labels'][$i] = $hours . 'h ' . $dt->format("m-d H:i");
-            $data['datasets'][0]['data'][$i] = 0;
-            $data['datasets'][1]['data'][$i] = 0;
-            $data['datasets'][2]['data'][$i] = 0;
-        }
-        return $data;
-    }
-
-    protected function chartjs_line_four($one, $two, $three, $four) {
-        $data = array(
-            'labels' => array(),
-            'datasets' => array(
-                array(
-                    'label'=> $one,
-                    'fillColor' => "rgba(0,0,0,0)",
-                    'strokeColor' => Variables::getcolor(0),
-                    'pointColor' => Variables::getcolor(1),
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> Variables::getcolor(0),
-                    'data'=> array()
-                ),
-                array( 
-                    'label' => $two,
-                    'fillColor'=> "rgba(0,0,0,0)",
-                    'strokeColor'=> Variables::getcolor(2),
-                    'pointColor'=> Variables::getcolor(3),
-                    'pointStrokeColor' => "#fff",
-                    'pointHighlightFill' => "#fff",
-                    'pointHighlightStroke' => Variables::getcolor(2),
-                    'data' => array()
-                ),
-                array(
-                    'label'=> $three,
-                    'fillColor' => "rgba(0,0,0,0)",
-                    'strokeColor' => Variables::getcolor(4),
-                    'pointColor' => Variables::getcolor(5),
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> Variables::getcolor(4),
-                    'data'=> array()
-                ),
-                array(
-                    'label'=> $four,
-                    'fillColor' => "rgba(0,0,0,0)",
-                    'strokeColor' => Variables::getcolor(10),
-                    'pointColor' => Variables::getcolor(11),
-                    'pointStrokeColor'=> "#fff",
-                    'pointHighlightFill'=> "#fff",
-                    'pointHighlightStroke'=> Variables::getcolor(10),
-                    'data'=> array()
-                ),
-            ),
-        );
-        return $data;
-    }
-
-    protected function chartjs_line_four_inited_with_time($beforebefore_tp, $step_secord, $stepNum, $one, $two, $three, $four) {
-        $data = Variables::chartjs_line_four($one, $two, $three, $four);
-        $now = time();
-        for ($i = 0; $i < $stepNum; $i++ ) {
-            $ts = $beforebefore_tp + $step_secord * ($i + 1);
-            $dt = new \DateTime("@$ts");
-            $dt->setTimeZone(new \DateTimeZone('Europe/Zurich'));
-            $hours = (int)(($now - $ts)/3600);
-            $data['labels'][$i] = $hours . 'h ' . $dt->format("m-d H:i");
-            $data['datasets'][0]['data'][$i] = 0;
-            $data['datasets'][1]['data'][$i] = 0;
-            $data['datasets'][2]['data'][$i] = 0;
-            $data['datasets'][3]['data'][$i] = 0;
-        }
         return $data;
     }
 

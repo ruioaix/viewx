@@ -27,7 +27,8 @@ class TaskController extends Controller
         #_tp means time point.
         $beforebefore_tp = $now - $from_secord;
         $before_tp = $now - $to_secord; 
-        $res = Variables::chartjs_line_four_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'info', 'gain', 'adjust', 'cheating-check');
+        $msgs = array('info', 'gain', 'adjust', 'rank', 'cheating');
+        $res = Variables::chartjs_line_inited_with_time(5, $msgs, $beforebefore_tp, $step_secord, $stepNum);
 
         $tasks = Task::period_begin($beforebefore_tp, $before_tp);
         foreach ($tasks as $tk) {
@@ -37,18 +38,16 @@ class TaskController extends Controller
             #$task_type = $tk['type'];
             $i = (int) (($task_tp - $beforebefore_tp) / $step_secord);
             if ($i == $stepNum) { $i -= 1; }
-            if ($task_type == 0) {
-                $res['datasets'][0]['data'][$i] += 1;
+            if ($task_type < 3) {
+                $res['datasets'][$task_type]['data'][$i] += 1;
             }
-            elseif ($task_type == 1) {
-                $res['datasets'][1]['data'][$i] += 1;
-            }
-            elseif ($task_type == 2) {
-                $res['datasets'][2]['data'][$i] += 1;
-            }
-            elseif ($task_type == 4) {
+            elseif ($task_type < 6) {
                 $res['datasets'][3]['data'][$i] += 1;
             }
+            elseif ($task_type == 6) {
+                $res['datasets'][4]['data'][$i] += 1;
+            }
+
         }
         $res = json_encode($res);
 
