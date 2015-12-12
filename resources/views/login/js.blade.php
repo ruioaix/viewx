@@ -28,7 +28,7 @@ $(document).ready(function() {
 
     document.getElementById("period").innerHTML = "<h3>From {{ (int)($from_secord/(24*3600)) }}D{{ (int)($from_secord%(24*3600)/3600) }}H to {{ (int)($to_secord/(24*3600)) }}D{{ (int)($to_secord%(24*3600)/3600) }}H, Unit: {{ (int)(($from_secord - $to_secord)/3600/60) }}H{{ (int)(($from_secord - $to_secord)/60%3600/60) }}M</h3>";
 
-    document.getElementById("current").innerHTML = "Proxy Hits: {{ $wintry }}%, Account Hits: {{ $awintry }}%, Average aliving duration: {{ $avet }} @foreach ($living as $ipport => $ut ) <li> {{ $ipport }} & {{ $ut['username'] }} => {{ $ut['time'] }} </li> @endforeach ";
+    document.getElementById("current").innerHTML = "Proxy Hits: {{ $wintry }}%, Account Hits: {{ $awintry }}%, Average aliving duration: {{ $avet }} <ol> @foreach ($living as $ipport => $ut ) <li> {{ $ipport }} & {{ $ut['username'] }} => {{ $ut['time'] }} </li> @endforeach </ol> ";
 
     document.getElementById("pa_title").innerHTML = "<h3>Proxy & Account</h3>";
     var ctx = document.getElementById("pa_chart").getContext("2d");
