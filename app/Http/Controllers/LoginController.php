@@ -137,7 +137,7 @@ class LoginController extends Controller
                 if ($code != 0) {
                     $totaltry += 1;
                     $pa['datasets'][0]['data'][$i] += 1;
-                    if ($user != 'rvx') {
+                    if ($user != 'rvx' && $user !='anonymous') {
                         $pa['datasets'][1]['data'][$i] += 1;
                         $attry += 1;
                     }
