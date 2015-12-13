@@ -16,6 +16,11 @@ $(document).ready(function() {
     $('#ten_minute_title').remove();
     $('#canvas_container').prepend('<div id="ten_minute_title"></div>');
 
+    $('#all_chart').remove();
+    $('#canvas_container').prepend('<canvas id="all_chart" width="1140" height="400"></canvas>');
+    $('#all_title').remove();
+    $('#canvas_container').prepend('<div id="all_title"></div>');
+
     $('#duration_chart').remove(); 
     $('#canvas_container').prepend('<canvas id="duration_chart" width="1140" height="400"></canvas>');
     $('#duration_title').remove(); 
@@ -37,6 +42,10 @@ $(document).ready(function() {
     document.getElementById("duration_title").innerHTML = "<h3>Duration</h3>";
     var ctx = document.getElementById("duration_chart").getContext("2d");
     new Chart(ctx).Line({!! $duration !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
+
+    document.getElementById("all_title").innerHTML = "<h3>All Errors:</h3>";
+    var ctx = document.getElementById("all_chart").getContext("2d");
+    new Chart(ctx).Line({!! $codedists['all'] !!}, {scaleLabel: function(object){return " " + object.value; }, pointHitDetectionRadius : 2});
 
     document.getElementById("ten_minute_title").innerHTML = "<h3>Connections aborted under 5m:</h3>";
     var ctx = document.getElementById("ten_minute_chart").getContext("2d");

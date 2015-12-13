@@ -97,7 +97,7 @@ class LoginController extends Controller
         $ipportset = array();
         $codeset = array();
         $duration = array();
-        $codedist = array( 300 => array(), 3600 => array(), 14400 => array(), 'MORE' => array());
+        $codedist = array( 300 => array(), 3600 => array(), 14400 => array(), 'MORE' => array(), 'all' => array());
         $totaltry = 0.00001;
         $wintry = 0.0;
         $attry = 0.00001;
@@ -143,6 +143,13 @@ class LoginController extends Controller
                     }
                     $ipportset[$ipport] = $time;
                     $codeset[$ipport] = $code;
+
+                    if (isset($codedist['all'][$code])) {
+                        $codedist['all'][$code] += 1;
+                    }
+                    else {
+                        $codedist['all'][$code] = 1;
+                    }
                 }
             }
         }
