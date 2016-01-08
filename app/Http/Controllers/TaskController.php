@@ -38,13 +38,13 @@ class TaskController extends Controller
             #$task_type = $tk['type'];
             $i = (int) (($task_tp - $beforebefore_tp) / $step_secord);
             if ($i == $stepNum) { $i -= 1; }
-            if ($task_type < 3) {
-                $res['datasets'][$task_type]['data'][$i] += 1;
+            if ($task_type < 4) {
+                $res['datasets'][$task_type - 1]['data'][$i] += 1;
             }
-            elseif ($task_type < 6) {
+            elseif ($task_type < 7) {
                 $res['datasets'][3]['data'][$i] += 1;
             }
-            elseif ($task_type == 6) {
+            elseif ($task_type == 7) {
                 $res['datasets'][4]['data'][$i] += 1;
             }
 
