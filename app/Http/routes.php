@@ -17,6 +17,7 @@ Route::get('/all', "MainController@all");
 Route::get('/all/{node}', "MainController@node");
 
 Route::get('/circle', "CircleController@circle");
+Route::get('/circle/{ccstep}', "CircleController@ccstep");
 
 Route::get('/task/monitor', "TaskController@monitor");
 Route::get('/task/monitor/{step}', "TaskController@mstep");
