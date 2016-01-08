@@ -39,40 +39,11 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="{{ action('MainController@index') }}">Crawl System Info</a></li>
-                    <li class="dropdown">
-                      <a href="{{ action('LoginController@health') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Login <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="{{ action('LoginController@circle') }}">Circle</a></li>
-                        <li><a href="{{ action('LoginController@health') }}">Health</a></li>
-                      </ul>
-                    </li>
-
-                    <li class="dropdown">
-                      <a href="{{ action('TaskController@monitor') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> XQ Task<span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="{{ action('TaskController@manage') }}">Task Manage</a></li>
-                        <li><a href="{{ action('TaskController@monitor') }}">Task Monitor</a></li>
-                        <li><a href="{{ action('TaskController@adjust') }}">XQ Adjust Common</a></li>
-                        <li><a href="{{ action('TaskController@cheating') }}">XQ Check Cheating</a></li>
-                      </ul>
-                    </li>
-                    <li class="dropdown">
-                      <a href="{{ action('ToolsController@fixparecord') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Tools<span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="{{ action('ToolsController@fixparecord') }}">fix proxy&account record</a></li>
-                        <li><a href="{{ action('AdjustController@monitor') }}">xueqiu adjust data</a></li>
-                      </ul>
-                    </li>
+                    <li><a href="{{ action('CircleController@circle') }}">Circle</a></li>
+                    <li><a href="{{ action('TaskController@monitor') }}">Monitor</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                      <a href="{{ action('MainController@all') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> RXQ<span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="{{ action('MainController@all') }}">ALL</a></li>
-                        <li><a href="{{ action('MainController@start') }}">Start</a></li>
-                        <li><a href="{{ action('MainController@artisan') }}">Artisan</a></li>
-                      </ul>
-                    </li>
+                    <li><a href="{{ action('MainController@all') }}">Modules</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
