@@ -1,234 +1,911 @@
 {
-  "core.env": {
-    "has": [
-      "json",
-      "os"
-    ],
-    "in": [
-      "core.db",
-      "core.hidemyass",
-      "start",
-      "core.mimvp",
-      "core.run"
-    ]
-  },
-  "socket": {
+  "logging": {
     "has": [],
     "in": [
-      "core.httpbase"
+      "helper"
+    ]
+  },
+  "env": {
+    "has": [
+      "os",
+      "collections.OrderedDict",
+      "json"
+    ],
+    "in": [
+      "xueqiu.zuhe",
+      "db.db",
+      "turbo",
+      "helper",
+      "proxy.mimvp",
+      "task.rank",
+      "db.proxies",
+      "proxy.hidemyass",
+      "db.account",
+      "nasitra.adjust",
+      "task.cheating",
+      "xueqiu.login"
+    ]
+  },
+  "db.sessions": {
+    "has": [
+      "threading",
+      "db.db",
+      "json",
+      "time"
+    ],
+    "in": [
+      "nasitra.db",
+      "nasitra.rank",
+      "nasitra.info",
+      "nasitra.cheating",
+      "nasitra.gain",
+      "nasitra.adjust",
+      "xueqiu.login"
+    ]
+  },
+  "nasitra.task_record_adjust_merge": {
+    "has": [
+      "db.db"
+    ],
+    "in": []
+  },
+  "db.account": {
+    "has": [
+      "re",
+      "db.db",
+      "time",
+      "hashlib",
+      "env",
+      "db.circle",
+      "constant"
+    ],
+    "in": [
+      "xueqiu.account",
+      "nasitra.db"
+    ]
+  },
+  "xueqiu.adjust": {
+    "has": [
+      "db.success",
+      "xueqiu.login",
+      "task.adjust",
+      "helper",
+      "xueqiu.core.adjust",
+      "db.fail",
+      "task.cheating",
+      "constant"
+    ],
+    "in": [
+      "nasitra.adjust",
+      "nasitra.cheating"
+    ]
+  },
+  "xueqiu.core.zuhe": {
+    "has": [],
+    "in": [
+      "xueqiu.zuhe"
     ]
   },
   "concurrent.futures.as_completed": {
     "has": [],
     "in": [
-      "start"
+      "turbo"
     ]
   },
-  "core.stacktracer": {
+  "xueqiu.login": {
     "has": [
-      "pygments.formatters.HtmlFormatter",
+      "re",
+      "json",
+      "hashlib",
+      "env",
+      "xueqiu.core.login",
+      "db.sessions",
+      "requests",
+      "db.proxies",
+      "db.sessionhistory",
+      "xueqiu.account",
       "os",
-      "time",
-      "pygments.lexers.PythonLexer",
-      "threading",
-      "traceback",
-      "stacktracer",
-      "pygments.highlight",
-      "sys"
+      "request"
     ],
-    "in": []
+    "in": [
+      "xueqiu.zuhe",
+      "xueqiu.gain",
+      "xueqiu.rank",
+      "nasitra.info",
+      "nasitra.rank",
+      "nasitra.login",
+      "nasitra.gain",
+      "xueqiu.sstock",
+      "nasitra.sstock",
+      "xueqiu.adjust",
+      "nasitra.adjust",
+      "xueqiu.info"
+    ]
   },
-  "art.proxy": {
+  "proxy.freeproxylistsnet": {
     "has": [
-      "core.proxy"
+      "re",
+      "time",
+      "random",
+      "bs4.BeautifulSoup",
+      "urllib.parse",
+      "request"
+    ],
+    "in": [
+      "db.proxies"
+    ]
+  },
+  "xueqiu.rank": {
+    "has": [
+      "db.success",
+      "xueqiu.login",
+      "helper",
+      "xueqiu.core.rank",
+      "task.rank",
+      "db.fail",
+      "constant"
+    ],
+    "in": [
+      "nasitra.rank"
+    ]
+  },
+  "db.info": {
+    "has": [
+      "re",
+      "db.db",
+      "time"
+    ],
+    "in": [
+      "nasitra.info",
+      "nasitra.db"
+    ]
+  },
+  "nasitra.variables": {
+    "has": [
+      "db.variables"
     ],
     "in": [
       "artisan"
     ]
   },
-  "core.httpbase": {
+  "db.tasks": {
     "has": [
-      "socket",
-      "requests",
+      "re",
+      "db.db",
+      "time"
+    ],
+    "in": [
+      "task.adjust",
+      "task.info",
+      "nasitra.db",
+      "task.gain"
+    ]
+  },
+  "xueqiu.core.info": {
+    "has": [],
+    "in": [
+      "xueqiu.info"
+    ]
+  },
+  "db.sessionhistory": {
+    "has": [
+      "db.db",
+      "time"
+    ],
+    "in": [
+      "nasitra.db",
+      "xueqiu.login"
+    ]
+  },
+  "db.circle": {
+    "has": [
+      "db.db",
+      "time"
+    ],
+    "in": [
+      "db.account",
+      "db.proxies",
+      "task.cheating",
+      "nasitra.db",
+      "task.rank"
+    ]
+  },
+  "email": {
+    "has": [],
+    "in": [
+      "proxy.hidemyass"
+    ]
+  },
+  "db.gain": {
+    "has": [
+      "json",
+      "db.db",
+      "time",
       "re"
     ],
     "in": [
-      "core.pachongorg",
-      "core.info",
-      "core.mimvp",
-      "core.freeproxylistsnet",
-      "core.adjust",
-      "core.login",
-      "core.gain"
+      "nasitra.gain",
+      "nasitra.db"
     ]
   },
-  "art.login": {
+  "nasitra.superzuhe": {
     "has": [
-      "core.login"
+      "xueqiu.lists",
+      "constant"
+    ],
+    "in": []
+  },
+  "xueqiu.zuhe": {
+    "has": [
+      "json",
+      "env",
+      "turbo",
+      "helper",
+      "xueqiu.sstock",
+      "xueqiu.core.zuhe",
+      "xueqiu.info",
+      "xueqiu.lists",
+      "xueqiu.login"
+    ],
+    "in": [
+      "nasitra.zuhe"
+    ]
+  },
+  "xueqiu.gain": {
+    "has": [
+      "db.success",
+      "xueqiu.core.gain",
+      "helper",
+      "constant",
+      "task.gain",
+      "db.fail",
+      "xueqiu.login"
+    ],
+    "in": [
+      "nasitra.gain"
+    ]
+  },
+  "time": {
+    "has": [],
+    "in": [
+      "db.lists",
+      "db.gain",
+      "db.success",
+      "db.adjust",
+      "db.sessions",
+      "helper",
+      "db.variables",
+      "db.info",
+      "task.rank",
+      "db.tasks",
+      "db.proxies",
+      "db.sessionhistory",
+      "db.fail",
+      "db.proxyhistory",
+      "db.account",
+      "db.circle",
+      "proxy.freeproxylistsnet",
+      "task.cheating",
+      "proxy.pachongorg"
+    ]
+  },
+  "db.adjust": {
+    "has": [
+      "json",
+      "db.db",
+      "time",
+      "re"
+    ],
+    "in": [
+      "nasitra.adjust",
+      "nasitra.db"
+    ]
+  },
+  "nasitra.test": {
+    "has": [
+      "db.db"
+    ],
+    "in": []
+  },
+  "nasitra.info": {
+    "has": [
+      "turbo",
+      "db.sessions",
+      "xueqiu.info",
+      "db.info",
+      "xueqiu.login"
     ],
     "in": [
       "artisan"
     ]
   },
-  "art.adjust_database_merge": {
+  "nasitra.toys.imports": {
+    "has": [],
+    "in": [
+      "artisan"
+    ]
+  },
+  "nasitra.cheating": {
     "has": [
-      "core.db",
-      "json"
+      "turbo",
+      "db.sessions",
+      "xueqiu.adjust"
     ],
     "in": [
       "artisan"
+    ]
+  },
+  "hashlib": {
+    "has": [],
+    "in": [
+      "db.account",
+      "xueqiu.login"
     ]
   },
   "threading": {
     "has": [],
     "in": [
-      "core.proxy",
-      "core.account",
-      "core.stacktracer",
-      "core.task"
+      "db.sessions",
+      "task.adjust",
+      "task.info",
+      "task.gain",
+      "task.rank",
+      "task.cheating"
     ]
   },
-  "traceback": {
+  "io": {
     "has": [],
     "in": [
-      "core.stacktracer"
+      "proxy.hidemyass"
     ]
   },
-  "sys": {
-    "has": [],
-    "in": [
-      "core.stacktracer",
-      "artisan",
-      "core.run"
-    ]
-  },
-  "core.infodb": {
+  "xueqiu.info": {
     "has": [
-      "core.db",
+      "db.success",
+      "helper",
+      "task.info",
+      "constant",
+      "xueqiu.core.info",
+      "db.fail",
+      "xueqiu.login"
+    ],
+    "in": [
+      "xueqiu.zuhe",
+      "nasitra.info"
+    ]
+  },
+  "concurrent.futures.thread": {
+    "has": [],
+    "in": [
+      "turbo"
+    ]
+  },
+  "db.variables": {
+    "has": [
+      "db.db",
       "time"
     ],
     "in": [
-      "art.db",
-      "core.info"
+      "nasitra.db",
+      "nasitra.variables"
     ]
   },
-  "core.logindb": {
+  "xueqiu.lists": {
     "has": [
-      "core.db",
+      "db.lists",
+      "constant"
+    ],
+    "in": [
+      "nasitra.superzuhe",
+      "xueqiu.zuhe",
+      "nasitra.rank",
+      "task.cheating"
+    ]
+  },
+  "nasitra.db": {
+    "has": [
+      "db.lists",
+      "db.db",
+      "db.success",
+      "db.adjust",
+      "db.sessions",
+      "db.info",
+      "db.tasks",
+      "db.proxies",
+      "db.sessionhistory",
+      "db.proxyhistory",
+      "db.fail",
+      "db.account",
+      "db.circle",
+      "db.gain",
+      "db.variables"
+    ],
+    "in": [
+      "artisan"
+    ]
+  },
+  "turbo": {
+    "has": [
+      "concurrent.futures.thread",
+      "concurrent.futures.ThreadPoolExecutor",
+      "concurrent.futures.as_completed",
+      "env"
+    ],
+    "in": [
+      "xueqiu.zuhe",
+      "nasitra.rank",
+      "nasitra.info",
+      "nasitra.cheating",
+      "nasitra.gain",
+      "nasitra.adjust"
+    ]
+  },
+  "task.info": {
+    "has": [
+      "db.tasks",
+      "threading",
+      "constant",
+      "random"
+    ],
+    "in": [
+      "xueqiu.info"
+    ]
+  },
+  "nasitra.rank": {
+    "has": [
+      "xueqiu.rank",
+      "db.sessions",
+      "turbo",
+      "constant",
+      "xueqiu.lists",
+      "xueqiu.login"
+    ],
+    "in": [
+      "artisan"
+    ]
+  },
+  "zipfile": {
+    "has": [],
+    "in": [
+      "proxy.hidemyass"
+    ]
+  },
+  "nasitra.login": {
+    "has": [
+      "xueqiu.login"
+    ],
+    "in": [
+      "artisan"
+    ]
+  },
+  "task.gain": {
+    "has": [
+      "db.tasks",
+      "threading",
+      "constant",
+      "random"
+    ],
+    "in": [
+      "xueqiu.gain"
+    ]
+  },
+  "nasitra.gain": {
+    "has": [
+      "turbo",
+      "db.sessions",
+      "xueqiu.gain",
+      "db.gain",
+      "xueqiu.login"
+    ],
+    "in": [
+      "artisan"
+    ]
+  },
+  "db.fail": {
+    "has": [
+      "db.db",
+      "time"
+    ],
+    "in": [
+      "xueqiu.rank",
+      "xueqiu.adjust",
+      "xueqiu.info",
+      "xueqiu.gain",
+      "nasitra.db"
+    ]
+  },
+  "db.proxyhistory": {
+    "has": [
+      "db.db",
+      "time"
+    ],
+    "in": [
+      "db.proxies",
+      "nasitra.db"
+    ]
+  },
+  "proxy.mimvp": {
+    "has": [
       "json",
-      "time"
+      "request",
+      "env"
     ],
     "in": [
-      "art.db",
-      "core.login"
+      "db.proxies"
+    ]
+  },
+  "MySQLdb": {
+    "has": [],
+    "in": [
+      "db.db"
+    ]
+  },
+  "nasitra.account": {
+    "has": [
+      "xueqiu.account"
+    ],
+    "in": [
+      "artisan"
+    ]
+  },
+  "bs4.BeautifulSoup": {
+    "has": [],
+    "in": [
+      "proxy.freeproxylistsnet",
+      "proxy.pachongorg"
     ]
   },
   "re": {
     "has": [],
     "in": [
-      "core.hidemyass",
-      "core.pachongorg",
-      "core.account",
-      "art.sourcecode",
-      "core.info",
-      "core.task",
-      "core.freeproxylistsnet",
-      "core.taskdb",
-      "core.adjust",
-      "core.httpbase",
-      "core.login",
-      "core.gain"
+      "db.adjust",
+      "request",
+      "xueqiu.login",
+      "db.info",
+      "db.tasks",
+      "proxy.hidemyass",
+      "db.account",
+      "proxy.freeproxylistsnet",
+      "db.gain",
+      "proxy.pachongorg"
     ]
   },
-  "mysql.connector": {
+  "xueqiu.sstock": {
+    "has": [
+      "helper",
+      "xueqiu.core.sstock",
+      "xueqiu.login"
+    ],
+    "in": [
+      "nasitra.sstock",
+      "xueqiu.zuhe"
+    ]
+  },
+  "nasitra.sstock": {
+    "has": [
+      "xueqiu.login",
+      "xueqiu.sstock"
+    ],
+    "in": []
+  },
+  "xueqiu.account": {
+    "has": [
+      "db.account"
+    ],
+    "in": [
+      "nasitra.account",
+      "xueqiu.login"
+    ]
+  },
+  "collections.OrderedDict": {
     "has": [],
     "in": [
-      "core.db"
+      "env"
     ]
   },
-  "core.hidemyass": {
+  "db.lists": {
     "has": [
-      "core.env",
-      "re",
-      "zipfile",
-      "email",
-      "io",
-      "imaplib"
+      "json",
+      "db.db",
+      "time"
     ],
     "in": [
-      "core.proxy"
+      "xueqiu.lists",
+      "nasitra.db"
     ]
   },
-  "core.db": {
+  "xueqiu.core.rank": {
+    "has": [],
+    "in": [
+      "xueqiu.rank"
+    ]
+  },
+  "db.db": {
     "has": [
-      "mysql.connector.errorcode",
-      "core.env",
-      "mysql.connector"
+      "MySQLdb",
+      "env"
     ],
     "in": [
-      "core.logindb",
-      "core.accountdb",
-      "art.task_record_adjust_merge",
-      "art.db",
-      "core.variablesdb",
-      "core.taskdb",
-      "core.proxydb",
-      "art.adjust_database_merge",
-      "core.specialdb",
-      "core.adjustdb",
-      "core.gaindb",
-      "core.infodb"
+      "db.lists",
+      "db.success",
+      "nasitra.adjust",
+      "db.adjust",
+      "nasitra.db",
+      "db.sessions",
+      "nasitra.test",
+      "db.info",
+      "nasitra.task_record_adjust_merge",
+      "db.tasks",
+      "db.proxies",
+      "db.sessionhistory",
+      "db.fail",
+      "db.proxyhistory",
+      "db.account",
+      "db.circle",
+      "db.gain",
+      "db.variables"
     ]
   },
   "json": {
     "has": [],
     "in": [
-      "core.logindb",
-      "core.env",
-      "art.sourcecode",
-      "core.mimvp",
-      "core.info",
-      "art.adjust_database_merge",
-      "core.adjust",
-      "core.specialdb",
-      "core.adjustdb",
-      "core.gaindb",
-      "core.gain"
+      "db.lists",
+      "xueqiu.zuhe",
+      "db.adjust",
+      "env",
+      "db.sessions",
+      "proxy.mimvp",
+      "nasitra.adjust",
+      "db.gain",
+      "xueqiu.login"
     ]
   },
-  "core.info": {
+  "collections": {
+    "has": [],
+    "in": [
+      "artisan"
+    ]
+  },
+  "xueqiu.core.login": {
+    "has": [],
+    "in": [
+      "xueqiu.login"
+    ]
+  },
+  "nasitra.proxy": {
     "has": [
-      "re",
-      "core.infodb",
-      "core.httpbase",
-      "json"
+      "db.proxies"
     ],
     "in": [
-      "core.run"
+      "artisan"
+    ]
+  },
+  "db.proxies": {
+    "has": [
+      "db.db",
+      "time",
+      "random",
+      "env",
+      "constant",
+      "proxy.hidemyass",
+      "db.proxyhistory",
+      "db.circle",
+      "proxy.mimvp",
+      "proxy.freeproxylistsnet",
+      "proxy.pachongorg"
+    ],
+    "in": [
+      "nasitra.db",
+      "nasitra.proxy",
+      "xueqiu.login"
+    ]
+  },
+  "request": {
+    "has": [
+      "re",
+      "requests",
+      "socket"
+    ],
+    "in": [
+      "proxy.mimvp",
+      "proxy.freeproxylistsnet",
+      "proxy.pachongorg",
+      "xueqiu.login"
+    ]
+  },
+  "nasitra.toys.fetchgain": {
+    "has": [],
+    "in": [
+      "artisan"
+    ]
+  },
+  "artisan": {
+    "has": [
+      "nasitra.account",
+      "sys",
+      "collections",
+      "nasitra.db",
+      "helper",
+      "nasitra.info",
+      "nasitra.rank",
+      "nasitra.login",
+      "nasitra.cheating",
+      "nasitra.gain",
+      "nasitra.variables",
+      "nasitra.toys.imports",
+      "nasitra.proxy",
+      "nasitra.zuhe",
+      "nasitra.toys.fetchgain",
+      "nasitra.adjust"
+    ],
+    "in": []
+  },
+  "xueqiu.core.sstock": {
+    "has": [],
+    "in": [
+      "xueqiu.sstock"
+    ]
+  },
+  "xueqiu.core.gain": {
+    "has": [],
+    "in": [
+      "xueqiu.gain"
+    ]
+  },
+  "task.adjust": {
+    "has": [
+      "db.tasks",
+      "threading",
+      "constant",
+      "random"
+    ],
+    "in": [
+      "xueqiu.adjust"
+    ]
+  },
+  "helper": {
+    "has": [
+      "sys",
+      "logging",
+      "time",
+      "random",
+      "env",
+      "string",
+      "os"
+    ],
+    "in": [
+      "xueqiu.zuhe",
+      "artisan",
+      "xueqiu.gain",
+      "xueqiu.rank",
+      "xueqiu.sstock",
+      "xueqiu.adjust",
+      "xueqiu.info"
     ]
   },
   "concurrent.futures.ThreadPoolExecutor": {
     "has": [],
     "in": [
-      "start"
+      "turbo"
     ]
   },
-  "core.freeproxylistsnet": {
+  "random": {
+    "has": [],
+    "in": [
+      "task.adjust",
+      "helper",
+      "task.info",
+      "task.gain",
+      "task.rank",
+      "db.proxies",
+      "proxy.freeproxylistsnet",
+      "task.cheating"
+    ]
+  },
+  "task.rank": {
     "has": [
-      "re",
-      "bs4.BeautifulSoup",
       "time",
-      "urllib.parse",
       "random",
-      "core.httpbase"
+      "env",
+      "threading",
+      "db.circle",
+      "constant"
     ],
     "in": [
-      "core.proxy"
+      "xueqiu.rank"
     ]
   },
-  "art.variables": {
+  "nasitra.zuhe": {
     "has": [
-      "core.variablesdb"
+      "xueqiu.zuhe"
+    ],
+    "in": [
+      "artisan"
+    ]
+  },
+  "os": {
+    "has": [],
+    "in": [
+      "helper",
+      "xueqiu.login",
+      "env"
+    ]
+  },
+  "socket": {
+    "has": [],
+    "in": [
+      "request"
+    ]
+  },
+  "task.cheating": {
+    "has": [
+      "time",
+      "random",
+      "env",
+      "threading",
+      "db.circle",
+      "xueqiu.lists",
+      "constant"
+    ],
+    "in": [
+      "xueqiu.adjust"
+    ]
+  },
+  "proxy.pachongorg": {
+    "has": [
+      "bs4.BeautifulSoup",
+      "re",
+      "time",
+      "request"
+    ],
+    "in": [
+      "db.proxies"
+    ]
+  },
+  "imaplib": {
+    "has": [],
+    "in": [
+      "proxy.hidemyass"
+    ]
+  },
+  "sys": {
+    "has": [],
+    "in": [
+      "helper",
+      "artisan"
+    ]
+  },
+  "db.success": {
+    "has": [
+      "db.db",
+      "time"
+    ],
+    "in": [
+      "xueqiu.rank",
+      "xueqiu.adjust",
+      "xueqiu.info",
+      "xueqiu.gain",
+      "nasitra.db"
+    ]
+  },
+  "requests": {
+    "has": [],
+    "in": [
+      "request",
+      "xueqiu.login"
+    ]
+  },
+  "nasitra.adjust": {
+    "has": [
+      "db.db",
+      "json",
+      "db.adjust",
+      "env",
+      "turbo",
+      "db.sessions",
+      "mysql.connector",
+      "xueqiu.adjust",
+      "xueqiu.login"
     ],
     "in": [
       "artisan"
@@ -237,422 +914,57 @@
   "urllib.parse": {
     "has": [],
     "in": [
-      "core.freeproxylistsnet"
+      "proxy.freeproxylistsnet"
     ]
   },
-  "stacktracer": {
+  "mysql.connector": {
     "has": [],
     "in": [
-      "core.stacktracer"
+      "nasitra.adjust"
     ]
   },
-  "start": {
-    "has": [
-      "core.env",
-      "concurrent.futures.ThreadPoolExecutor",
-      "concurrent.futures.thread",
-      "core.login",
-      "concurrent.futures.as_completed",
-      "core.run"
-    ],
-    "in": []
-  },
-  "core.run": {
-    "has": [
-      "core.env",
-      "os",
-      "logging",
-      "core.task",
-      "core.info",
-      "time",
-      "core.adjust",
-      "random",
-      "core.login",
-      "core.gain",
-      "sys"
-    ],
-    "in": [
-      "artisan",
-      "start"
-    ]
-  },
-  "pygments.highlight": {
+  "constant": {
     "has": [],
     "in": [
-      "core.stacktracer"
+      "nasitra.superzuhe",
+      "xueqiu.gain",
+      "xueqiu.rank",
+      "task.adjust",
+      "task.info",
+      "nasitra.rank",
+      "task.gain",
+      "task.rank",
+      "db.proxies",
+      "db.account",
+      "xueqiu.adjust",
+      "xueqiu.info",
+      "xueqiu.lists",
+      "task.cheating"
     ]
   },
-  "core.gain": {
+  "string": {
+    "has": [],
+    "in": [
+      "helper"
+    ]
+  },
+  "proxy.hidemyass": {
     "has": [
       "re",
-      "core.httpbase",
-      "json",
-      "core.gaindb",
-      "time"
+      "io",
+      "env",
+      "zipfile",
+      "imaplib",
+      "email"
     ],
     "in": [
-      "core.run"
+      "db.proxies"
     ]
   },
-  "pygments.formatters.HtmlFormatter": {
+  "xueqiu.core.adjust": {
     "has": [],
     "in": [
-      "core.stacktracer"
-    ]
-  },
-  "imaplib": {
-    "has": [],
-    "in": [
-      "core.hidemyass"
-    ]
-  },
-  "core.variables": {
-    "has": [
-      "core.variablesdb"
-    ],
-    "in": [
-      "core.task"
-    ]
-  },
-  "artisan": {
-    "has": [
-      "art.proxy",
-      "art.account",
-      "art.db",
-      "art.task_record_adjust_merge",
-      "art.sourcecode",
-      "art.login",
-      "art.variables",
-      "art.adjust_database_merge",
-      "sys",
-      "core.run"
-    ],
-    "in": []
-  },
-  "mysql.connector.errorcode": {
-    "has": [],
-    "in": [
-      "core.db"
-    ]
-  },
-  "core.account": {
-    "has": [
-      "re",
-      "core.accountdb",
-      "os",
-      "threading",
-      "random",
-      "hashlib"
-    ],
-    "in": [
-      "art.account",
-      "core.login"
-    ]
-  },
-  "art.db": {
-    "has": [
-      "core.logindb",
-      "core.accountdb",
-      "core.db",
-      "core.variablesdb",
-      "core.taskdb",
-      "core.proxydb",
-      "core.specialdb",
-      "core.adjustdb",
-      "core.gaindb",
-      "core.infodb"
-    ],
-    "in": [
-      "artisan"
-    ]
-  },
-  "logging": {
-    "has": [],
-    "in": [
-      "core.run"
-    ]
-  },
-  "core.variablesdb": {
-    "has": [
-      "core.db",
-      "time"
-    ],
-    "in": [
-      "art.variables",
-      "core.variables",
-      "art.db"
-    ]
-  },
-  "time": {
-    "has": [],
-    "in": [
-      "core.logindb",
-      "core.accountdb",
-      "core.run",
-      "core.pachongorg",
-      "core.stacktracer",
-      "core.variablesdb",
-      "core.freeproxylistsnet",
-      "core.taskdb",
-      "core.proxydb",
-      "core.specialdb",
-      "core.adjustdb",
-      "core.gaindb",
-      "core.gain",
-      "core.infodb",
-      "core.proxy"
-    ]
-  },
-  "core.taskdb": {
-    "has": [
-      "core.db",
-      "re",
-      "time"
-    ],
-    "in": [
-      "art.db",
-      "core.task"
-    ]
-  },
-  "core.proxydb": {
-    "has": [
-      "core.db",
-      "time"
-    ],
-    "in": [
-      "art.db",
-      "core.proxy"
-    ]
-  },
-  "random": {
-    "has": [],
-    "in": [
-      "core.run",
-      "core.account",
-      "core.task",
-      "core.freeproxylistsnet",
-      "core.special",
-      "core.proxy"
-    ]
-  },
-  "core.login": {
-    "has": [
-      "core.logindb",
-      "re",
-      "core.account",
-      "requests",
-      "core.httpbase",
-      "core.proxy"
-    ],
-    "in": [
-      "start",
-      "art.login",
-      "core.run"
-    ]
-  },
-  "hashlib": {
-    "has": [],
-    "in": [
-      "core.account"
-    ]
-  },
-  "art.task_record_adjust_merge": {
-    "has": [
-      "core.db"
-    ],
-    "in": [
-      "artisan"
-    ]
-  },
-  "core.special": {
-    "has": [
-      "random",
-      "core.adjustdb",
-      "core.specialdb"
-    ],
-    "in": [
-      "core.task"
-    ]
-  },
-  "io": {
-    "has": [],
-    "in": [
-      "core.hidemyass"
-    ]
-  },
-  "core.proxy": {
-    "has": [
-      "core.hidemyass",
-      "core.pachongorg",
-      "core.mimvp",
-      "time",
-      "core.freeproxylistsnet",
-      "core.proxydb",
-      "threading",
-      "random"
-    ],
-    "in": [
-      "art.proxy",
-      "core.login"
-    ]
-  },
-  "email": {
-    "has": [],
-    "in": [
-      "core.hidemyass"
-    ]
-  },
-  "pygments.lexers.PythonLexer": {
-    "has": [],
-    "in": [
-      "core.stacktracer"
-    ]
-  },
-  "art.account": {
-    "has": [
-      "core.account",
-      "core.accountdb",
-      "os"
-    ],
-    "in": [
-      "artisan"
-    ]
-  },
-  "core.accountdb": {
-    "has": [
-      "core.db",
-      "time"
-    ],
-    "in": [
-      "art.account",
-      "core.account",
-      "art.db"
-    ]
-  },
-  "os": {
-    "has": [],
-    "in": [
-      "core.env",
-      "art.account",
-      "core.account",
-      "core.stacktracer",
-      "art.sourcecode",
-      "core.run"
-    ]
-  },
-  "bs4.BeautifulSoup": {
-    "has": [],
-    "in": [
-      "core.pachongorg",
-      "core.freeproxylistsnet"
-    ]
-  },
-  "core.pachongorg": {
-    "has": [
-      "bs4.BeautifulSoup",
-      "re",
-      "core.httpbase",
-      "time"
-    ],
-    "in": [
-      "core.proxy"
-    ]
-  },
-  "requests": {
-    "has": [],
-    "in": [
-      "core.httpbase",
-      "core.login"
-    ]
-  },
-  "art.sourcecode": {
-    "has": [
-      "re",
-      "json",
-      "os"
-    ],
-    "in": [
-      "artisan"
-    ]
-  },
-  "core.mimvp": {
-    "has": [
-      "core.env",
-      "core.httpbase",
-      "json"
-    ],
-    "in": [
-      "core.proxy"
-    ]
-  },
-  "zipfile": {
-    "has": [],
-    "in": [
-      "core.hidemyass"
-    ]
-  },
-  "core.specialdb": {
-    "has": [
-      "core.db",
-      "json",
-      "time"
-    ],
-    "in": [
-      "core.special",
-      "art.db"
-    ]
-  },
-  "core.adjustdb": {
-    "has": [
-      "core.db",
-      "json",
-      "time"
-    ],
-    "in": [
-      "core.adjust",
-      "core.special",
-      "art.db"
-    ]
-  },
-  "core.gaindb": {
-    "has": [
-      "core.db",
-      "json",
-      "time"
-    ],
-    "in": [
-      "art.db",
-      "core.gain"
-    ]
-  },
-  "core.task": {
-    "has": [
-      "re",
-      "core.variables",
-      "core.taskdb",
-      "threading",
-      "random",
-      "core.special"
-    ],
-    "in": [
-      "core.run"
-    ]
-  },
-  "concurrent.futures.thread": {
-    "has": [],
-    "in": [
-      "start"
-    ]
-  },
-  "core.adjust": {
-    "has": [
-      "re",
-      "core.httpbase",
-      "core.adjustdb",
-      "json"
-    ],
-    "in": [
-      "core.run"
+      "xueqiu.adjust"
     ]
   }
 }

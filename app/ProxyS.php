@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProxyS extends Model
 {
-    protected $table = 'proxy_source';
+    protected $table = 'circle';
     public $timestamps = false;
 
     protected function period($beforebefore, $before) {

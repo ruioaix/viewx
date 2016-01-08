@@ -25,8 +25,8 @@ class LoginController extends Controller
         $list = login::circle_proxy($beforebefore_tp, $before_tp);
         $res = Variables::chartjs_line_four_inited_with_time($beforebefore_tp, $step_secord, $stepNum, 'mimvp', 'pachong', 'hidemyass', 'freeproxylists');
         foreach ($list as $lone) {
-            $source = $lone->source;
-            $count = $lone->count;
+            $source = $lone->type;
+            $count = $lone->value;
             $time = $lone->time;
             $i = (int) (($time - $beforebefore_tp - 10) / $step_secord);
             if ($source == 7) {
