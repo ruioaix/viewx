@@ -33,7 +33,7 @@ class TaskController extends Controller
         $tasks = Task::period_begin($beforebefore_tp, $before_tp);
         foreach ($tasks as $tk) {
             $task_tp = $tk->time;
-            $task_type = $tk->type;
+            $task_type = 1;
             #$task_tp = $tk['time'];
             #$task_type = $tk['type'];
             $i = (int) (($task_tp - $beforebefore_tp) / $step_secord);

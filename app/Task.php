@@ -11,7 +11,7 @@ class Task extends Model
     public $timestamps = false;
 
     protected function period_begin($beforebefore, $before) {
-        $data = DB::select("select time,type from success where time between ? and ?", [$beforebefore, $before]);
+        $data = DB::select("select time,instanceid from success where time between ? and ?", [$beforebefore, $before]);
         return $data;
     }
 
